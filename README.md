@@ -1,0 +1,1 @@
+# Veles Edge Auction\nGoal: Smart Edge Resource Auctions\nRun `make up` to start.\n

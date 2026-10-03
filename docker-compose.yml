@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  registry:
+    build:
+      context: .
+      dockerfile: services/registry/Dockerfile
+    ports:
+      - "8001:8000"
+  auctioneer:
+    build:
+      context: .
+      dockerfile: services/auctioneer/Dockerfile
+    ports:
+      - "8002:8000"
+  node_agent_1:
+    build:
+      context: .
+      dockerfile: services/node_agent/Dockerfile
+  node_agent_2:
+    build:
+      context: .
+      dockerfile: services/node_agent/Dockerfile
+  node_agent_3:
+    build:
+      context: .
+      dockerfile: services/node_agent/Dockerfile
