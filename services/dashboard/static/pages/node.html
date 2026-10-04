@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTruth V3 — Node Detail</title>
+  <link rel="stylesheet" href="/css/design.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
+  <div class="nav-links">
+    <a href="/">01 / Overview</a>
+    <a href="/pages/market.html">02 / Live Market</a>
+    <a href="/pages/inspector.html">03 / Auction Inspector</a>
+    <a href="/pages/adversary.html">04 / Adversary Arena</a>
+    <a href="/pages/benchmarks.html">05 / Benchmarks</a>
+    <a href="/pages/node.html" class="active">06 / Node Detail</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div style="padding:var(--s10) 0 var(--s6)">
+      <div class="section-label">06 / NODE DETAIL</div>
+      <div style="display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap">
+        <h1 class="heading" id="node-title">—</h1>
+        <div id="node-badges"></div>
+      </div>
+    </div>
+
+    <!-- Quick selector -->
+    <div class="card" style="margin-bottom:var(--s6);padding:var(--s4)">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:var(--s3)">QUICK SELECT NODE</div>
+      <select id="node-select" class="input-field" style="max-width:300px"></select>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)">
+
+      <!-- Capacity & reputation -->
+      <div class="card">
+        <div style="font-weight:600;margin-bottom:var(--s4)">Resources & Reputation</div>
+        <div id="node-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)"></div>
+      </div>
+
+      <!-- Bond monitor -->
+      <div class="card">
+        <div style="font-weight:600;margin-bottom:var(--s4)">Performance Bond Monitor</div>
+        <div id="bond-monitor" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)"></div>
+      </div>
+
+      <!-- Brier history chart -->
+      <div class="card" style="grid-column:1/-1">
+        <div style="font-weight:600;margin-bottom:var(--s4)">Brier Score History (Calibration)</div>
+        <div class="chart-wrap"><canvas id="chart-brier" height="160"></canvas></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { api, fmt$, showMockBanner, trustBadge, typeBadge } from '/js/api.js';
+
+let chart = null;
+
+// Populate selector
+api.nodes().then(d => {
+  if (!d) return;
+  showMockBanner(d.mock);
+  const sel = document.getElementById('node-select');
+  d.nodes.forEach(n => {
+    const opt = document.createElement('option');
+    opt.value = n.node_id;
+    opt.textContent = `${n.node_id} — ${n.node_type}`;
+    sel.appendChild(opt);
+  });
+
+  // Load from URL param or first node
+  const params = new URLSearchParams(window.location.search);
+  const targetId = params.get('id') || d.nodes[0].node_id;
+  sel.value = targetId;
+  loadNode(targetId);
+
+  sel.addEventListener('change', () => loadNode(sel.value));
+});
+
+async function loadNode(nodeId) {
+  const d = await api.node(nodeId);
+  if (!d) return;
+  const n = d.node;
+
+  document.getElementById('node-title').textContent = n.node_id;
+  document.getElementById('node-badges').innerHTML = `${typeBadge(n.node_type)} ${trustBadge(n.trust_tier)}`;
+
+  document.getElementById('node-stats').innerHTML = `
+    <div><div class="stat-label">CPU Cores</div><div class="mono" style="font-size:18px;color:var(--accent)">${n.capacity_cpu}</div></div>
+    <div><div class="stat-label">RAM (GB)</div><div class="mono" style="font-size:18px;color:var(--accent)">${n.capacity_ram}</div></div>
+    <div><div class="stat-label">Brier Score</div><div class="mono" style="font-size:18px;color:${n.brier_score<0.15?'var(--green)':'var(--orange)'}">${n.brier_score}</div></div>
+    <div><div class="stat-label">Latency MAE</div><div class="mono" style="font-size:18px">${n.latency_mae} ms</div></div>
+    <div><div class="stat-label">Tasks Won</div><div class="mono" style="font-size:18px;color:var(--green)">${n.tasks_won}</div></div>
+    <div><div class="stat-label">Tasks Lost</div><div class="mono" style="font-size:18px;color:var(--red)">${n.tasks_lost}</div></div>
+  `;
+
+  document.getElementById('bond-monitor').innerHTML = `
+    <div><div class="stat-label">Bond Locked</div><div class="mono" style="font-size:18px;color:var(--orange)">${fmt$(n.bond_locked)}</div></div>
+    <div><div class="stat-label">Collateral Forfeited</div><div class="mono" style="font-size:18px;color:${n.collateral_forfeited>0?'var(--red)':'var(--green)'}">${fmt$(n.collateral_forfeited)}</div></div>
+    <div style="grid-column:1/-1">
+      <div class="stat-label" style="margin-bottom:var(--s2)">γ = 0.05 — Bond Formula</div>
+      <div class="mono" style="font-size:11px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);padding:var(--s3);border-radius:var(--r-md)">
+        C_i = q × (V + L) × 0.05<br>
+        Locked: ${fmt$(n.bond_locked)}<br>
+        Forfeited: ${fmt$(n.collateral_forfeited)}
+      </div>
+    </div>
+  `;
+
+  // Brier chart
+  const labels = d.history.map(h => `E${h.epoch}`);
+  const values = d.history.map(h => h.brier);
+
+  if (chart) chart.destroy();
+  const ctx = document.getElementById('chart-brier').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Brier Score',
+        data: values,
+        borderColor: '#06B6D4',
+        backgroundColor: 'rgba(6,182,212,0.08)',
+        tension: 0.4,
+        pointRadius: 3,
+        fill: true,
+      }]
+    },
+    options: {
+      plugins: { legend: { labels: { color: '#64748B', font: { family: 'JetBrains Mono', size: 10 } } } },
+      scales: {
+        x: { ticks: { color: '#64748B', font: { family: 'JetBrains Mono', size: 9 } }, grid: { color: '#0F172A' } },
+        y: { min: 0, max: 0.5, ticks: { color: '#64748B', font: { family: 'JetBrains Mono', size: 9 } }, grid: { color: '#1E293B' } },
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

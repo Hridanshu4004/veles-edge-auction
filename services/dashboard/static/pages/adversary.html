@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTruth V3 — Adversary Arena</title>
+  <link rel="stylesheet" href="/css/design.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
+  <div class="nav-links">
+    <a href="/">01 / Overview</a>
+    <a href="/pages/market.html">02 / Live Market</a>
+    <a href="/pages/inspector.html">03 / Auction Inspector</a>
+    <a href="/pages/adversary.html" class="active">04 / Adversary Arena</a>
+    <a href="/pages/benchmarks.html">05 / Benchmarks</a>
+    <a href="/pages/node.html">06 / Node Detail</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div style="padding:var(--s10) 0 var(--s6)">
+      <div class="section-label">04 / ADVERSARY ARENA</div>
+      <h1 class="heading">Game-Theoretic Attack Testbed</h1>
+      <p class="subheading" style="margin-top:var(--s2)">Simulate known attacks and verify that <span class="mono">G<sub>lie</sub> ≤ 0</span> in every case.</p>
+    </div>
+
+    <!-- Attack buttons -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s4);margin-bottom:var(--s8)">
+      <div class="card" id="atk-joint">
+        <div style="font-size:20px;margin-bottom:var(--s2)">🎭</div>
+        <div style="font-weight:600;margin-bottom:var(--s2)">Joint Bidding Lie</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:var(--s4)">Node lies on price <em>and</em> success probability simultaneously.</div>
+        <button class="btn btn-danger" onclick="simulate('Joint Bidding Lie')">Simulate Attack</button>
+      </div>
+      <div class="card" id="atk-overconf">
+        <div style="font-size:20px;margin-bottom:var(--s2)">📈</div>
+        <div style="font-weight:600;margin-bottom:var(--s2)">Overconfident Risk Claim</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:var(--s4)">Node claims q = 0.99 while true success rate is ~0.5.</div>
+        <button class="btn btn-danger" onclick="simulate('Overconfident Risk Claim')">Simulate Attack</button>
+      </div>
+      <div class="card" id="atk-sybil">
+        <div style="font-size:20px;margin-bottom:var(--s2)">👥</div>
+        <div style="font-weight:600;margin-bottom:var(--s2)">Sybil Cold-Start</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:var(--s4)">Attacker registers many fresh nodes with no history to exploit default prior.</div>
+        <button class="btn btn-danger" onclick="simulate('Sybil Cold-Start')">Simulate Attack</button>
+      </div>
+      <div class="card" id="atk-flaky">
+        <div style="font-size:20px;margin-bottom:var(--s2)">⚡</div>
+        <div style="font-weight:600;margin-bottom:var(--s2)">Flaky Node</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:var(--s4)">Node alternates success/fail to game the Brier score moving average.</div>
+        <button class="btn btn-danger" onclick="simulate('Flaky Node')">Simulate Attack</button>
+      </div>
+    </div>
+
+    <!-- Result panel -->
+    <div id="attack-result-panel"></div>
+
+    <!-- Historical results table -->
+    <section style="margin-top:var(--s8)">
+      <div class="section-label">HISTORICAL ATTACK OUTCOMES</div>
+      <div class="table-wrap" style="margin-top:var(--s3)">
+        <table>
+          <thead>
+            <tr><th>Attack Type</th><th>Mechanism</th><th>Attacker Gain (G_lie)</th><th>Collateral Forfeited</th><th>Verdict</th></tr>
+          </thead>
+          <tbody id="attack-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script type="module">
+import { api, fmt$, showMockBanner } from '/js/api.js';
+
+api.attacks().then(d => {
+  if (!d) return;
+  showMockBanner(d.mock);
+  const tbody = document.getElementById('attack-tbody');
+  d.results.forEach(r => {
+    const profitable = r.attacker_gain > 0;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight:500">${r.attack}</td>
+      <td class="mono" style="color:var(--accent)">${r.mechanism}</td>
+      <td class="mono" style="color:${profitable?'var(--red)':'var(--green);font-weight:600'}">${fmt$(r.attacker_gain)}</td>
+      <td class="mono" style="color:var(--orange)">${fmt$(r.collateral_forfeited)}</td>
+      <td>
+        <span class="badge ${profitable?'badge-red':'badge-green'}">
+          ${profitable ? '⚠ PROFITABLE' : '✓ UNPROFITABLE'}
+        </span>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+});
+
+window.simulate = async function(attack) {
+  const panel = document.getElementById('attack-result-panel');
+  panel.innerHTML = `<div class="card" style="color:var(--text-muted);font-size:13px">Simulating <strong>${attack}</strong>…</div>`;
+  const r = await api.simulateAttack(attack);
+  const profitable = r.attacker_gain > 0;
+  panel.innerHTML = `
+    <div class="attack-result">
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:var(--s3)">
+        Attack: <strong>${r.attack}</strong>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-bottom:var(--s4)">
+        <div>
+          <div class="stat-label">Attacker Gain G_lie</div>
+          <div class="mono" style="font-size:20px;color:${profitable?'var(--red)':'var(--green)'};font-weight:700">${fmt$(r.attacker_gain)}</div>
+        </div>
+        <div>
+          <div class="stat-label">Collateral Forfeited</div>
+          <div class="mono" style="font-size:20px;color:var(--orange);font-weight:700">${fmt$(r.collateral_forfeited)}</div>
+        </div>
+        <div>
+          <div class="stat-label">Attack Profitable?</div>
+          <div style="font-size:20px;font-weight:700;color:${profitable?'var(--red)':'var(--green)'}">${profitable ? '⚠ YES' : '✓ NO'}</div>
+        </div>
+      </div>
+      <div class="verdict">${r.verdict}</div>
+    </div>
+  `;
+};
+</script>
+</body>
+</html>

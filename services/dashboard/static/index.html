@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTruth V3 — Overview</title>
+  <meta name="description" content="EdgeTruth V3: Mathematically secure edge compute allocation using Expected Net Value auctions.">
+  <link rel="stylesheet" href="/css/design.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
+  <div class="nav-links">
+    <a href="/" class="active">01 / Overview</a>
+    <a href="/pages/market.html">02 / Live Market</a>
+    <a href="/pages/inspector.html">03 / Auction Inspector</a>
+    <a href="/pages/adversary.html">04 / Adversary Arena</a>
+    <a href="/pages/benchmarks.html">05 / Benchmarks</a>
+    <a href="/pages/node.html">06 / Node Detail</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:var(--s3)">
+    <span class="pulse-dot"></span>
+    <span id="live-label" style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Connecting…</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+
+    <!-- Hero -->
+    <section style="padding:var(--s20) 0 var(--s12)">
+      <div class="section-label">01 / THE PROTOCOL</div>
+      <h1 class="display" style="max-width:700px">
+        Don't Trust <span class="accent">the Node.</span><br>Price the Promise.
+      </h1>
+      <p class="subheading" style="max-width:580px;margin-top:var(--s6)">
+        EdgeTruth V3 is a game-theoretically hardened edge compute marketplace. Every allocation is decided by Expected Net Value, not price alone — making dishonesty financially catastrophic for the attacker.
+      </p>
+      <div style="display:flex;gap:var(--s3);margin-top:var(--s8);flex-wrap:wrap">
+        <a href="/pages/market.html" class="btn btn-primary">→ Live Market</a>
+        <a href="/pages/benchmarks.html" class="btn btn-outline">Benchmarks</a>
+        <a href="/pages/adversary.html" class="btn btn-ghost">Adversary Arena</a>
+      </div>
+    </section>
+
+    <!-- Network mini-animation -->
+    <section style="margin-bottom:var(--s12)">
+      <svg id="hero-graph" height="200" style="width:100%;border-radius:var(--r-lg);border:1px solid var(--border);background:var(--bg-card)"></svg>
+    </section>
+
+    <!-- Stats Bar -->
+    <section style="margin-bottom:var(--s16)">
+      <div class="section-label">02 / LIVE NETWORK TELEMETRY</div>
+      <div class="stat-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Active Trace Nodes</div>
+          <div class="stat-value" id="s-nodes">—</div>
+          <div class="stat-sub">Alibaba / Azure / Google Borg</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Tasks Cleared</div>
+          <div class="stat-value" id="s-tasks">—</div>
+          <div class="stat-sub">10,000-task simulation</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Social Welfare Generated</div>
+          <div class="stat-value" id="s-welfare">—</div>
+          <div class="stat-sub" id="s-welfare-sub">vs. Greedy baseline</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Failure Cost Saved</div>
+          <div class="stat-value" id="s-saved">—</div>
+          <div class="stat-sub">Prevented by ENV routing</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Collateral Slashed</div>
+          <div class="stat-value" id="s-slash">—</div>
+          <div class="stat-sub">Paid to clients on SLA breach</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Allocation Latency</div>
+          <div class="stat-value" id="s-lat">—</div>
+          <div class="stat-sub">O(N) vectorized ENV</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">SLA Hit Rate</div>
+          <div class="stat-value" id="s-sla">—</div>
+          <div class="stat-sub">vs. 55.7% Greedy baseline</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mechanism explanation -->
+    <section style="margin-bottom:var(--s16)">
+      <div class="section-label">03 / HOW IT WORKS</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s4)">
+        <div class="card">
+          <div style="color:var(--accent);font-size:24px;font-weight:800;margin-bottom:var(--s3)">01</div>
+          <div style="font-weight:600;margin-bottom:var(--s2)">Node Claims Distribution</div>
+          <div style="color:var(--text-muted);font-size:13px">Every node submits a probabilistic bid: success probability <span class="mono" style="color:var(--accent)">q</span>, latency <span class="mono" style="color:var(--accent)">μ ± σ</span>, and price <span class="mono" style="color:var(--accent)">b</span>.</div>
+        </div>
+        <div class="card">
+          <div style="color:var(--accent);font-size:24px;font-weight:800;margin-bottom:var(--s3)">02</div>
+          <div style="font-weight:600;margin-bottom:var(--s2)">Expected Net Value</div>
+          <div style="color:var(--text-muted);font-size:13px">The mechanism selects the node maximising <span class="mono" style="color:var(--accent)">ENV = p·V − b − (1−p)·L</span>. Lying raises <span class="mono">b</span> relative to ENV, never lowering it.</div>
+        </div>
+        <div class="card">
+          <div style="color:var(--accent);font-size:24px;font-weight:800;margin-bottom:var(--s3)">03</div>
+          <div style="font-weight:600;margin-bottom:var(--s2)">Staked Performance Bond</div>
+          <div style="color:var(--text-muted);font-size:13px">Nodes lock collateral <span class="mono" style="color:var(--accent)">C = q·(V+L)·γ</span>. If SLA is breached, the bond is forfeited directly to the client — not vaporised.</div>
+        </div>
+        <div class="card">
+          <div style="color:var(--accent);font-size:24px;font-weight:800;margin-bottom:var(--s3)">04</div>
+          <div style="font-weight:600;margin-bottom:var(--s2)">Calibration Loop</div>
+          <div style="color:var(--text-muted);font-size:13px">After each task, the Brier score tracks prediction accuracy. Liars accumulate negative calibration history, reducing their future <span class="mono" style="color:var(--accent)">p_eff</span>.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script type="module">
+import { api, fmt$, fmtPct, fmtMs, fmtK, showMockBanner, connectEventStream, renderNodeGraph } from '/js/api.js';
+
+// Load stats
+api.stats().then(d => {
+  if (!d) return;
+  showMockBanner(d.mock);
+  document.getElementById('s-nodes').textContent  = fmtK(d.active_nodes);
+  document.getElementById('s-tasks').textContent  = fmtK(d.tasks_cleared);
+  document.getElementById('s-welfare').textContent = fmt$(d.social_welfare);
+  document.getElementById('s-welfare-sub').textContent = '+75% vs. Greedy baseline';
+  document.getElementById('s-saved').textContent   = fmt$(d.failure_cost_saved);
+  document.getElementById('s-slash').textContent   = fmt$(d.collateral_slashed);
+  document.getElementById('s-lat').textContent     = fmtMs(d.alloc_latency_ms);
+  document.getElementById('s-sla').textContent     = fmtPct(d.sla_hit_rate);
+  document.getElementById('live-label').textContent = 'Live';
+});
+
+// Mini network animation
+api.nodes().then(d => {
+  if (!d) return;
+  const svg = document.getElementById('hero-graph');
+  renderNodeGraph(svg, d.nodes.slice(0, 12), null);
+  // Redraw on interval to animate allocation edges
+  setInterval(() => renderNodeGraph(svg, d.nodes.slice(0, 12), null), 2500);
+});
+</script>
+</body>
+</html>

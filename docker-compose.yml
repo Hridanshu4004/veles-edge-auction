@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   registry:
     build:
@@ -6,21 +5,46 @@ services:
       dockerfile: services/registry/Dockerfile
     ports:
       - "8001:8000"
+    volumes:
+      - .:/app
   auctioneer:
     build:
       context: .
       dockerfile: services/auctioneer/Dockerfile
     ports:
       - "8002:8000"
+    volumes:
+      - .:/app
   node_agent_1:
     build:
       context: .
       dockerfile: services/node_agent/Dockerfile
+    volumes:
+      - .:/app
   node_agent_2:
     build:
       context: .
       dockerfile: services/node_agent/Dockerfile
+    volumes:
+      - .:/app
   node_agent_3:
     build:
       context: .
       dockerfile: services/node_agent/Dockerfile
+    volumes:
+      - .:/app
+  dashboard:
+    build:
+      context: .
+      dockerfile: services/dashboard/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - REGISTRY_URL=http://registry:8000
+      - AUCTIONEER_URL=http://auctioneer:8000
+      - MOCK=1
+    depends_on:
+      - registry
+      - auctioneer
+    volumes:
+      - ./services/dashboard/static:/app/static

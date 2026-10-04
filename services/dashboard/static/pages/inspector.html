@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTruth V3 — Auction Inspector</title>
+  <link rel="stylesheet" href="/css/design.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
+  <div class="nav-links">
+    <a href="/">01 / Overview</a>
+    <a href="/pages/market.html">02 / Live Market</a>
+    <a href="/pages/inspector.html" class="active">03 / Auction Inspector</a>
+    <a href="/pages/adversary.html">04 / Adversary Arena</a>
+    <a href="/pages/benchmarks.html">05 / Benchmarks</a>
+    <a href="/pages/node.html">06 / Node Detail</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div style="padding:var(--s10) 0 var(--s6)">
+      <div class="section-label">03 / AUCTION INSPECTOR</div>
+      <h1 class="heading">Inspect any auction clearing event</h1>
+    </div>
+
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:var(--s6);align-items:start">
+
+      <!-- Sidebar: auction list -->
+      <div class="card" style="padding:var(--s4);max-height:70vh;overflow-y:auto">
+        <div style="font-size:12px;font-weight:600;margin-bottom:var(--s3);color:var(--text-muted)">SELECT AUCTION</div>
+        <div id="auction-list" style="display:flex;flex-direction:column;gap:var(--s2)"></div>
+      </div>
+
+      <!-- Main: auction detail -->
+      <div id="auction-detail">
+        <div class="card" style="color:var(--text-muted);text-align:center;padding:var(--s12)">
+          ← Select an auction from the list
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { api, fmt$, fmtMs, showMockBanner, trustBadge } from '/js/api.js';
+
+let auctions = [];
+
+api.auctions().then(d => {
+  if (!d) return;
+  showMockBanner(d.mock);
+  auctions = d.auctions;
+  const list = document.getElementById('auction-list');
+  auctions.forEach((a, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-ghost';
+    btn.style.cssText = 'width:100%;justify-content:space-between;padding:var(--s2) var(--s3);font-size:11px';
+    btn.innerHTML = `<span class="mono">${a.auction_id}</span><span style="color:var(--accent)">${fmt$(a.task_value)}</span>`;
+    btn.addEventListener('click', () => renderDetail(a, btn));
+    list.appendChild(btn);
+    if (i === 0) renderDetail(a, btn);
+  });
+});
+
+function renderDetail(a, btn) {
+  document.querySelectorAll('#auction-list .btn').forEach(b => b.style.borderColor = '');
+  btn.style.borderColor = 'var(--accent)';
+
+  const winner = a.bids[0];
+  const loserEnvs = a.bids.slice(1);
+
+  const rows = a.bids.map((b, i) => {
+    const isWinner = i === 0;
+    return `<tr class="${isWinner ? 'winner-row' : ''}">
+      <td class="mono" style="color:${isWinner?'var(--accent)':'var(--text)'}">
+        ${isWinner ? '⭐ ' : ''}${b.node_id}
+      </td>
+      <td class="mono">${fmt$(b.bid_price)}</td>
+      <td class="mono">${(b.claim_success*100).toFixed(1)}%</td>
+      <td class="mono">${b.brier_score}</td>
+      <td class="mono">${(b.p_eff*100).toFixed(1)}%</td>
+      <td class="mono" style="color:${b.env>0?'var(--green)':'var(--red)'}">${fmt$(b.env)}</td>
+      <td class="mono">${fmt$(b.bond)}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('auction-detail').innerHTML = `
+    <div class="card" style="margin-bottom:var(--s4)">
+      <div class="section-label">${a.auction_id}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);margin-top:var(--s3)">
+        <div><div class="stat-label">Task Value (V)</div><div class="stat-value" style="font-size:20px">${fmt$(a.task_value)}</div></div>
+        <div><div class="stat-label">SLA Deadline</div><div class="stat-value" style="font-size:20px">${fmtMs(a.sla_ms)}</div></div>
+        <div><div class="stat-label">Winner Node</div><div class="stat-value mono" style="font-size:16px;color:var(--green)">${a.winner_node}</div></div>
+        <div><div class="stat-label">Clearing Price</div><div class="stat-value" style="font-size:20px">${fmt$(a.clearing_price)}</div></div>
+      </div>
+    </div>
+
+    <!-- Why the winner won -->
+    <div class="card" style="margin-bottom:var(--s4);background:rgba(16,185,129,0.05);border-color:rgba(16,185,129,0.2)">
+      <div style="font-weight:600;margin-bottom:var(--s3);color:var(--green)">Why ${a.winner_node} won</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
+        The mechanism computed <span class="mono" style="color:var(--text)">ENV = p_eff × V − b − (1 − p_eff) × L</span> for all ${a.bids.length} bids.<br>
+        <strong>${a.winner_node}</strong> achieved the highest ENV of 
+        <span class="mono" style="color:var(--accent)">${fmt$(winner.env)}</span>
+        with effective probability <span class="mono">${(winner.p_eff*100).toFixed(1)}%</span>
+        at price <span class="mono">${fmt$(winner.bid_price)}</span>.<br>
+        The Pareto-pruning pass confirmed no cheaper node offered a rational reliability trade-off.
+        A performance bond of <span class="mono" style="color:var(--orange)">${fmt$(winner.bond)}</span> was locked.
+      </div>
+    </div>
+
+    <!-- Bid table -->
+    <div class="section-label" style="margin-bottom:var(--s3)">ALL BIDS — sorted by ENV (descending)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Node ID</th><th>Bid Price (b)</th><th>Reported q</th>
+            <th>Brier Score</th><th>p_eff</th><th>ENV</th><th>Bond (C_i)</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

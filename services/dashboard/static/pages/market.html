@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTruth V3 — Live Market</title>
+  <link rel="stylesheet" href="/css/design.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
+  <div class="nav-links">
+    <a href="/">01 / Overview</a>
+    <a href="/pages/market.html" class="active">02 / Live Market</a>
+    <a href="/pages/inspector.html">03 / Auction Inspector</a>
+    <a href="/pages/adversary.html">04 / Adversary Arena</a>
+    <a href="/pages/benchmarks.html">05 / Benchmarks</a>
+    <a href="/pages/node.html">06 / Node Detail</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:var(--s3)">
+    <span class="pulse-dot"></span>
+    <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">LIVE</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container-wide">
+    <div style="padding:var(--s10) 0 var(--s6)">
+      <div class="section-label">02 / LIVE MARKET</div>
+      <h1 class="heading">Node Graph & Event Feed</h1>
+      <p class="subheading" style="margin-top:var(--s2)">Node size = CPU capacity · Color = type · Dashed red ring = suspected adversary</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:var(--s6);align-items:start">
+
+      <!-- Node graph -->
+      <div class="card" style="padding:var(--s4)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--s4)">
+          <div style="font-weight:600">Network Topology</div>
+          <div style="display:flex;gap:var(--s3);flex-wrap:wrap">
+            <span class="badge badge-green">HONEST_STABLE</span>
+            <span class="badge badge-orange">CHEAP_UNSTABLE</span>
+            <span class="badge badge-red">LIAR</span>
+            <span class="badge badge-purple">STRATEGIC</span>
+          </div>
+        </div>
+        <svg id="node-graph" height="420"></svg>
+      </div>
+
+      <!-- Event feed -->
+      <div>
+        <div class="card" style="padding:var(--s4)">
+          <div style="font-weight:600;margin-bottom:var(--s4)">Live Event Feed</div>
+          <div id="event-feed" class="feed"></div>
+        </div>
+        <div class="card" style="margin-top:var(--s4)">
+          <div class="stat-label">Node selected</div>
+          <div id="node-detail-mini" style="color:var(--text-muted);font-size:12px;margin-top:var(--s2)">Click a node to inspect.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Node table -->
+    <section style="margin-top:var(--s8)">
+      <div class="section-label">ALL NODES</div>
+      <div class="table-wrap" style="margin-top:var(--s3)">
+        <table id="node-table">
+          <thead>
+            <tr>
+              <th>Node ID</th><th>Type</th><th>Trust Tier</th>
+              <th>Brier Score</th><th>Latency MAE</th>
+              <th>Bond Locked</th><th>Tasks Won</th><th>Collateral Forfeited</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="node-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script type="module">
+import { api, fmt$, fmtMs, showMockBanner, connectEventStream, renderNodeGraph, makeEventFeedItem, trustBadge, typeBadge } from '/js/api.js';
+
+let allNodes = [];
+
+api.nodes().then(d => {
+  if (!d) return;
+  showMockBanner(d.mock);
+  allNodes = d.nodes;
+
+  // Graph
+  const svg = document.getElementById('node-graph');
+  const draw = () => renderNodeGraph(svg, allNodes, showNodeMini);
+  draw();
+  setInterval(draw, 3000);
+
+  // Table
+  const tbody = document.getElementById('node-tbody');
+  allNodes.forEach(n => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="mono" style="color:var(--accent)">${n.node_id}</td>
+      <td>${typeBadge(n.node_type)}</td>
+      <td>${trustBadge(n.trust_tier)}</td>
+      <td class="mono">${n.brier_score.toFixed(3)}</td>
+      <td class="mono">${n.latency_mae.toFixed(1)} ms</td>
+      <td class="mono">${fmt$(n.bond_locked)}</td>
+      <td class="mono">${n.tasks_won}</td>
+      <td class="mono" style="color:${n.collateral_forfeited>0?'var(--red)':'var(--text-muted)'}">${fmt$(n.collateral_forfeited)}</td>
+      <td><a href="/pages/node.html?id=${n.node_id}" class="btn btn-ghost" style="padding:2px 10px;font-size:11px">→</a></td>
+    `;
+    tbody.appendChild(tr);
+  });
+});
+
+function showNodeMini(n) {
+  document.getElementById('node-detail-mini').innerHTML = `
+    <div class="mono" style="color:var(--accent);font-size:14px;font-weight:600">${n.node_id}</div>
+    <div style="margin-top:var(--s2);display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)">
+      <div><span class="stat-label">Type</span><div>${n.node_type.replace('_',' ')}</div></div>
+      <div><span class="stat-label">Tier</span><div>${n.trust_tier}</div></div>
+      <div><span class="stat-label">Brier</span><div class="mono">${n.brier_score}</div></div>
+      <div><span class="stat-label">Bond</span><div class="mono">${fmt$(n.bond_locked)}</div></div>
+    </div>
+    <a href="/pages/node.html?id=${n.node_id}" class="btn btn-outline" style="margin-top:var(--s3);font-size:12px">Full Detail →</a>
+  `;
+}
+
+// SSE feed
+const feed = document.getElementById('event-feed');
+connectEventStream(evt => {
+  const item = makeEventFeedItem(evt);
+  feed.insertBefore(item, feed.firstChild);
+  if (feed.children.length > 40) feed.removeChild(feed.lastChild);
+});
+</script>
+</body>
+</html>

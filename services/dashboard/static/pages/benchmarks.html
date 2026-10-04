@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTruth V3 — Benchmarks</title>
+  <link rel="stylesheet" href="/css/design.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
+  <div class="nav-links">
+    <a href="/">01 / Overview</a>
+    <a href="/pages/market.html">02 / Live Market</a>
+    <a href="/pages/inspector.html">03 / Auction Inspector</a>
+    <a href="/pages/adversary.html">04 / Adversary Arena</a>
+    <a href="/pages/benchmarks.html" class="active">05 / Benchmarks</a>
+    <a href="/pages/node.html">06 / Node Detail</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div style="padding:var(--s10) 0 var(--s6)">
+      <div class="section-label">05 / BENCHMARKS</div>
+      <h1 class="heading">Mechanism Comparison — 10,000 Tasks × 100,000 Nodes</h1>
+      <p class="subheading" style="margin-top:var(--s2)">EdgeTruth V3 vs. 6 industry-standard allocation mechanisms.</p>
+    </div>
+
+    <!-- Chart grid -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s6);margin-bottom:var(--s8)">
+      <div class="card">
+        <div style="font-weight:600;margin-bottom:var(--s4)">Social Welfare ($)</div>
+        <div class="chart-wrap"><canvas id="chart-welfare" height="220"></canvas></div>
+      </div>
+      <div class="card">
+        <div style="font-weight:600;margin-bottom:var(--s4)">SLA Hit Rate</div>
+        <div class="chart-wrap"><canvas id="chart-sla" height="220"></canvas></div>
+      </div>
+      <div class="card">
+        <div style="font-weight:600;margin-bottom:var(--s4)">Average Node Cost ($)</div>
+        <div class="chart-wrap"><canvas id="chart-cost" height="220"></canvas></div>
+      </div>
+      <div class="card">
+        <div style="font-weight:600;margin-bottom:var(--s4)">Incentive-Compatibility Regret ($)</div>
+        <div class="chart-wrap"><canvas id="chart-ic" height="220"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="section-label" style="margin-bottom:var(--s3)">DETAILED METRICS TABLE</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Mechanism</th><th>Avg Cost</th><th>SLA Hit Rate</th><th>Social Welfare</th><th>Allocation Latency</th><th>IC Regret</th><th>Winner?</th></tr>
+        </thead>
+        <tbody id="bench-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { api, fmt$, fmtPct, fmtMs, showMockBanner } from '/js/api.js';
+
+const COLORS = {
+  random:        '#475569',
+  first_fit:     '#64748B',
+  greedy:        '#94A3B8',
+  static_pricing:'#CBD5E1',
+  first_price:   '#818CF8',
+  second_price:  '#A78BFA',
+  edgetruth_v3:  '#06B6D4',
+};
+
+const chartDefaults = {
+  plugins: {
+    legend: { labels: { color: '#64748B', font: { family: 'JetBrains Mono', size: 10 } } },
+  },
+  scales: {
+    x: { ticks: { color: '#64748B', font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: '#0F172A' } },
+    y: { ticks: { color: '#64748B', font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: '#1E293B' } },
+  },
+};
+
+api.benchmarks().then(d => {
+  if (!d) return;
+  showMockBanner(d.mock);
+
+  const data = d.benchmarks;
+  const labels = data.map(m => m.mechanism.replace('_', ' '));
+  const colors = data.map(m => COLORS[m.mechanism] || '#06B6D4');
+  const isET = data.map(m => m.mechanism === 'edgetruth_v3');
+
+  const mkBar = (id, values, label, fmt) => {
+    const ctx = document.getElementById(id).getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label,
+          data: values,
+          backgroundColor: colors.map((c, i) => isET[i] ? c : c + '88'),
+          borderColor: colors,
+          borderWidth: isET.map(e => e ? 2 : 0),
+          borderRadius: 4,
+        }]
+      },
+      options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, tooltip: { callbacks: { label: v => fmt(v.raw) } } } }
+    });
+  };
+
+  mkBar('chart-welfare', data.map(m => m.social_welfare), 'Social Welfare', fmt$);
+  mkBar('chart-sla',     data.map(m => m.sla_hit_rate),   'SLA Hit Rate',   v => fmtPct(v));
+  mkBar('chart-cost',    data.map(m => m.avg_cost),        'Avg Cost',       fmt$);
+  mkBar('chart-ic',      data.map(m => m.ic_regret),       'IC Regret',      fmt$);
+
+  const tbody = document.getElementById('bench-tbody');
+  data.forEach(m => {
+    const isETruth = m.mechanism === 'edgetruth_v3';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="mono" style="color:${isETruth?'var(--accent)':'var(--text)'};font-weight:${isETruth?700:400}">${m.mechanism}</td>
+      <td class="mono">${fmt$(m.avg_cost)}</td>
+      <td class="mono" style="color:${m.sla_hit_rate>0.62?'var(--green)':'var(--text)'}">${fmtPct(m.sla_hit_rate)}</td>
+      <td class="mono" style="color:${isETruth?'var(--green)':'var(--text)'}">${fmt$(m.social_welfare)}</td>
+      <td class="mono">${fmtMs(m.latency_ms)}</td>
+      <td class="mono" style="color:${m.ic_regret===0?'var(--green)':'var(--text)'}">${fmt$(m.ic_regret)}</td>
+      <td>${isETruth ? '<span class="badge badge-green">✓ BEST</span>' : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+});
+</script>
+</body>
+</html>
