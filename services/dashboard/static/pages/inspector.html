@@ -1,132 +1,296 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EdgeTruth V3 — Auction Inspector</title>
-  <link rel="stylesheet" href="/css/design.css">
-</head>
-<body>
-<nav class="nav">
-  <div class="nav-logo">EDGE<span class="accent">TRUTH</span> <span style="color:var(--text-muted);font-weight:400">V3</span></div>
-  <div class="nav-links">
-    <a href="/">01 / Overview</a>
-    <a href="/pages/market.html">02 / Live Market</a>
-    <a href="/pages/inspector.html" class="active">03 / Auction Inspector</a>
-    <a href="/pages/adversary.html">04 / Adversary Arena</a>
-    <a href="/pages/benchmarks.html">05 / Benchmarks</a>
-    <a href="/pages/node.html">06 / Node Detail</a>
-  </div>
-</nav>
+<!DOCTYPE html><html class="dark" lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#3d494c", "on-secondary-fixed-variant": "#004395", "surface-dim": "#101319", "on-tertiary-fixed": "#23005c", "surface-tint": "#4cd7f6", "on-surface-variant": "#bcc9cd", "tertiary-container": "#b395ff", "on-primary": "#003640", "error-container": "#93000a", "secondary-fixed": "#d8e2ff", "secondary": "#adc6ff", "on-tertiary-fixed-variant": "#5516be", "tertiary": "#d0bcff", "primary-container": "#06b6d4", "on-secondary-container": "#e6ecff", "surface-container-lowest": "#0b0e14", "on-primary-fixed-variant": "#004e5c", "surface-container-highest": "#32353c", "on-primary-container": "#00424f", "on-tertiary-container": "#4900ae", "on-error-container": "#ffdad6", "primary-fixed": "#acedff", "surface-container-low": "#191c22", "secondary-container": "#0566d9", "on-error": "#690005", "surface-container-high": "#272a31", "on-secondary-fixed": "#001a42", "error": "#ffb4ab", "inverse-primary": "#00687a", "inverse-surface": "#e1e2eb", "inverse-on-surface": "#2e3037", "surface-variant": "#32353c", "tertiary-fixed": "#e9ddff", "primary-fixed-dim": "#4cd7f6", "on-surface": "#e1e2eb", "surface": "#101319", "on-secondary": "#002e6a", "tertiary-fixed-dim": "#d0bcff", "primary": "#4cd7f6", "outline": "#869397", "secondary-fixed-dim": "#adc6ff", "on-tertiary": "#3c0091", "on-primary-fixed": "#001f26", "surface-container": "#1d2026", "background": "#101319", "on-background": "#e1e2eb", "surface-bright": "#363940" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "margin": "2rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.25rem" }, "fontFamily": { "label-index": ["JetBrains Mono"], "code-lg": ["JetBrains Mono"], "headline-lg-mobile": ["Inter"], "display-mobile": ["Inter"], "code-sm": ["JetBrains Mono"], "body-md": ["Inter"], "headline-sm": ["Inter"], "display": ["Inter"], "body-lg": ["Inter"], "code-md": ["JetBrains Mono"], "body-sm": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"] }, "fontSize": { "label-index": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "700" }], "code-lg": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "800" }], "code-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }], "body-lg": ["1rem", { "lineHeight": "1.625rem", "fontWeight": "400" }], "code-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "headline-md": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface min-h-screen"><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#3d494c", "on-secondary-fixed-variant": "#004395", "surface-dim": "#101319", "on-tertiary-fixed": "#23005c", "surface-tint": "#4cd7f6", "on-surface-variant": "#bcc9cd", "tertiary-container": "#b395ff", "on-primary": "#003640", "error-container": "#93000a", "secondary-fixed": "#d8e2ff", "secondary": "#adc6ff", "on-tertiary-fixed-variant": "#5516be", "tertiary": "#d0bcff", "primary-container": "#06b6d4", "on-secondary-container": "#e6ecff", "surface-container-lowest": "#0b0e14", "on-primary-fixed-variant": "#004e5c", "surface-container-highest": "#32353c", "on-primary-container": "#00424f", "on-tertiary-container": "#4900ae", "on-error-container": "#ffdad6", "primary-fixed": "#acedff", "surface-container-low": "#191c22", "secondary-container": "#0566d9", "on-error": "#690005", "surface-container-high": "#272a31", "on-secondary-fixed": "#001a42", "error": "#ffb4ab", "inverse-primary": "#00687a", "inverse-surface": "#e1e2eb", "inverse-on-surface": "#2e3037", "surface-variant": "#32353c", "tertiary-fixed": "#e9ddff", "primary-fixed-dim": "#4cd7f6", "on-surface": "#e1e2eb", "surface": "#101319", "on-secondary": "#002e6a", "tertiary-fixed-dim": "#d0bcff", "primary": "#4cd7f6", "outline": "#869397", "secondary-fixed-dim": "#adc6ff", "on-tertiary": "#3c0091", "on-primary-fixed": "#001f26", "surface-container": "#1d2026", "background": "#101319", "on-background": "#e1e2eb", "surface-bright": "#363940" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "margin": "2rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.25rem" }, "fontFamily": { "label-index": ["JetBrains Mono"], "code-lg": ["JetBrains Mono"], "headline-lg-mobile": ["Inter"], "display-mobile": ["Inter"], "code-sm": ["JetBrains Mono"], "body-md": ["Inter"], "headline-sm": ["Inter"], "display": ["Inter"], "body-lg": ["Inter"], "code-md": ["JetBrains Mono"], "body-sm": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"] }, "fontSize": { "label-index": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "700" }], "code-lg": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "800" }], "code-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }], "body-lg": ["1rem", { "lineHeight": "1.625rem", "fontWeight": "400" }], "code-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "headline-md": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }] } } } };</script><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#3d494c", "on-secondary-fixed-variant": "#004395", "surface-dim": "#101319", "on-tertiary-fixed": "#23005c", "surface-tint": "#4cd7f6", "on-surface-variant": "#bcc9cd", "tertiary-container": "#b395ff", "on-primary": "#003640", "error-container": "#93000a", "secondary-fixed": "#d8e2ff", "secondary": "#adc6ff", "on-tertiary-fixed-variant": "#5516be", "tertiary": "#d0bcff", "primary-container": "#06b6d4", "on-secondary-container": "#e6ecff", "surface-container-lowest": "#0b0e14", "on-primary-fixed-variant": "#004e5c", "surface-container-highest": "#32353c", "on-primary-container": "#00424f", "on-tertiary-container": "#4900ae", "on-error-container": "#ffdad6", "primary-fixed": "#acedff", "surface-container-low": "#191c22", "secondary-container": "#0566d9", "on-error": "#690005", "surface-container-high": "#272a31", "on-secondary-fixed": "#001a42", "error": "#ffb4ab", "inverse-primary": "#00687a", "inverse-surface": "#e1e2eb", "inverse-on-surface": "#2e3037", "surface-variant": "#32353c", "tertiary-fixed": "#e9ddff", "primary-fixed-dim": "#4cd7f6", "on-surface": "#e1e2eb", "surface": "#101319", "on-secondary": "#002e6a", "tertiary-fixed-dim": "#d0bcff", "primary": "#4cd7f6", "outline": "#869397", "secondary-fixed-dim": "#adc6ff", "on-tertiary": "#3c0091", "on-primary-fixed": "#001f26", "surface-container": "#1d2026", "background": "#101319", "on-background": "#e1e2eb", "surface-bright": "#363940" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "margin": "2rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.25rem" }, "fontFamily": { "label-index": ["JetBrains Mono"], "code-lg": ["JetBrains Mono"], "headline-lg-mobile": ["Inter"], "display-mobile": ["Inter"], "code-sm": ["JetBrains Mono"], "body-md": ["Inter"], "headline-sm": ["Inter"], "display": ["Inter"], "body-lg": ["Inter"], "code-md": ["JetBrains Mono"], "body-sm": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"] }, "fontSize": { "label-index": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "700" }], "code-lg": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "800" }], "code-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }], "body-lg": ["1rem", { "lineHeight": "1.625rem", "fontWeight": "400" }], "code-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "headline-md": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }] } } } };</script><header class="fixed top-0 left-0 right-0 z-50 bg-surface-dim/95 backdrop-blur-md border-b border-outline-variant"><div class="h-16 max-w-7xl mx-auto px-6 flex items-center justify-between gap-4"><div class="flex items-center gap-6 shrink-0"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#4cd7f6]"></span><span class="font-code-lg text-code-lg text-on-surface tracking-wider"><span class="text-primary font-bold">EDGE</span> <span class="text-outline-variant">//</span> AUCTION</span></div></div><nav class="hidden xl:flex items-center gap-5 h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary"><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="overview" href="/pages/overview.html">Overview</a><a aria-current="page" class="h-full flex items-center uppercase tracking-wide transition-colors text-primary font-semibold border-b-2 border-primary" data-path="live-market" href="/pages/market.html">Live Market</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="registry" href="/pages/registry.html">Registry</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="auction-inspector" href="/pages/inspector.html">Auction Inspector</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="adversary-arena" href="/pages/adversary.html">Adversary Arena</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="benchmarks" href="/pages/benchmarks.html">Benchmarks</a></nav><div class="flex items-center gap-3 shrink-0 font-code-sm text-code-sm"><div class="hidden md:flex items-center gap-2 px-2.5 py-1 bg-surface-container-low border border-outline-variant rounded"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span><span class="text-on-surface-variant font-medium">REST:<span class="text-on-surface ml-1">ONLINE</span></span><span class="text-outline-variant">|</span><span class="text-on-surface-variant font-medium">SSE:<span class="text-on-surface ml-1">CONNECTED</span></span></div><div class="hidden lg:flex items-center px-2 py-0.5 bg-surface-container border border-primary/40 rounded text-primary text-[11px] font-semibold tracking-wider">MOCK: OFF / FALLBACK READY</div><div class="hidden sm:flex items-center px-2 py-1 bg-surface-container-high border border-outline-variant rounded font-label-index text-label-index text-on-surface-variant">PORT:8080</div><button aria-label="Search queries" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest min-h-screen"><div class="max-w-7xl mx-auto px-6 py-8"><div class="flex flex-col w-full gap-6">
+<!-- TOP HEADER & CONTROLS BAR -->
+<section class="flex flex-col gap-4"><div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2"><div class="flex flex-col gap-2"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-widest">FEED-02 // VCG MESH</span></div><h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">Live Market &amp; Allocation Topology</h1><p class="font-code-sm text-code-sm text-on-surface-variant">Real-time truthful clearing, decentralised relay clusters, and second-price allocation telemetry.</p></div><div class="flex items-center gap-8 bg-surface-container-low px-6 py-3.5 rounded-lg border border-outline-variant"><div class="flex flex-col"><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-wider">Auctions</span><span class="font-code-lg text-code-lg text-primary font-bold tabular-nums">24</span></div><div class="w-px h-8 bg-outline-variant"></div><div class="flex flex-col"><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-wider">Active Bids</span><span class="font-code-lg text-code-lg text-secondary font-bold tabular-nums">188</span></div><div class="w-px h-8 bg-outline-variant"></div><div class="flex flex-col"><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-wider">Live Nodes</span><span class="font-code-lg text-code-lg text-on-surface font-bold tabular-nums">1,428</span></div><div class="w-px h-8 bg-outline-variant"></div><div class="flex items-center gap-2 text-emerald-400 font-code-sm text-code-sm"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="">Connected</span></div></div></div></section>
+<!-- MAIN SECTION: 65% INTERACTIVE GRAPH + 35% LIVE SSE FEED -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+<!-- 65% Interactive Node Graph Container -->
+<div class="xl:col-span-8 flex flex-col bg-surface-container-low rounded-lg p-5 shadow-lg relative overflow-hidden">
+<!-- Section Header & Legend -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-4 gap-3"><div class="flex items-center gap-3"><span class="font-code-md text-code-md text-on-surface font-semibold tracking-wide">Topology Map</span><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-wider">28 Relay Clusters</span></div><div class="flex items-center gap-3"><div class="flex items-center gap-4 text-xs font-code-sm text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span>Active</span><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span>Routing</span><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-error"></span>Flagged</span></div><div class="flex items-center gap-2 ml-2"><button class="px-3 py-1.5 bg-surface-container border border-outline-variant hover:border-primary/40 hover:bg-surface-container-high text-on-surface text-code-sm font-code-sm rounded transition-colors flex items-center gap-1.5 shadow-sm group" id="btn-reset-zoom" title="Reset canvas camera and centering" type="button"><span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">fit_screen</span><span class="">Recenter</span><span class="hidden lg:inline text-[11px] font-label-index px-1 py-0.5 rounded bg-surface-container-high text-on-surface-variant">100%</span></button><button class="px-3 py-1.5 bg-primary text-on-primary text-code-sm font-code-sm font-semibold rounded hover:bg-primary-fixed transition-colors flex items-center gap-1.5 shadow-[0_0_12px_rgba(76,215,246,0.25)] hover:shadow-[0_0_16px_rgba(76,215,246,0.45)]" id="btn-stress-sim" title="Simulate real-time micro-burst workloads across edge relays" type="button"><span class="material-symbols-outlined text-[16px]">bolt</span><span class="">Inject Traffic</span><span class="text-[11px] font-label-index px-1.5 py-0.5 rounded bg-on-primary/15 font-bold">+50 QPS</span></button></div></div></div>
+<!-- Visual Encoding Legend Bar -->
 
-<div class="page">
-  <div class="container">
-    <div style="padding:var(--s10) 0 var(--s6)">
-      <div class="section-label">03 / AUCTION INSPECTOR</div>
-      <h1 class="heading">Inspect any auction clearing event</h1>
-    </div>
-
-    <div style="display:grid;grid-template-columns:300px 1fr;gap:var(--s6);align-items:start">
-
-      <!-- Sidebar: auction list -->
-      <div class="card" style="padding:var(--s4);max-height:70vh;overflow-y:auto">
-        <div style="font-size:12px;font-weight:600;margin-bottom:var(--s3);color:var(--text-muted)">SELECT AUCTION</div>
-        <div id="auction-list" style="display:flex;flex-direction:column;gap:var(--s2)"></div>
-      </div>
-
-      <!-- Main: auction detail -->
-      <div id="auction-detail">
-        <div class="card" style="color:var(--text-muted);text-align:center;padding:var(--s12)">
-          ← Select an auction from the list
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Graph Canvas Simulation Container -->
+<div class="relative w-full h-[520px] bg-surface-container-lowest rounded overflow-hidden flex items-center justify-center select-none" id="graph-viewport">
+<!-- Ambient Grid Background -->
+<div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: radial-gradient(#4cd7f6 1px, transparent 1px); background-size: 28px 28px;"></div>
+<!-- Simulated SVG Topological Nodes and Animated Edges -->
+<svg class="w-full h-full relative z-10" id="network-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 800 500">
+<defs>
+<linearGradient id="edgeGradPrimary" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#4cd7f6" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#06b6d4" stop-opacity="0.1"></stop>
+</linearGradient>
+<linearGradient id="edgeGradWarn" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#adc6ff" stop-opacity="0.9"></stop>
+<stop offset="100%" stop-color="#93000a" stop-opacity="0.3"></stop>
+</linearGradient>
+<!-- Animated Particle Filter -->
+<filter height="140%" id="glow" width="140%" x="-20%" y="-20%">
+<feGaussianBlur result="blur" stdDeviation="3"></feGaussianBlur>
+<feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+</filter>
+</defs>
+<!-- Mesh Links -->
+<!-- US Region Backbone -->
+<line stroke="#3d494c" stroke-width="1.5" x1="140" x2="260" y1="120" y2="180"></line>
+<line stroke="#3d494c" stroke-width="1" x1="260" x2="180" y1="180" y2="280"></line>
+<line stroke="#3d494c" stroke-width="1" x1="140" x2="180" y1="120" y2="280"></line>
+<line class="opacity-75" stroke="#4cd7f6" stroke-dasharray="4 4" stroke-width="2" x1="260" x2="380" y1="180" y2="220"></line>
+<!-- Central Switch to EU Nodes -->
+<line stroke="#4cd7f6" stroke-width="2.5" x1="380" x2="520" y1="220" y2="140"></line>
+<line stroke="#3d494c" stroke-width="1.5" x1="520" x2="620" y1="140" y2="110"></line>
+<line stroke="#3d494c" stroke-width="1" x1="520" x2="590" y1="140" y2="230"></line>
+<line stroke="#3d494c" stroke-width="1" x1="620" x2="690" y1="110" y2="180"></line>
+<line stroke="#3d494c" stroke-width="1" x1="590" x2="690" y1="230" y2="180"></line>
+<!-- AP Region Cluster -->
+<line stroke="#adc6ff" stroke-width="2" x1="380" x2="440" y1="220" y2="360"></line>
+<line stroke="#3d494c" stroke-width="1" x1="440" x2="320" y1="360" y2="410"></line>
+<line stroke="#3d494c" stroke-width="1.5" x1="440" x2="560" y1="360" y2="400"></line>
+<line stroke="#3d494c" stroke-width="1" x1="560" x2="680" y1="400" y2="350"></line>
+<!-- Active Task Allocation Line (Pulsing glowing path) -->
+<path d="M 260 180 Q 380 120 520 140" fill="none" filter="url(#glow)" stroke="#4cd7f6" stroke-width="2.5">
+<animate attributeName="stroke-dashoffset" dur="2s" repeatCount="indefinite" values="0;40"></animate>
+</path>
+<!-- Animated Moving Data Packets along routes -->
+<circle fill="#4cd7f6" r="3.5">
+<animateMotion dur="1.8s" path="M 140 120 L 260 180" repeatCount="indefinite"></animateMotion>
+</circle>
+<circle fill="#acedff" filter="url(#glow)" r="4">
+<animateMotion dur="1.2s" path="M 260 180 L 380 220" repeatCount="indefinite"></animateMotion>
+</circle>
+<circle fill="#d0bcff" r="3.5">
+<animateMotion dur="1.4s" path="M 380 220 L 520 140" repeatCount="indefinite"></animateMotion>
+</circle>
+<circle fill="#adc6ff" r="3">
+<animateMotion dur="2.1s" path="M 380 220 L 440 360" repeatCount="indefinite"></animateMotion>
+</circle>
+<circle fill="#ffb4ab" r="3">
+<animateMotion dur="0.9s" path="M 520 140 L 590 230" repeatCount="indefinite"></animateMotion>
+</circle>
+<!-- CLUSTER LABELS (Regional groupings) -->
+<text fill="#869397" font-family="JetBrains Mono" font-size="10" letter-spacing="1" x="120" y="80">RELAY-US-WEST</text>
+<text fill="#869397" font-family="JetBrains Mono" font-size="10" letter-spacing="1" x="540" y="70">RELAY-EU-CENTRAL</text>
+<text fill="#869397" font-family="JetBrains Mono" font-size="10" letter-spacing="1" x="440" y="440">RELAY-AP-EAST</text>
+<!-- ================= NODE ELEMENTS ================= -->
+<!-- Node: edge-sjc-14 (Large, GPU, Green/Cyan) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$45,000" data-id="edge-sjc-14" data-region="US-West" data-rep="99.8%" data-status="Active / Prime Winner" data-vcpu="64 vCPU / 80GB H100" transform="translate(140, 120)">
+<circle fill="#101319" r="18"></circle>
+<circle fill="#4cd7f6" r="15"></circle>
+<circle fill="#003640" r="7"></circle>
+<text fill="#bcc9cd" font-family="JetBrains Mono" font-size="9" text-anchor="middle" y="28">edge-sjc-14</text>
+</g>
+<!-- Node: edge-ord-82 (Featured in prompt tooltip) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$10,000" data-id="edge-ord-82" data-region="US-East" data-rep="99.4%" data-status="Healthy Routing" data-vcpu="32 vCPU" transform="translate(260, 180)">
+<circle fill="#32353c" opacity="0.4" r="20"></circle>
+<circle fill="#4cd7f6" r="13"></circle>
+<text fill="#e1e2eb" font-family="JetBrains Mono" font-size="9" font-weight="bold" text-anchor="middle" y="25">edge-ord-82</text>
+</g>
+<!-- Node: edge-sea-03 (Small, high rep) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$5,000" data-id="edge-sea-03" data-region="US-West" data-rep="98.1%" data-status="Active" data-vcpu="8 vCPU" transform="translate(180, 280)">
+<circle fill="#4cd7f6" r="9"></circle>
+<text fill="#869397" font-family="JetBrains Mono" font-size="8" text-anchor="middle" y="20">edge-sea-03</text>
+</g>
+<!-- Central Regional Hub: edge-chi-gateway -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$80,000" data-id="edge-chi-hub" data-region="US-Midwest" data-rep="100.0%" data-status="Backbone Switch" data-vcpu="64 vCPU Core" transform="translate(380, 220)">
+<circle fill="#004e5c" opacity="0.5" r="22"></circle>
+<circle fill="#acedff" r="16"></circle>
+<circle fill="#001f26" r="9"></circle>
+<text fill="#4cd7f6" font-family="JetBrains Mono" font-size="10" font-weight="bold" text-anchor="middle" y="-25">GATEWAY-CHI</text>
+</g>
+<!-- Node: edge-iad-77 (Target Winner Auction #2910) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$30,000" data-id="edge-iad-77" data-region="US-East" data-rep="99.8%" data-status="VCG Winner #2910" data-vcpu="48 vCPU / 4x A100" transform="translate(310, 110)">
+<circle fill="#4cd7f6" r="17" stroke="#ffffff" stroke-width="1.5"></circle>
+<circle fill="#001f26" r="8"></circle>
+<text fill="#4cd7f6" font-family="JetBrains Mono" font-size="9" font-weight="bold" text-anchor="middle" y="26">edge-iad-77</text>
+</g>
+<!-- Node: edge-fra-99 (EU Verified) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$12,000" data-id="edge-fra-99" data-region="EU-Central" data-rep="96.5%" data-status="Verified Hardware" data-vcpu="32 vCPU" transform="translate(520, 140)">
+<circle fill="#adc6ff" r="14"></circle>
+<text fill="#bcc9cd" font-family="JetBrains Mono" font-size="9" text-anchor="middle" y="24">edge-fra-99</text>
+</g>
+<!-- Node: edge-ams-12 (EU High Memory) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$20,000" data-id="edge-ams-12" data-region="EU-Central" data-rep="92.1%" data-status="Active" data-vcpu="64 vCPU High-Mem" transform="translate(620, 110)">
+<circle fill="#adc6ff" r="15"></circle>
+<text fill="#869397" font-family="JetBrains Mono" font-size="8" text-anchor="middle" y="25">edge-ams-12</text>
+</g>
+<!-- Node: edge-dal-04 (SUSPECTED LIAR - RED & OVERLOADED) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$15,000 (FROZEN)" data-id="edge-dal-04" data-region="US-South" data-rep="54.2%" data-status="SUSPECTED LIAR (38ms vs 1ms)" data-vcpu="16 vCPU" transform="translate(590, 230)">
+<!-- Pulsing Halo -->
+<circle fill="#93000a" opacity="0.6" r="22">
+<animate attributeName="r" dur="1.4s" repeatCount="indefinite" values="18;26;18"></animate>
+<animate attributeName="opacity" dur="1.4s" repeatCount="indefinite" values="0.6;0.1;0.6"></animate>
+</circle>
+<circle fill="#ffb4ab" r="14"></circle>
+<!-- Red Flag Warning Glyph -->
+<path d="M -3 -6 L 4 -2 L -3 2 Z" fill="#690005"></path>
+<line stroke="#690005" stroke-width="1.5" x1="-3" x2="-3" y1="-6" y2="7"></line>
+<text fill="#ffb4ab" font-family="JetBrains Mono" font-size="9" font-weight="bold" text-anchor="middle" y="28">edge-dal-04 [!]</text>
+</g>
+<!-- Node: edge-lon-08 (Overloaded ring) -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$8,000" data-id="edge-lon-08" data-region="EU-West" data-rep="78.0%" data-status="Overloaded (94% Util)" data-vcpu="16 vCPU" transform="translate(690, 180)">
+<circle fill="#32353c" r="16"></circle>
+<circle fill="#d0bcff" r="14" stroke="#ffb4ab" stroke-dasharray="3 2" stroke-width="2"></circle>
+<text fill="#869397" font-family="JetBrains Mono" font-size="8" text-anchor="middle" y="24">edge-lon-08</text>
+</g>
+<!-- AP Region Nodes -->
+<g class="node-group cursor-pointer transition-transform" data-bond="$25,000" data-id="edge-nrt-01" data-region="AP-East" data-rep="99.1%" data-status="Active" data-vcpu="32 vCPU" transform="translate(440, 360)">
+<circle fill="#4cd7f6" r="13"></circle>
+<text fill="#bcc9cd" font-family="JetBrains Mono" font-size="9" text-anchor="middle" y="24">edge-nrt-01</text>
+</g>
+<g class="node-group cursor-pointer transition-transform" data-bond="$10,000" data-id="edge-sin-22" data-region="AP-South" data-rep="88.4%" data-status="Active" data-vcpu="16 vCPU" transform="translate(320, 410)">
+<circle fill="#adc6ff" r="11"></circle>
+<text fill="#869397" font-family="JetBrains Mono" font-size="8" text-anchor="middle" y="22">edge-sin-22</text>
+</g>
+<g class="node-group cursor-pointer transition-transform" data-bond="$6,000" data-id="edge-syd-07" data-region="AP-Oceania" data-rep="74.2%" data-status="Degraded Network" data-vcpu="8 vCPU" transform="translate(560, 400)">
+<circle fill="#d0bcff" r="10"></circle>
+<text fill="#869397" font-family="JetBrains Mono" font-size="8" text-anchor="middle" y="21">edge-syd-07</text>
+</g>
+<g class="node-group cursor-pointer transition-transform" data-bond="$35,000" data-id="edge-hkg-55" data-region="AP-East" data-rep="98.9%" data-status="Active" data-vcpu="64 vCPU / 80GB H100" transform="translate(680, 350)">
+<circle fill="#4cd7f6" r="15"></circle>
+<text fill="#bcc9cd" font-family="JetBrains Mono" font-size="9" text-anchor="middle" y="25">edge-hkg-55</text>
+</g>
+</svg>
+<!-- Hover Card Tooltip (Interactive Preview) -->
+<div class="absolute z-20 pointer-events-none hidden bg-surface-container-high p-4 rounded shadow-2xl max-w-xs transition-opacity duration-150" id="graph-tooltip">
+<div class="flex items-center justify-between gap-2 pb-2 mb-2 bg-surface-container px-2 py-1 rounded">
+<span class="font-code-md text-code-md font-bold text-primary" id="tooltip-id">edge-ord-82</span>
+<span class="font-label-index text-label-index px-1.5 py-0.5 rounded bg-surface text-on-surface-variant" id="tooltip-region">US-East</span>
 </div>
+<div class="grid grid-cols-2 gap-2 font-code-sm text-code-sm mb-2">
+<div>
+<span class="text-on-surface-variant block text-[11px]">HARDWARE:</span>
+<span class="text-on-surface font-semibold" id="tooltip-vcpu">32 vCPU</span>
+</div>
+<div>
+<span class="text-on-surface-variant block text-[11px]">REPUTATION:</span>
+<span class="text-primary font-semibold" id="tooltip-rep">99.4%</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-code-sm text-code-sm pt-2 bg-surface-container-lowest px-2 py-1 rounded">
+<span class="text-on-surface-variant text-[11px]">SLA BOND:</span>
+<span class="text-on-surface font-bold" id="tooltip-bond">$10,000 USD</span>
+</div>
+<div class="mt-2 text-[11px] font-code-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span id="tooltip-status" class="">Verified and Ready for Allocation</span>
+</div>
+</div>
+<!-- Telemetry Graph Sub-layer Overlay Details -->
+<div class="absolute bottom-3 left-3 bg-surface-container/90 backdrop-blur px-3 py-1.5 rounded font-code-sm text-code-sm text-on-surface-variant flex items-center gap-3">
+<span class="">LATENCY MATRIX: ≤ 1.2ms (P99)</span>
+<span class="text-outline-variant">|</span>
+<span class="text-primary">ALL CHANNELS SYNCHRONIZED</span>
+</div>
+</div>
+</div>
+<!-- 35% Live Event Stream Panel (/events SSE Feed) -->
+<div class="xl:col-span-4 flex flex-col bg-surface-container-low rounded-lg p-5 shadow-lg"><div class="flex items-center justify-between pb-4"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-wide">Live Event Stream</h2></div><span class="font-label-index text-label-index px-2 py-0.5 rounded bg-surface-container text-on-surface-variant tracking-wider uppercase">/events sse</span></div><div class="flex items-center justify-between py-2 px-3 mb-3 bg-surface-container-lowest border border-outline-variant/60 rounded font-code-sm text-code-sm text-on-surface-variant"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="font-label-index text-label-index tracking-wide uppercase">FEED STATUS:</span><span class="text-primary font-bold text-xs px-1.5 py-0.5 rounded bg-surface-container border border-primary/30 tracking-wider" id="autoscroll-state">STREAMING</span></div><div class="flex items-center gap-2"><span class="text-[11px] text-on-surface-variant/80 hidden sm:inline">Auto-scroll</span><button class="px-2.5 py-1 text-xs bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant rounded transition-colors flex items-center gap-1 font-medium" id="btn-toggle-scroll" title="Toggle SSE auto-scroll stream" type="button"><span class="material-symbols-outlined text-[14px]">pause</span>Pause</button></div></div><div class="flex-1 max-h-[465px] overflow-y-auto divide-y divide-outline-variant select-text font-code-sm text-code-sm" id="events-terminal"><div class="py-3 flex items-start justify-between gap-3"><div class="flex flex-col gap-0.5 min-w-0 flex-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-primary font-bold">ALLOC</span><span class="text-on-surface text-xs truncate">Task <span class="text-primary font-semibold">#9401</span> matched <code class="text-secondary">edge-sjc-14</code></span></div></div><span class="text-on-surface-variant text-[11px] tabular-nums shrink-0">$0.0031/hr</span></div><div class="py-3 flex items-start justify-between gap-3"><div class="flex flex-col gap-0.5 min-w-0 flex-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-secondary font-bold">PROBE</span><span class="text-on-surface text-xs truncate">Verification passed: <code class="text-secondary">edge-fra-99</code></span></div></div><span class="text-emerald-400 text-[11px] font-medium shrink-0">0.8ms</span></div><div class="py-3 flex items-start justify-between gap-3"><div class="flex flex-col gap-0.5 min-w-0 flex-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-error font-bold">ALERT</span><span class="text-error text-xs font-medium truncate">Latency liar flagged: <code class="text-error">edge-dal-04</code></span></div></div><span class="text-error text-[11px] font-semibold shrink-0">Frozen</span></div><div class="py-3 flex items-start justify-between gap-3"><div class="flex flex-col gap-0.5 min-w-0 flex-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-primary font-bold">CLEAR</span><span class="text-on-surface text-xs truncate">Auction <span class="text-primary font-semibold">#2910</span> cleared at VCG equilibrium</span></div></div><span class="text-on-surface font-bold text-[11px] shrink-0">$0.0029</span></div><div class="py-3 flex items-start justify-between gap-3"><div class="flex flex-col gap-0.5 min-w-0 flex-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-tertiary font-bold">BOND</span><span class="text-on-surface text-xs truncate">Operator <code class="text-tertiary">infra-core-3</code> deposited bond</span></div></div><span class="text-on-surface font-semibold text-[11px] shrink-0">$15,000</span></div><div class="py-3 flex items-start justify-between gap-3"><div class="flex flex-col gap-0.5 min-w-0 flex-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-secondary font-bold">BATCH</span><span class="text-on-surface-variant text-xs truncate">12 sealed bids registered for <code class="text-secondary">SLOT-EU-948</code></span></div></div><span class="text-on-surface-variant text-[11px] shrink-0">12 bids</span></div></div><div class="mt-4 pt-3 flex items-center justify-between font-label-index text-label-index text-on-surface-variant border-t border-outline-variant"><span class="">BUFFER: 250 / 250 MSGS</span><span class="text-primary">LATENCY: 4ms</span></div></div>
+</section>
+<!-- BOTTOM SECTION: INTEGRATED AUCTION INSPECTOR -->
+<section class="flex flex-col gap-4 bg-surface-container-low rounded-lg p-6 shadow-xl"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-outline-variant"><div class="flex flex-col gap-1"><div class="flex items-center gap-2"><span class="font-label-index text-label-index text-primary uppercase tracking-wider">VCG CLEARING ENGINE</span><span class="w-1 h-1 rounded-full bg-outline-variant"></span><span class="font-code-sm text-code-sm text-on-surface-variant">Truthfulness &amp; Social Welfare</span></div><h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">Auction Inspector</h2></div><div class="flex flex-col sm:flex-row sm:items-center gap-2.5 bg-surface-container-lowest p-2 sm:px-3 sm:py-2 rounded-lg border border-outline-variant"><div class="flex flex-col"><label class="font-label-index text-label-index text-primary font-bold uppercase tracking-wider flex items-center gap-1" for="select-auction"><span class="material-symbols-outlined text-[13px]">tune</span> Select Auction Epoch / Batch</label><span class="text-[11px] font-code-sm text-on-surface-variant hidden sm:block">Cleared via Second-Price sealed bidding</span></div><div class="relative min-w-[340px]"><select class="w-full bg-surface-container text-on-surface font-code-sm text-code-sm pl-3 pr-9 py-2 rounded appearance-none focus:outline-none border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer font-medium" id="select-auction"><option selected="" value="2910">Epoch #2910 • 8x H100 GPU Cluster (US-East)</option><option value="2909">Epoch #2909 • 128 vCPU High-Mem Node (EU-Central)</option><option value="2908">Epoch #2908 • Micro-Edge Ingestion Slot (AP-East)</option></select><span class="material-symbols-outlined absolute right-2.5 top-2.5 text-primary pointer-events-none text-[18px]">unfold_more</span></div></div></div><div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2"><div class="lg:col-span-5 flex flex-col gap-3"><div class="flex items-center justify-between pb-2"><span class="font-code-sm text-code-sm font-semibold text-on-surface">Submitted Bids</span><span class="font-label-index text-label-index text-on-surface-variant uppercase">5 Active</span></div><div class="overflow-x-auto"><table class="w-full text-left font-code-sm text-code-sm"><thead><tr class="text-on-surface-variant text-[11px] pb-2 border-b border-outline-variant"><th class="py-2 font-medium">Node ID</th><th class="py-2 text-right font-medium" title="Nominal price offered per node-second">Bid ($/s) <span class="text-outline-variant">ⓘ</span></th><th class="py-2 text-right font-medium" title="Round-Trip Latency (verified via distributed probes)">RTT (ms) <span class="text-outline-variant">ⓘ</span></th><th class="py-2 text-right font-medium" title="Historical SLA delivery &amp; honesty score">Reputation <span class="text-outline-variant">ⓘ</span></th></tr></thead><tbody class="divide-y divide-outline-variant"><tr class="bg-surface-container/90 transition-colors"><td class="py-2.5 px-2 font-semibold text-primary flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>edge-iad-77 <span class="font-label-index text-[10px] px-1 py-0.2 bg-primary/10 text-primary rounded border border-primary/20 ml-1">WINNER</span></td><td class="py-2.5 text-right tabular-nums text-on-surface font-semibold" title="Actual offered bid">$0.0028</td><td class="py-2.5 text-right tabular-nums text-primary font-bold" title="Ultra-low physical RTT verified">0.8ms</td><td class="py-2.5 px-2 text-right text-primary font-bold" title="Top tier provider reliability">99.8%</td></tr><tr class="transition-colors hover:bg-surface-container/50"><td class="py-2.5 px-2 text-error font-medium flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>edge-dal-04 <span class="font-label-index text-[10px] px-1 py-0.2 bg-error/10 text-error rounded border border-error/20 ml-1">PENALIZED</span></td><td class="py-2.5 text-right tabular-nums text-on-surface-variant" title="Lowest nominal bid, but disqualified">$0.0026</td><td class="py-2.5 text-right tabular-nums text-error font-medium" title="Reported 1.0ms, real probe measured 38.4ms">1.0ms*</td><td class="py-2.5 px-2 text-right text-error font-semibold" title="Reputation slashed due to latency manipulation">54.2%</td></tr><tr class="transition-colors hover:bg-surface-container/50"><td class="py-2.5 px-2 text-on-surface">edge-sjc-14 <span class="font-label-index text-[10px] px-1 py-0.2 bg-surface-container-high text-on-surface-variant rounded ml-1">2ND PRICE</span></td><td class="py-2.5 text-right tabular-nums text-on-surface font-semibold" title="Qualifying 2nd-best valid bid sets the clearing price">$0.0029</td><td class="py-2.5 text-right tabular-nums text-on-surface-variant">2.1ms</td><td class="py-2.5 px-2 text-right text-on-surface">99.1%</td></tr><tr class="transition-colors hover:bg-surface-container/50"><td class="py-2.5 px-2 text-on-surface">edge-fra-99</td><td class="py-2.5 text-right tabular-nums text-on-surface">$0.0033</td><td class="py-2.5 text-right tabular-nums text-on-surface-variant">14.2ms</td><td class="py-2.5 px-2 text-right text-on-surface">96.5%</td></tr><tr class="transition-colors hover:bg-surface-container/50"><td class="py-2.5 px-2 text-on-surface">edge-ord-82</td><td class="py-2.5 text-right tabular-nums text-on-surface">$0.0035</td><td class="py-2.5 text-right tabular-nums text-on-surface-variant">4.9ms</td><td class="py-2.5 px-2 text-right text-on-surface">99.4%</td></tr></tbody></table></div><p class="text-[11px] font-code-sm text-error flex items-center gap-1 pt-1"><span class="material-symbols-outlined text-[14px]">info</span>* edge-dal-04 penalized: synthetic latency falsification detected.</p></div><div class="lg:col-span-3 flex flex-col justify-between p-5 bg-surface-container rounded-lg border border-outline-variant"><div class="flex flex-col gap-4"><div><div class="flex items-center justify-between"><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-wider">Final Clearing Price</span><span class="font-label-index text-[10px] text-primary px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 font-bold">VCG RULE</span></div><div class="flex items-baseline gap-2 mt-1"><span class="font-headline-lg text-headline-lg font-bold text-primary tabular-nums">$0.0029</span><span class="font-code-sm text-code-sm text-on-surface-variant">/ node-sec</span></div><span class="font-code-sm text-[12px] text-on-surface-variant block mt-1">Set by 2nd-lowest valid bid (<code class="text-secondary font-semibold">edge-sjc-14</code>)</span></div><div class="flex flex-col gap-2 pt-3 border-t border-outline-variant font-code-sm text-code-sm"><div class="flex items-center justify-between" title="Vickrey-Clarke-Groves dominant-strategy truthful mechanism"><span class="text-on-surface-variant flex items-center gap-1">Mechanism <span class="text-outline-variant text-[11px]">ⓘ</span></span><span class="text-on-surface font-medium">VCG Truthful</span></div><div class="flex items-center justify-between" title="Net efficiency gain compared to random or latency-naive allocation"><span class="text-on-surface-variant flex items-center gap-1">Social Welfare <span class="text-outline-variant text-[11px]">ⓘ</span></span><span class="text-primary font-bold">+18.4% Net Gain</span></div><div class="flex items-center justify-between" title="Clearing price ($0.0029) minus winner bid ($0.0028)"><span class="text-on-surface-variant flex items-center gap-1">Winner Surplus <span class="text-outline-variant text-[11px]">ⓘ</span></span><span class="text-emerald-400 font-semibold">+$0.0001 / sec</span></div></div></div><div class="pt-4 border-t border-outline-variant flex items-center justify-between font-label-index text-label-index text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>STATE</span><span class="text-emerald-400 font-bold tracking-wide">CLEARED &amp; SETTLED</span></div></div><div class="lg:col-span-4 flex flex-col justify-between p-5 bg-surface-container rounded-lg border border-outline-variant"><div class="flex flex-col gap-3"><div class="flex items-center justify-between"><span class="font-label-index text-label-index text-on-surface-variant uppercase tracking-wider">Winner Decision</span><span class="font-code-sm text-code-sm text-emerald-400 font-bold">98.7 / 100</span></div><div class="flex items-baseline gap-2"><span class="font-headline-sm text-headline-sm font-bold text-primary">edge-iad-77</span><span class="font-code-sm text-code-sm text-on-surface-variant">US-East</span></div><p class="font-body-md text-xs text-on-surface-variant leading-relaxed pt-2"><code class="text-primary font-bold">edge-iad-77</code> was allocated because its verified reputation (99.8%) and physical round-trip (0.8ms) maximized collective network welfare. The lower nominal bid from <code class="text-error">edge-dal-04</code> was overridden due to SLA penalty.</p></div><div class="pt-4 border-t border-outline-variant flex items-center justify-between font-code-sm text-code-sm text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Proof 0x8f..c290</span><span class="text-primary font-bold">VCG-VERIFIED</span></div></div></div></section>
+</div>
+<!-- INTERACTIVE SCRIPTS: TOOLTIP, FILTERING, SSE STREAM SIMULATION -->
+<script>
+  (function initTelemetryInspector() {
+    const tooltip = document.getElementById('graph-tooltip');
+    const nodes = document.querySelectorAll('.node-group');
+    const viewport = document.getElementById('graph-viewport');
 
-<script type="module">
-import { api, fmt$, fmtMs, showMockBanner, trustBadge } from '/js/api.js';
+    // Interactive SVG Tooltip Positioning
+    nodes.forEach(node => {
+      node.addEventListener('mouseenter', (e) => {
+        const id = node.getAttribute('data-id');
+        const region = node.getAttribute('data-region');
+        const vcpu = node.getAttribute('data-vcpu');
+        const rep = node.getAttribute('data-rep');
+        const bond = node.getAttribute('data-bond');
+        const status = node.getAttribute('data-status');
 
-let auctions = [];
+        document.getElementById('tooltip-id').textContent = id;
+        document.getElementById('tooltip-region').textContent = region;
+        document.getElementById('tooltip-vcpu').textContent = vcpu;
+        document.getElementById('tooltip-rep').textContent = rep;
+        document.getElementById('tooltip-bond').textContent = bond;
+        document.getElementById('tooltip-status').textContent = status;
 
-api.auctions().then(d => {
-  if (!d) return;
-  showMockBanner(d.mock);
-  auctions = d.auctions;
-  const list = document.getElementById('auction-list');
-  auctions.forEach((a, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-ghost';
-    btn.style.cssText = 'width:100%;justify-content:space-between;padding:var(--s2) var(--s3);font-size:11px';
-    btn.innerHTML = `<span class="mono">${a.auction_id}</span><span style="color:var(--accent)">${fmt$(a.task_value)}</span>`;
-    btn.addEventListener('click', () => renderDetail(a, btn));
-    list.appendChild(btn);
-    if (i === 0) renderDetail(a, btn);
-  });
-});
+        tooltip.classList.remove('hidden');
+      });
 
-function renderDetail(a, btn) {
-  document.querySelectorAll('#auction-list .btn').forEach(b => b.style.borderColor = '');
-  btn.style.borderColor = 'var(--accent)';
+      node.addEventListener('mousemove', (e) => {
+        const bounds = viewport.getBoundingClientRect();
+        const mouseX = e.clientX - bounds.left;
+        const mouseY = e.clientY - bounds.top;
 
-  const winner = a.bids[0];
-  const loserEnvs = a.bids.slice(1);
+        tooltip.style.left = Math.min(mouseX + 16, bounds.width - 240) + 'px';
+        tooltip.style.top = Math.min(mouseY + 16, bounds.height - 140) + 'px';
+      });
 
-  const rows = a.bids.map((b, i) => {
-    const isWinner = i === 0;
-    return `<tr class="${isWinner ? 'winner-row' : ''}">
-      <td class="mono" style="color:${isWinner?'var(--accent)':'var(--text)'}">
-        ${isWinner ? '⭐ ' : ''}${b.node_id}
-      </td>
-      <td class="mono">${fmt$(b.bid_price)}</td>
-      <td class="mono">${(b.claim_success*100).toFixed(1)}%</td>
-      <td class="mono">${b.brier_score}</td>
-      <td class="mono">${(b.p_eff*100).toFixed(1)}%</td>
-      <td class="mono" style="color:${b.env>0?'var(--green)':'var(--red)'}">${fmt$(b.env)}</td>
-      <td class="mono">${fmt$(b.bond)}</td>
-    </tr>`;
-  }).join('');
+      node.addEventListener('mouseleave', () => {
+        tooltip.classList.add('hidden');
+      });
+    });
 
-  document.getElementById('auction-detail').innerHTML = `
-    <div class="card" style="margin-bottom:var(--s4)">
-      <div class="section-label">${a.auction_id}</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);margin-top:var(--s3)">
-        <div><div class="stat-label">Task Value (V)</div><div class="stat-value" style="font-size:20px">${fmt$(a.task_value)}</div></div>
-        <div><div class="stat-label">SLA Deadline</div><div class="stat-value" style="font-size:20px">${fmtMs(a.sla_ms)}</div></div>
-        <div><div class="stat-label">Winner Node</div><div class="stat-value mono" style="font-size:16px;color:var(--green)">${a.winner_node}</div></div>
-        <div><div class="stat-label">Clearing Price</div><div class="stat-value" style="font-size:20px">${fmt$(a.clearing_price)}</div></div>
-      </div>
-    </div>
+    // Auto-scroll toggle for event stream
+    let autoScroll = true;
+    const terminal = document.getElementById('events-terminal');
+    const scrollToggleBtn = document.getElementById('btn-toggle-scroll');
+    const scrollStateText = document.getElementById('autoscroll-state');
 
-    <!-- Why the winner won -->
-    <div class="card" style="margin-bottom:var(--s4);background:rgba(16,185,129,0.05);border-color:rgba(16,185,129,0.2)">
-      <div style="font-weight:600;margin-bottom:var(--s3);color:var(--green)">Why ${a.winner_node} won</div>
-      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
-        The mechanism computed <span class="mono" style="color:var(--text)">ENV = p_eff × V − b − (1 − p_eff) × L</span> for all ${a.bids.length} bids.<br>
-        <strong>${a.winner_node}</strong> achieved the highest ENV of 
-        <span class="mono" style="color:var(--accent)">${fmt$(winner.env)}</span>
-        with effective probability <span class="mono">${(winner.p_eff*100).toFixed(1)}%</span>
-        at price <span class="mono">${fmt$(winner.bid_price)}</span>.<br>
-        The Pareto-pruning pass confirmed no cheaper node offered a rational reliability trade-off.
-        A performance bond of <span class="mono" style="color:var(--orange)">${fmt$(winner.bond)}</span> was locked.
-      </div>
-    </div>
+    scrollToggleBtn.addEventListener('click', () => {
+      autoScroll = !autoScroll;
+      scrollStateText.textContent = autoScroll ? 'ON' : 'PAUSED';
+      scrollToggleBtn.textContent = autoScroll ? 'Pause' : 'Resume';
+    });
 
-    <!-- Bid table -->
-    <div class="section-label" style="margin-bottom:var(--s3)">ALL BIDS — sorted by ENV (descending)</div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Node ID</th><th>Bid Price (b)</th><th>Reported q</th>
-            <th>Brier Score</th><th>p_eff</th><th>ENV</th><th>Bond (C_i)</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-  `;
-}
-</script>
-</body>
-</html>
+    // Periodic SSE simulation (adds random realistic edge events)
+    const simulatedTemplates = [
+      { type: 'ALLOC', badgeClass: 'text-primary', msg: 'Task #9408 allocated to `edge-ams-12` ($0.0034/hr)' },
+      { type: 'PROBE', badgeClass: 'text-secondary', msg: 'Heartbeat ping: round-trip jitter within 0.12ms variance' },
+      { type: 'VCG', badgeClass: 'text-primary', msg: 'Matrix computed: Social welfare maximum confirmed' },
+      { type: 'CLEAR', badgeClass: 'text-primary', msg: 'Auction #2911 opened for memory-intensive job batch' }
+    ];
+
+    setInterval(() => {
+      if (!autoScroll) return;
+      const t = new Date().toISOString().substring(11, 23);
+      const picked = simulatedTemplates[Math.floor(Math.random() * simulatedTemplates.length)];
+      
+      const row = document.createElement('div');
+      row.className = 'p-2.5 rounded bg-surface-container hover:bg-surface-container-high transition-colors flex flex-col gap-1';
+      row.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-on-surface-variant font-code-sm text-[11px] tabular-nums">[${t}]</span>
+          <span class="font-label-index text-label-index px-1.5 py-0.2 rounded bg-surface-container-highest ${picked.badgeClass}">${picked.type}</span>
+        </div>
+        <p class="text-on-surface leading-tight text-xs">${picked.msg}</p>
+      `;
+
+      terminal.appendChild(row);
+      if (terminal.children.length > 30) {
+        terminal.removeChild(terminal.children[0]);
+      }
+      terminal.scrollTop = terminal.scrollHeight;
+    }, 4500);
+
+    // Zoom recenter simulation button
+    document.getElementById('btn-reset-zoom')?.addEventListener('click', () => {
+      const svg = document.getElementById('network-svg');
+      svg.style.transition = 'transform 0.4s ease';
+      svg.style.transform = 'scale(1) translate(0px, 0px)';
+    });
+
+    // Stress sim injection button animation
+    document.getElementById('btn-stress-sim')?.addEventListener('click', () => {
+      const paths = document.querySelectorAll('#network-svg line');
+      paths.forEach(p => {
+        p.setAttribute('stroke', '#4cd7f6');
+        setTimeout(() => p.setAttribute('stroke', '#3d494c'), 1200);
+      });
+    });
+  })();
+</script></div></main><footer class="w-full bg-surface-dim border-t border-outline-variant py-8"><div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6"><div class="flex flex-col gap-1"><div class="font-code-lg text-code-lg text-on-surface tracking-wider font-semibold"><span class="text-primary">EDGE</span> // AUCTION MECHANISM DASHBOARD</div><p class="font-code-sm text-code-sm text-on-surface-variant">v0.9.4-edge • FastApi port 8080 • SLA Bonded Network</p></div><div class="flex flex-wrap items-center gap-6 font-code-sm text-code-sm"><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="architecture" href="#">Architecture</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="threats" href="#">Threats</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="benchmarks" href="#">Benchmarks</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="docs" href="#">Docs (/docs/*.md)</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="api-spec" href="#">API Spec</a></div></div></footer>
+
+</body></html>
