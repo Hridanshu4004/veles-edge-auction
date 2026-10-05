@@ -1,273 +1,573 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#3d494c", "on-secondary-fixed-variant": "#004395", "surface-dim": "#101319", "on-tertiary-fixed": "#23005c", "surface-tint": "#4cd7f6", "on-surface-variant": "#bcc9cd", "tertiary-container": "#b395ff", "on-primary": "#003640", "error-container": "#93000a", "secondary-fixed": "#d8e2ff", "secondary": "#adc6ff", "on-tertiary-fixed-variant": "#5516be", "tertiary": "#d0bcff", "primary-container": "#06b6d4", "on-secondary-container": "#e6ecff", "surface-container-lowest": "#0b0e14", "on-primary-fixed-variant": "#004e5c", "surface-container-highest": "#32353c", "on-primary-container": "#00424f", "on-tertiary-container": "#4900ae", "on-error-container": "#ffdad6", "primary-fixed": "#acedff", "surface-container-low": "#191c22", "secondary-container": "#0566d9", "on-error": "#690005", "surface-container-high": "#272a31", "on-secondary-fixed": "#001a42", "error": "#ffb4ab", "inverse-primary": "#00687a", "inverse-surface": "#e1e2eb", "inverse-on-surface": "#2e3037", "surface-variant": "#32353c", "tertiary-fixed": "#e9ddff", "primary-fixed-dim": "#4cd7f6", "on-surface": "#e1e2eb", "surface": "#101319", "on-secondary": "#002e6a", "tertiary-fixed-dim": "#d0bcff", "primary": "#4cd7f6", "outline": "#869397", "secondary-fixed-dim": "#adc6ff", "on-tertiary": "#3c0091", "on-primary-fixed": "#001f26", "surface-container": "#1d2026", "background": "#101319", "on-background": "#e1e2eb", "surface-bright": "#363940" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "margin": "2rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.25rem" }, "fontFamily": { "label-index": ["JetBrains Mono"], "code-lg": ["JetBrains Mono"], "headline-lg-mobile": ["Inter"], "display-mobile": ["Inter"], "code-sm": ["JetBrains Mono"], "body-md": ["Inter"], "headline-sm": ["Inter"], "display": ["Inter"], "body-lg": ["Inter"], "code-md": ["JetBrains Mono"], "body-sm": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"] }, "fontSize": { "label-index": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "700" }], "code-lg": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "800" }], "code-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }], "body-lg": ["1rem", { "lineHeight": "1.625rem", "fontWeight": "400" }], "code-md": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "headline-md": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface min-h-screen"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-dim/95 backdrop-blur-md border-b border-outline-variant"><div class="h-16 max-w-7xl mx-auto px-6 flex items-center justify-between gap-4"><div class="flex items-center gap-6 shrink-0"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#4cd7f6]"></span><span class="font-code-lg text-code-lg text-on-surface tracking-wider"><span class="text-primary font-bold">EDGE</span> <span class="text-outline-variant">//</span> AUCTION</span></div></div><nav class="hidden xl:flex items-center gap-5 h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary"><a aria-current="page" class="h-full flex items-center uppercase tracking-wide transition-colors text-primary font-semibold border-b-2 border-primary" data-path="overview" href="/pages/overview.html">Overview</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="live-market" href="/pages/market.html">Live Market</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="registry" href="/pages/registry.html">Registry</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="auction-inspector" href="/pages/inspector.html">Auction Inspector</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="adversary-arena" href="/pages/adversary.html">Adversary Arena</a><a class="h-full flex items-center text-on-surface-variant hover:text-on-surface font-code-sm text-code-sm uppercase tracking-wide transition-colors" data-path="benchmarks" href="/pages/benchmarks.html">Benchmarks</a></nav><div class="flex items-center gap-3 shrink-0 font-code-sm text-code-sm"><div class="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-on-surface-variant text-code-sm"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="">System Operational</span></div><button aria-label="Search queries" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="w-8 h-8 rounded-full overflow-hidden border border-primary/40 bg-surface-container flex items-center justify-center"><img alt="Protocol Mascot Companion" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XGH-gqGcLBny78xDxqpAZfzxj7_FhvLGrA4FNYDK14W0e8ZqInn98l4ddqrPGMWSKBVNq1ButB0g528dj9d67C7eJvDoXMzP-nl5OPJeFKhB6QroNvrW74gaDRz4YJywX2-H5tgvsYXdDJJGlsWLx-ExvOkKVNRXaP7RNcuZdLGgfeY3-RhlAz6b0mfSwNU97dj5rKz-xIClISAKJgoVDDpQrp9hVf9HKU61sqQmIGHydpfE7xe0dXwFW_"/></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest min-h-screen"><div class="max-w-7xl mx-auto px-6 py-8"><div class="flex flex-col w-full">
-<!-- Hero Section with Embedded 3D Scene and Co-pilot Mascot Card -->
-<div class="relative w-full overflow-hidden bg-surface-container-lowest rounded-xl p-8 sm:p-12 lg:p-14 mb-20 shadow-2xl border border-surface-container-high/40"><div class="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div><div class="absolute -bottom-32 -left-32 w-96 h-96 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div><div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"><div class="lg:col-span-6 flex flex-col gap-6"><div class="inline-flex items-center gap-2 self-start px-3 py-1 bg-surface-container-high/60 rounded-full text-primary font-code-sm text-code-sm tracking-wide border border-primary/20"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span><span class="">Next-Gen Multi-Unit Clearing</span></div><h1 class="font-display text-display text-on-surface leading-[1.05] tracking-tight">Verifiable Edge Compute.<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary-fixed">Algorithmic Allocation.</span></h1><p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed">A high-throughput edge-auction protocol with SLA-bonded collateral and sub-millisecond task matching across distributed clusters.</p><div class="flex flex-wrap items-center gap-4"><button class="group relative px-6 py-3.5 bg-primary hover:bg-primary-fixed text-on-primary font-code-md text-code-md font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center gap-2.5 active:scale-95" type="button"><span class="material-symbols-outlined text-[18px]">terminal</span><span class="">Run a Node</span><span class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span></button><button class="px-6 py-3.5 bg-surface-container-high hover:bg-surface-bright text-on-surface font-code-md text-code-md font-medium rounded-lg transition-colors flex items-center gap-2.5" type="button"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="">Watch Live Market</span></button></div><!-- Co-pilot Companion Status Pill --><div class="flex items-center gap-3.5 p-3 rounded-lg bg-surface-container-low/70 border border-outline-variant/30"><div class="relative w-11 h-11 rounded-md overflow-hidden shrink-0 border border-primary/40"><img alt="Network Sentinel" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XGH-gqGcLBny78xDxqpAZfzxj7_FhvLGrA4FNYDK14W0e8ZqInn98l4ddqrPGMWSKBVNq1ButB0g528dj9d67C7eJvDoXMzP-nl5OPJeFKhB6QroNvrW74gaDRz4YJywX2-H5tgvsYXdDJJGlsWLx-ExvOkKVNRXaP7RNcuZdLGgfeY3-RhlAz6b0mfSwNU97dj5rKz-xIClISAKJgoVDDpQrp9hVf9HKU61sqQmIGHydpfE7xe0dXwFW_"/><span class="absolute bottom-0 right-0 w-2 h-2 bg-emerald-400 rounded-full ring-2 ring-surface-dim"></span></div><div class="flex flex-col"><div class="flex items-center gap-2 font-code-sm text-code-sm"><span class="text-primary font-semibold">AURA-01</span><span class="text-outline-variant text-[11px]">• Sentinel Co-Pilot</span></div><span class="text-xs text-on-surface-variant">Auction kernel autonomous routing: Nominal • Zero slashing events</span></div></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-surface-container-high/40"><div class="flex flex-col gap-1"><span class="font-code-sm text-code-sm text-on-surface-variant">Throughput</span><span class="font-code-lg text-code-lg text-primary font-bold">8,420 <span class="font-code-sm text-code-sm text-on-surface-variant font-normal">tasks/s</span></span></div><div class="flex flex-col gap-1"><span class="font-code-sm text-code-sm text-on-surface-variant">Clearing Latency</span><span class="font-code-lg text-code-lg text-on-surface font-bold">1.42 <span class="font-code-sm text-code-sm text-on-surface-variant font-normal">ms</span></span></div><div class="flex flex-col gap-1"><span class="font-code-sm text-code-sm text-on-surface-variant">Bonded Collateral</span><span class="font-code-lg text-code-lg text-tertiary-fixed font-bold">$1.84M</span></div></div></div><!-- 3D Interactive Topology Cluster View --><div class="lg:col-span-6 relative w-full"><div class="relative rounded-2xl overflow-hidden bg-surface-container-lowest/60 border border-outline-variant/30 shadow-2xl backdrop-blur-sm"><!-- STITCH_THREEJS_START:ANIMATION_17 class="w-full h-[420px] rounded-2xl bg-surface-container-lowest/60 border border-outline-variant/30" -->
-<div class="w-full h-[420px] rounded-2xl bg-surface-container-lowest/60 border border-outline-variant/30" style="display:block;">
-<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
-<div id="threejs-container-ANIMATION_17" style="width:100%;height:100%"></div>
-<script>
-(function() {
-  const container = document.getElementById('threejs-container-ANIMATION_17');
-  const devicePixelRatio = window.devicePixelRatio || 1;
-  // Three.js interactive 3D decentralized compute node cluster with orbiting data packets & holographic core
-const width = container.clientWidth || window.innerWidth || 800;
-const height = container.clientHeight || 450;
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-camera.position.set(0, 0, 18);
-
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-renderer.setSize(width, height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-container.appendChild(renderer.domElement);
-
-// Ambient & Point Lighting with Cyan & Blue Palette
-const ambientLight = new THREE.AmbientLight(0x0a2540, 2.5);
-scene.add(ambientLight);
-
-const pointLightCyan = new THREE.PointLight(0x00f2fe, 3.5, 50);
-pointLightCyan.position.set(5, 8, 8);
-scene.add(pointLightCyan);
-
-const pointLightEmerald = new THREE.PointLight(0x10b981, 2.0, 40);
-pointLightEmerald.position.set(-6, -5, 6);
-scene.add(pointLightEmerald);
-
-const group = new THREE.Group();
-scene.add(group);
-
-// 1. Central Decentralized Auction Kernel Core (Holographic Wireframe & Solid core)
-const coreGeom = new THREE.IcosahedronGeometry(2.4, 1);
-const coreMatWire = new THREE.MeshBasicMaterial({
-  color: 0x06b6d4,
-  wireframe: true,
-  transparent: true,
-  opacity: 0.55
-});
-const coreWireMesh = new THREE.Mesh(coreGeom, coreMatWire);
-group.add(coreWireMesh);
-
-const innerCoreGeom = new THREE.OctahedronGeometry(1.6, 0);
-const innerCoreMat = new THREE.MeshPhongMaterial({
-  color: 0x0369a1,
-  emissive: 0x0284c7,
-  specular: 0x38bdf8,
-  shininess: 90,
-  flatShading: true,
-  transparent: true,
-  opacity: 0.85
-});
-const innerCoreMesh = new THREE.Mesh(innerCoreGeom, innerCoreMat);
-group.add(innerCoreMesh);
-
-// 2. Orbital Edge Nodes (Compute Providers and Verifiers)
-const nodeCount = 14;
-const nodes = [];
-const nodeGeom = new THREE.BoxGeometry(0.55, 0.55, 0.55);
-
-for (let i = 0; i < nodeCount; i++) {
-  const isHealthy = i % 4 !== 0;
-  const nodeMat = new THREE.MeshPhongMaterial({
-    color: isHealthy ? 0x00f2fe : 0x10b981,
-    emissive: isHealthy ? 0x0891b2 : 0x059669,
-    shininess: 80,
-    flatShading: true
-  });
-  const nodeMesh = new THREE.Mesh(nodeGeom, nodeMat);
-  
-  const radius = 5.5 + (i % 3) * 1.5;
-  const theta = (i / nodeCount) * Math.PI * 2;
-  const phi = ((i % 5) - 2) * 0.45;
-
-  const nodeData = {
-    mesh: nodeMesh,
-    baseRadius: radius,
-    angle: theta,
-    speed: 0.008 + (i % 4) * 0.004,
-    phi: phi,
-    bobSpeed: 1.5 + (i % 3),
-    id: 'edge-node-' + (i + 1)
-  };
-
-  group.add(nodeMesh);
-  nodes.push(nodeData);
-}
-
-// 3. Dynamic Connecting Telemetry Lattice Beams (Lines)
-const maxLines = 18;
-const linePositions = new Float32Array(maxLines * 2 * 3);
-const lineColors = new Float32Array(maxLines * 2 * 3);
-
-const lineGeometry = new THREE.BufferGeometry();
-lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
-
-const lineMaterial = new THREE.LineBasicMaterial({
-  vertexColors: true,
-  transparent: true,
-  opacity: 0.65,
-  blending: THREE.AdditiveBlending
-});
-const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-group.add(linesMesh);
-
-// 4. Subtle Outer Holographic Quantum Orbit Rings
-const ringGeom1 = new THREE.RingGeometry(6.8, 6.88, 64);
-const ringMat1 = new THREE.MeshBasicMaterial({
-  color: 0x0284c7,
-  side: THREE.DoubleSide,
-  transparent: true,
-  opacity: 0.35
-});
-const ring1 = new THREE.Mesh(ringGeom1, ringMat1);
-ring1.rotation.x = Math.PI / 2.3;
-group.add(ring1);
-
-const ringGeom2 = new THREE.RingGeometry(8.5, 8.56, 64);
-const ringMat2 = new THREE.MeshBasicMaterial({
-  color: 0x06b6d4,
-  side: THREE.DoubleSide,
-  transparent: true,
-  opacity: 0.25
-});
-const ring2 = new THREE.Mesh(ringGeom2, ringMat2);
-ring2.rotation.x = -Math.PI / 2.8;
-ring2.rotation.y = 0.3;
-group.add(ring2);
-
-// 5. Data Packet Particles Orbiting Through Compute Mesh
-const particleCount = 120;
-const particlePositions = new Float32Array(particleCount * 3);
-for (let i = 0; i < particleCount * 3; i += 3) {
-  const r = 3.5 + Math.random() * 6.5;
-  const pTheta = Math.random() * Math.PI * 2;
-  const pPhi = (Math.random() - 0.5) * Math.PI;
-  particlePositions[i] = r * Math.cos(pTheta) * Math.cos(pPhi);
-  particlePositions[i + 1] = r * Math.sin(pPhi);
-  particlePositions[i + 2] = r * Math.sin(pTheta) * Math.cos(pPhi);
-}
-
-const particleGeom = new THREE.BufferGeometry();
-particleGeom.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-const particleMat = new THREE.PointsMaterial({
-  color: 0x38bdf8,
-  size: 0.16,
-  transparent: true,
-  opacity: 0.75,
-  blending: THREE.AdditiveBlending
-});
-const particleSystem = new THREE.Points(particleGeom, particleMat);
-group.add(particleSystem);
-
-// Mouse interactive rotation
-let targetRotX = 0;
-let targetRotY = 0;
-let mouseX = 0;
-let mouseY = 0;
-
-function onMouseMove(e) {
-  const rect = container.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  mouseX = (x / rect.width) * 2 - 1;
-  mouseY = -(y / rect.height) * 2 + 1;
-  targetRotY = mouseX * 0.45;
-  targetRotX = -mouseY * 0.35;
-}
-container.addEventListener('mousemove', onMouseMove);
-
-// Animation Loop
-let clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-  const time = clock.getElapsedTime();
-
-  // Core rotation
-  coreWireMesh.rotation.y = time * 0.22;
-  coreWireMesh.rotation.x = time * 0.14;
-  innerCoreMesh.rotation.y = -time * 0.35;
-  innerCoreMesh.rotation.z = time * 0.18;
-
-  ring1.rotation.z = time * 0.08;
-  ring2.rotation.z = -time * 0.06;
-  particleSystem.rotation.y = time * 0.05;
-
-  // Nodes orbital paths
-  let lineIdx = 0;
-  const posAttr = lineGeometry.attributes.position;
-  const colAttr = lineGeometry.attributes.color;
-
-  for (let i = 0; i < nodes.length; i++) {
-    const n = nodes[i];
-    n.angle += n.speed * 0.8;
-    const curR = n.baseRadius + Math.sin(time * n.bobSpeed + i) * 0.35;
-    const nx = curR * Math.cos(n.angle);
-    const ny = Math.sin(time * 1.2 + n.angle * 2) * 1.5 + n.phi * 2.5;
-    const nz = curR * Math.sin(n.angle);
-
-    n.mesh.position.set(nx, ny, nz);
-    n.mesh.rotation.x += 0.02;
-    n.mesh.rotation.y += 0.03;
-
-    // Connect node to central core or next neighbor
-    if (lineIdx < maxLines) {
-      const pIndex = lineIdx * 6;
-      // Start at central core
-      linePositions[pIndex] = 0;
-      linePositions[pIndex + 1] = 0;
-      linePositions[pIndex + 2] = 0;
-      // End at node position
-      linePositions[pIndex + 3] = nx;
-      linePositions[pIndex + 4] = ny;
-      linePositions[pIndex + 5] = nz;
-
-      // Color cyan to emerald
-      const c1 = [0.02, 0.45, 0.85];
-      const c2 = (i % 2 === 0) ? [0.0, 0.95, 0.99] : [0.06, 0.72, 0.5];
-
-      lineColors[pIndex] = c1[0];
-      lineColors[pIndex + 1] = c1[1];
-      lineColors[pIndex + 2] = c1[2];
-
-      lineColors[pIndex + 3] = c2[0];
-      lineColors[pIndex + 4] = c2[1];
-      lineColors[pIndex + 5] = c2[2];
-
-      lineIdx++;
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EdgeTruth V3 — Overview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* DESIGN SYSTEM: Brutalist / Grid-based / High Contrast */
+    :root {
+      --bg: #0a0a0a;
+      --bg-grid: #171717;
+      --fg: #f5f5f5;
+      --gray: #a3a3a3;
+      --gray-dark: #262626;
+      --accent: #00ff88; /* Electric Green */
+      --accent-mute: rgba(0, 255, 136, 0.15);
+      --danger: #ff3366;
+      
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      
+      --s1: 8px;
+      --s2: 16px;
+      --s3: 24px;
+      --s4: 32px;
+      --s6: 48px;
+      --s8: 64px;
+      --s12: 96px;
     }
-  }
 
-  posAttr.needsUpdate = true;
-  colAttr.needsUpdate = true;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      
+      /* Visible Grid Lines */
+      background-image: 
+        linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
+      background-size: var(--s4) var(--s4);
+      background-position: top center;
+    }
+    
+    /* Typography */
+    h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    h1 { font-size: clamp(2.5rem, 5vw, 4rem); max-width: 20ch; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.25rem; }
+    p { font-size: 1.125rem; color: var(--gray); max-width: 65ch; }
+    
+    .mono { font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.05em; }
+    .label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; color: var(--gray); }
+    .text-accent { color: var(--accent); }
+    .text-danger { color: var(--danger); }
+    
+    /* Layout */
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 var(--s4); }
+    section { padding: var(--s12) 0; border-bottom: 1px solid var(--gray-dark); }
+    
+    /* Nav & Footer */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg); border-bottom: 1px solid var(--gray-dark);
+      padding: var(--s2) var(--s4);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    header nav { display: flex; gap: var(--s4); }
+    header a { color: var(--gray); text-decoration: none; font-family: var(--font-mono); font-size: 0.875rem; text-transform: uppercase; }
+    header a:hover { color: var(--fg); }
+    header a.active { color: var(--accent); font-weight: bold; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+    
+    footer { padding: var(--s6) var(--s4); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray); }
+    
+    /* Components */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: var(--s2) var(--s3);
+      background: var(--fg); color: var(--bg);
+      text-decoration: none; font-weight: 600; font-family: var(--font-mono); text-transform: uppercase;
+      cursor: pointer; border: none; transition: background 0.2s;
+    }
+    .btn:hover { background: var(--gray); }
+    .btn-outline { background: transparent; color: var(--fg); border: 1px solid var(--gray-dark); }
+    .btn-outline:hover { background: var(--gray-dark); color: var(--fg); }
+    
+    .badge {
+      display: inline-block; padding: 4px 8px; border: 1px solid var(--gray-dark);
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.05em; background: var(--accent-mute);
+    }
+    
+    /* Hero */
+    .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+    .hero-content { position: relative; z-index: 10; padding: var(--s6) 0; }
+    .hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: auto; }
+    .hero-actions { display: flex; gap: var(--s2); margin-top: var(--s4); }
+    
+    /* Interactive Labels */
+    .illustrative-label {
+      position: absolute; top: var(--s2); right: var(--s2);
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray);
+      border: 1px dashed var(--gray); padding: 4px 8px; background: var(--bg); z-index: 10;
+    }
+    
+    /* 01. Problem Split */
+    .split-view { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-top: var(--s4); }
+    .sim-panel { position: relative; border: 1px solid var(--gray-dark); height: 400px; background: var(--bg); overflow: hidden; }
+    .sim-title { position: absolute; top: 0; left: 0; padding: var(--s1) var(--s2); background: var(--gray-dark); font-family: var(--font-mono); font-size: 0.75rem; z-index: 2; }
+    
+    /* 02. How it works */
+    .steps-container { display: flex; justify-content: space-between; position: relative; margin-top: var(--s8); }
+    .steps-container::before { content: ''; position: absolute; top: 12px; left: 0; right: 0; height: 1px; background: var(--gray-dark); z-index: 0; }
+    .step { flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 var(--s1); opacity: 0.4; transition: opacity 0.3s; }
+    .step.active { opacity: 1; }
+    .step-num { width: 24px; height: 24px; background: var(--bg); border: 1px solid var(--gray); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: var(--s2); }
+    .step.active .step-num { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 10px var(--accent-mute); }
+    .step-title { font-weight: bold; margin-bottom: var(--s1); font-family: var(--font-mono); font-size: 0.875rem; text-transform: uppercase; }
+    .step-desc { font-size: 0.875rem; color: var(--gray); line-height: 1.4; }
+    
+    /* 03. Evidence */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--s2); margin-top: var(--s4); }
+    .stat-card { border: 1px solid var(--gray-dark); padding: var(--s3); background: var(--bg); }
+    .stat-val { font-size: 2.5rem; font-weight: 700; color: var(--fg); margin: var(--s1) 0; }
+    .stat-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray); text-transform: uppercase; }
+    .stat-meta { font-family: var(--font-mono); font-size: 0.7rem; color: var(--gray-dark); margin-top: var(--s2); }
+    .evidence-empty { border: 1px dashed var(--gray-dark); padding: var(--s8); text-align: center; color: var(--gray); font-family: var(--font-mono); }
+    
+    /* 04. Architecture */
+    .arch-diagram { width: 100%; margin-top: var(--s4); border: 1px solid var(--gray-dark); padding: var(--s4); background: var(--bg); }
+    .arch-diagram svg { width: 100%; height: auto; display: block; }
+    
+    /* 05. Adversary Arena */
+    .arena-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s2); margin-top: var(--s4); }
+    .arena-card { border: 1px solid var(--gray-dark); padding: var(--s3); display: block; text-decoration: none; color: inherit; transition: border-color 0.2s; }
+    .arena-card:hover { border-color: var(--accent); }
+    .arena-title { font-family: var(--font-mono); font-size: 1rem; font-weight: bold; margin-bottom: var(--s1); color: var(--fg); }
+    .arena-desc { font-size: 0.875rem; color: var(--gray); }
+    
+    @media (max-width: 768px) {
+      .split-view { grid-template-columns: 1fr; }
+      .steps-container { flex-direction: column; gap: var(--s4); }
+      .steps-container::before { display: none; }
+      .step { text-align: left; display: flex; gap: var(--s2); opacity: 1; }
+      .arena-grid { grid-template-columns: 1fr; }
+      header nav { display: none; }
+    }
+    
+    /* Utility */
+    .mb-1 { margin-bottom: var(--s1); }
+    .mb-2 { margin-bottom: var(--s2); }
+    .mb-4 { margin-bottom: var(--s4); }
+    .mt-4 { margin-top: var(--s4); }
+    .section-label { display: block; font-family: var(--font-mono); font-size: 0.875rem; color: var(--gray); margin-bottom: var(--s2); }
+  </style>
+</head>
+<body>
 
-  // Smooth mouse inertia
-  group.rotation.y += (targetRotY - group.rotation.y) * 0.06;
-  group.rotation.x += (targetRotX - group.rotation.x) * 0.06;
+  <header>
+    <div class="mono" style="font-weight: bold; color: var(--fg);">EDGE // AUCTION</div>
+    <nav>
+      <a href="/pages/overview.html" class="active">Overview</a>
+      <a href="/pages/market.html">Live Market</a>
+      <a href="/pages/registry.html">Registry</a>
+      <a href="/pages/adversary.html">Adversary Arena</a>
+    </nav>
+  </header>
 
-  renderer.render(scene, camera);
-}
-animate();
+  <main class="container">
+    
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <canvas id="heroCanvas" class="hero-canvas"></canvas>
+      <div class="illustrative-label">ILLUSTRATIVE (Interactive)</div>
+      
+      <div class="hero-content">
+        <div class="badge mb-4">Mechanism Design Lab</div>
+        <h1>Verifiable Edge Compute. Algorithmic Allocation.</h1>
+        <p class="mt-4">We solve the untrusted hardware routing problem using a cryptographically bonded second-price auction that punishes latency liars.</p>
+        
+        <div class="hero-actions">
+          <a href="/pages/market.html" class="btn">Watch Live Market</a>
+          <a href="#how-it-works" class="btn btn-outline">Read How It Works</a>
+        </div>
+      </div>
+    </section>
 
-// Resize Handler
-function onWindowResize() {
-  const w = container.clientWidth || window.innerWidth;
-  const h = container.clientHeight || 450;
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
-}
-window.addEventListener('resize', onWindowResize);
+    <!-- 01. PROBLEM -->
+    <section id="problem">
+      <span class="section-label">01 / The problem in 10 seconds</span>
+      <h2>Untrusted nodes lie to win tasks.</h2>
+      
+      <div class="split-view">
+        <div class="sim-panel">
+          <div class="sim-title">NAIVE: HIGHEST BID WINS</div>
+          <div class="illustrative-label" style="top:auto; bottom:8px; border:none;">ILLUSTRATIVE</div>
+          <canvas id="simNaive" style="width:100%; height:100%;"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-title" style="color:var(--accent);">OUR MECHANISM</div>
+          <div class="illustrative-label" style="top:auto; bottom:8px; border:none;">ILLUSTRATIVE</div>
+          <canvas id="simMechanism" style="width:100%; height:100%;"></canvas>
+        </div>
+      </div>
+    </section>
 
-})();
-</script>
-</div>
-<!-- STITCH_THREEJS_END:ANIMATION_17 --><!-- Overlay Telemetry Badges --><div class="absolute top-4 left-4 flex flex-col gap-1.5 pointer-events-none"><div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-lowest/85 backdrop-blur-md rounded-md border border-primary/30 text-primary font-code-sm text-xs font-semibold tracking-wider"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>LIVE 3D NODE CLUSTER</div><div class="px-2.5 py-0.5 bg-surface-dim/80 backdrop-blur rounded text-on-surface-variant text-[11px] font-code-sm">14 Active Nodes Orbiting Core Kernel</div></div><div class="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-lowest/80 backdrop-blur rounded border border-outline-variant/30 text-on-surface-variant font-code-sm text-[11px] pointer-events-none"><span class="material-symbols-outlined text-[14px] text-primary">mouse</span>Mouse Parallax Active</div><div class="absolute bottom-4 left-4 flex items-center gap-2 font-code-sm text-xs pointer-events-none"><div class="px-2.5 py-1 bg-surface-dim/90 backdrop-blur rounded border border-surface-container-high text-on-surface"><span class="text-on-surface-variant">P99 Latency:</span> <span class="text-primary font-bold">1.42ms</span></div><div class="px-2.5 py-1 bg-surface-dim/90 backdrop-blur rounded border border-surface-container-high text-on-surface"><span class="text-on-surface-variant">Collateral:</span> <span class="text-tertiary-fixed font-bold">$1.84M</span></div></div><div class="absolute bottom-4 right-4 bg-surface-container/85 backdrop-blur px-3 py-1 rounded-full flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant border border-outline-variant/20 pointer-events-none"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span class="">86 PoPs Synced</span></div></div></div></div></div>
-<section class="w-full flex flex-col gap-8 mb-24"><div class="flex flex-col gap-2"><span class="font-code-sm text-code-sm text-primary tracking-wider uppercase">01 // Architecture</span><h2 class="font-headline-lg text-headline-lg text-on-surface">Truthful Resource Allocation at the Physical Edge</h2></div><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><div class="bg-surface-container p-8 rounded-xl flex flex-col gap-4 hover:bg-surface-container-high transition-colors shadow-sm"><div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[24px]">gavel</span></div><h3 class="font-headline-sm text-headline-sm text-on-surface">Sub-Second Auctions</h3><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Combinatorial sealed-bid clearing with automated price discovery and mathematical incentive compatibility guarantees across CPU, GPU, and RAM.</p></div><div class="bg-surface-container p-8 rounded-xl flex flex-col gap-4 hover:bg-surface-container-high transition-colors shadow-sm"><div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary"><span class="material-symbols-outlined text-[24px]">network_check</span></div><h3 class="font-headline-sm text-headline-sm text-on-surface">Continuous SLA Probes</h3><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Continuous cryptographic telemetry and latency probes prevent performance spoofing and authenticate physical co-location claims.</p></div><div class="bg-surface-container p-8 rounded-xl flex flex-col gap-4 hover:bg-surface-container-high transition-colors shadow-sm"><div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary"><span class="material-symbols-outlined text-[24px]">verified_user</span></div><h3 class="font-headline-sm text-headline-sm text-on-surface">Automated Bond Slashing</h3><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Automated SLA escrow collateral ensures strict reliability. Liquidated provider bonds immediately reimburse requestors on fault.</p></div></div></section>
-<section class="w-full flex flex-col gap-8 mb-24"><div class="flex flex-col gap-2"><span class="font-code-sm text-code-sm text-primary tracking-wider uppercase">02 // Participants</span><h2 class="font-headline-lg text-headline-lg text-on-surface">Dual-Sided Compute Exchange</h2></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="bg-surface-container p-8 rounded-xl flex flex-col gap-6 shadow-md"><div class="flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]">cloud_upload</span></div><h3 class="font-headline-md text-headline-md text-on-surface">For Compute Buyers</h3></div><span class="px-3 py-1 bg-surface-container-high text-primary font-code-sm text-code-sm rounded-full">Demand</span></div><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Submit containerized tasks with budget limits and strict deadline SLAs. Transparent execution with sub-second turnaround.</p><div class="bg-surface-container-lowest p-5 rounded-lg flex flex-col gap-2.5 font-code-sm text-code-sm"><div class="flex items-center justify-between text-on-surface-variant text-xs"><span class="">EXECUTION PIPELINE</span><span class="text-primary">42ms Cleared</span></div><div class="flex items-center justify-between py-1 text-on-surface"><span class="text-on-surface-variant">Task Request</span><span class="text-primary font-mono">$0.0028 / hr</span></div></div><ul class="flex flex-col gap-3 text-on-surface-variant font-body-md text-body-md"><li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span><span class="">Native Python and Ray SDKs for simple task dispatch.</span></li><li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span><span class="">Deterministic SLA guarantees and automatic fallback routing.</span></li></ul></div><div class="bg-surface-container p-8 rounded-xl flex flex-col gap-6 shadow-md"><div class="flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary"><span class="material-symbols-outlined text-[22px]">dns</span></div><h3 class="font-headline-md text-headline-md text-on-surface">For Node Operators</h3></div><span class="px-3 py-1 bg-surface-container-high text-secondary font-code-sm text-code-sm rounded-full">Supply</span></div><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Monetize idle GPU, CPU, and edge clusters with automated programmatic settlement and escrow guarantees.</p><div class="bg-surface-container-lowest p-5 rounded-lg flex flex-col gap-2 font-code-sm text-code-sm"><div class="flex items-center justify-between text-on-surface-variant text-xs"><span class="">QUICK INSTALL</span><button class="text-secondary hover:text-on-surface transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-[14px]">content_copy</span><span class="">Copy</span></button></div><div class="text-on-surface py-1 font-mono"><span class="text-secondary">$</span> curl -sSL https://edge-auction.local/install.sh | bash</div></div><ul class="flex flex-col gap-3 text-on-surface-variant font-body-md text-body-md"><li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span><span class="">Sandboxed microVM isolation with Firecracker.</span></li><li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span><span class="">Instant automated collateral settlement upon task clearance.</span></li></ul></div></div></section>
-<section class="w-full flex flex-col gap-8 mb-24"><div class="flex items-center justify-between"><div class="flex flex-col gap-2"><span class="font-code-sm text-code-sm text-primary tracking-wider uppercase">03 // Telemetry</span><h2 class="font-headline-lg text-headline-lg text-on-surface">Live Network Telemetry</h2></div><div class="flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="">Real-Time Feed</span></div></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"><div class="bg-surface-container p-6 rounded-xl flex flex-col gap-2 shadow-sm"><span class="font-code-sm text-code-sm text-on-surface-variant">Active Edge Nodes</span><div class="flex items-baseline gap-2"><span class="font-display text-[2.2rem] font-bold text-on-surface leading-none">1,428</span><span class="font-code-sm text-code-sm text-emerald-400 font-semibold">+18%</span></div></div><div class="bg-surface-container p-6 rounded-xl flex flex-col gap-2 shadow-sm"><span class="font-code-sm text-code-sm text-on-surface-variant">Tasks Cleared</span><div class="flex items-baseline gap-2"><span class="font-display text-[2.2rem] font-bold text-on-surface leading-none">482,910</span><span class="font-code-sm text-code-sm text-on-surface-variant">99.8% SLA</span></div></div><div class="bg-surface-container p-6 rounded-xl flex flex-col gap-2 shadow-sm"><span class="font-code-sm text-code-sm text-on-surface-variant">Avg Clearing Cost</span><div class="flex items-baseline gap-2"><span class="font-display text-[2.2rem] font-bold text-primary leading-none">$0.0034</span><span class="font-code-sm text-code-sm text-on-surface-variant">/ hr</span></div></div><div class="bg-surface-container p-6 rounded-xl flex flex-col gap-2 shadow-sm"><span class="font-code-sm text-code-sm text-on-surface-variant">SLA Collateral</span><div class="flex items-baseline gap-2"><span class="font-display text-[2.2rem] font-bold text-tertiary-fixed leading-none">$1.84M</span><span class="font-code-sm text-code-sm text-emerald-400 font-semibold">Bonded</span></div></div></div></section>
-<section class="w-full flex flex-col gap-6 mb-16"><div class="flex items-center justify-between"><div class="flex flex-col gap-2"><span class="font-code-sm text-code-sm text-primary tracking-wider uppercase">04 // Stream</span><h2 class="font-headline-lg text-headline-lg text-on-surface">Real-Time Allocation Stream</h2></div><button class="text-primary hover:underline font-code-sm text-code-sm flex items-center gap-1.5" type="button"><span class="">Open Market Inspector</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></button></div><div class="bg-surface-container rounded-xl overflow-hidden shadow-lg"><div class="overflow-x-auto"><table class="w-full text-left font-code-sm text-code-sm"><thead class="bg-surface-container-highest/60 text-on-surface-variant uppercase"><tr><th class="py-3.5 px-6 font-medium">Event</th><th class="py-3.5 px-6 font-medium">Node</th><th class="py-3.5 px-6 font-medium">Workload</th><th class="py-3.5 px-6 font-medium text-right">Status</th></tr></thead><tbody class="divide-y divide-surface-container-high/40"><tr class="hover:bg-surface-container-high/40 transition-colors"><td class="py-4 px-6 text-primary font-semibold">#TASK-84920</td><td class="py-4 px-6 font-mono text-on-surface">edge-us-east-492</td><td class="py-4 px-6 text-on-surface-variant">PyTorch Inference (4 vCPU / 8GB)</td><td class="py-4 px-6 text-right"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 text-emerald-400 text-code-sm"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Success</span></td></tr><tr class="hover:bg-surface-container-high/40 transition-colors"><td class="py-4 px-6 text-secondary font-semibold">#BOND-99014</td><td class="py-4 px-6 font-mono text-on-surface">edge-eu-central-12</td><td class="py-4 px-6 text-on-surface-variant">GPU Cluster (8x A100)</td><td class="py-4 px-6 text-right"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-950/60 text-tertiary text-code-sm"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Bonded</span></td></tr><tr class="hover:bg-surface-container-high/40 transition-colors"><td class="py-4 px-6 text-primary font-semibold">#PROBE-31082</td><td class="py-4 px-6 font-mono text-on-surface">edge-ap-south-88</td><td class="py-4 px-6 text-on-surface-variant">SLA Verification Probe</td><td class="py-4 px-6 text-right"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-950/60 text-primary text-code-sm"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Verified</span></td></tr><tr class="hover:bg-surface-container-high/40 transition-colors"><td class="py-4 px-6 text-primary font-semibold">#TASK-84919</td><td class="py-4 px-6 font-mono text-on-surface">edge-us-west-104</td><td class="py-4 px-6 text-on-surface-variant">FFmpeg Transcode (2 vCPU)</td><td class="py-4 px-6 text-right"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 text-emerald-400 text-code-sm"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Success</span></td></tr></tbody></table></div></div></section>
-</div></div></main><footer class="w-full bg-surface-dim border-t border-outline-variant py-8"><div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6"><div class="flex flex-col gap-1"><div class="font-code-lg text-code-lg text-on-surface tracking-wider font-semibold"><span class="text-primary">EDGE</span> // AUCTION MECHANISM DASHBOARD</div><p class="font-code-sm text-code-sm text-on-surface-variant">v0.9.4-edge • FastApi port 8080 • SLA Bonded Network</p></div><div class="flex flex-wrap items-center gap-6 font-code-sm text-code-sm"><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="architecture" href="#">Architecture</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="threats" href="#">Threats</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="benchmarks" href="#">Benchmarks</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="docs" href="#">Docs (/docs/*.md)</a><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="api-spec" href="#">API Spec</a></div></div></footer></body></html>
+    <!-- 02. HOW IT WORKS -->
+    <section id="how-it-works">
+      <span class="section-label">02 / How it works</span>
+      <h2>A 5-Step Pipeline</h2>
+      
+      <div class="steps-container" id="stepsTrack">
+        <div class="step active">
+          <div class="step-num">1</div>
+          <div class="step-title">Register</div>
+          <div class="step-desc">Node stakes collateral.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-title">Discover</div>
+          <div class="step-desc">Network probes hardware specs.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-title">Auction</div>
+          <div class="step-desc">Mechanism clears combinatorial bids.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-title">Execute</div>
+          <div class="step-desc">Task dispatched to winning enclave.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-title">Reputation</div>
+          <div class="step-desc">SLA verified, bond slashed or released.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03. EVIDENCE -->
+    <section id="evidence">
+      <span class="section-label">03 / Evidence</span>
+      <h2>Empirical Proof</h2>
+      
+      <div id="evidence-container">
+        <!-- Will be populated by fetch from /benchmarks/results.json -->
+        <div class="evidence-empty" id="evidence-empty">
+          <p>No benchmark data found.</p>
+          <p class="mt-4 text-accent">Run `make bench` to generate results.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04. ARCHITECTURE -->
+    <section id="architecture">
+      <span class="section-label">04 / Architecture</span>
+      <h2>System Topology</h2>
+      
+      <div class="arch-diagram">
+        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .box { fill: var(--bg); stroke: var(--gray); stroke-width: 2; }
+            .box-accent { fill: var(--bg); stroke: var(--accent); stroke-width: 2; }
+            .text { fill: var(--fg); font-family: monospace; font-size: 14px; text-anchor: middle; }
+            .arrow { stroke: var(--gray); stroke-width: 2; marker-end: url(#arrowhead); }
+            .arrow-label { fill: var(--gray); font-family: monospace; font-size: 10px; }
+          </style>
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="var(--gray)" />
+            </marker>
+          </defs>
+          
+          <!-- Registry -->
+          <rect class="box" x="50" y="100" width="120" height="60" rx="4" />
+          <text class="text" x="110" y="135">Registry</text>
+          
+          <!-- Auctioneer -->
+          <rect class="box-accent" x="340" y="100" width="120" height="60" rx="4" />
+          <text class="text" x="400" y="135">Auctioneer</text>
+          
+          <!-- Dashboard -->
+          <rect class="box" x="340" y="10" width="120" height="40" rx="4" />
+          <text class="text" x="400" y="35">Dashboard</text>
+          
+          <!-- Node Agents -->
+          <rect class="box" x="630" y="50" width="120" height="50" rx="4" />
+          <text class="text" x="690" y="80">Node Agent 1</text>
+          <rect class="box" x="630" y="150" width="120" height="50" rx="4" />
+          <text class="text" x="690" y="180">Node Agent 2</text>
+          
+          <!-- Task Generator -->
+          <rect class="box" x="340" y="220" width="120" height="40" rx="4" />
+          <text class="text" x="400" y="245">Task Gen</text>
+          
+          <!-- Arrows -->
+          <!-- Registry to Auctioneer -->
+          <line class="arrow" x1="170" y1="130" x2="330" y2="130" />
+          <text class="arrow-label" x="250" y="125" text-anchor="middle">GET /nodes</text>
+          
+          <!-- Auctioneer to Dashboard -->
+          <line class="arrow" x1="400" y1="100" x2="400" y2="60" />
+          <text class="arrow-label" x="410" y="85">SSE /events</text>
+          
+          <!-- Task to Auctioneer -->
+          <line class="arrow" x1="400" y1="220" x2="400" y2="170" />
+          <text class="arrow-label" x="410" y="200">POST /bid</text>
+          
+          <!-- Auctioneer to Nodes -->
+          <line class="arrow" x1="460" y1="115" x2="620" y2="75" />
+          <line class="arrow" x1="460" y1="145" x2="620" y2="175" />
+          <text class="arrow-label" x="540" y="100">POST /execute</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 05. ADVERSARY ARENA -->
+    <section id="arena">
+      <span class="section-label">05 / Adversary Arena</span>
+      <h2>Stress-Test the Mechanism</h2>
+      <p class="mt-2">Simulate byzantine actors and verify slashing logic empirically.</p>
+      
+      <div class="arena-grid">
+        <a href="/pages/adversary.html" class="arena-card">
+          <div class="arena-title">RTT_FABRICATION</div>
+          <div class="arena-desc">Latency Liar under-reports ping times.</div>
+        </a>
+        <a href="/pages/adversary.html" class="arena-card">
+          <div class="arena-title">CARTEL_EQUILIBRIUM</div>
+          <div class="arena-desc">Collusive ring inflates bids artificially.</div>
+        </a>
+        <a href="/pages/adversary.html" class="arena-card">
+          <div class="arena-title">SYBIL_TOPOLOGY (Planned)</div>
+          <div class="arena-desc">Identity flood to monopolize queues.</div>
+        </a>
+        <a href="/pages/adversary.html" class="arena-card">
+          <div class="arena-title">SLA_DROPOUT</div>
+          <div class="arena-desc">Node halts mid-computation.</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div><a href="https://github.com/Hridanshu4004/veles-edge-auction" style="color:var(--gray); text-decoration:none;">GitHub Repository</a></div>
+    <div>Veles Hackathon 2026 • EdgeTruth Team</div>
+  </footer>
+
+  <!-- CANVAS SIMULATION SCRIPT MODULE -->
+  <script type="module">
+    // HERO CANVAS SIMULATION
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+      const parent = canvas.parentElement;
+      width = parent.clientWidth;
+      height = parent.clientHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Simulation State
+    const nodes = [];
+    const tasks = [];
+    const NUM_NODES = 12;
+
+    for (let i=0; i<NUM_NODES; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        cap: Math.random() * 10 + 5,
+        liar: false,
+        overloaded: false
+      });
+    }
+
+    // Interaction
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Find closest node to overload
+      let closest = null;
+      let minDist = Infinity;
+      nodes.forEach(n => {
+        const d = Math.hypot(n.x - x, n.y - y);
+        if (d < minDist) { minDist = d; closest = n; }
+      });
+      if (closest && minDist < 50) {
+        closest.overloaded = !closest.overloaded;
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'l') {
+        // Make random node a liar
+        const n = nodes[Math.floor(Math.random() * nodes.length)];
+        n.liar = !n.liar;
+      }
+    });
+
+    // Task Spawner
+    setInterval(() => {
+      if (tasks.length > 20) return;
+      tasks.push({
+        x: width/2, y: height/2,
+        target: nodes[Math.floor(Math.random() * nodes.length)],
+        progress: 0
+      });
+    }, 1000);
+
+    function loop() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw Edges
+      ctx.strokeStyle = '#262626';
+      ctx.lineWidth = 1;
+      for (let i=0; i<nodes.length; i++) {
+        for (let j=i+1; j<nodes.length; j++) {
+          if (Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y) < 250) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Update & Draw Nodes
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.cap, 0, Math.PI * 2);
+        ctx.fillStyle = n.liar ? '#ff3366' : (n.overloaded ? '#a3a3a3' : '#00ff88');
+        ctx.fill();
+        
+        if (n.liar) {
+          ctx.fillStyle = '#ff3366';
+          ctx.font = '10px monospace';
+          ctx.fillText('LIAR', n.x + 10, n.y - 10);
+        }
+      });
+
+      // Update & Draw Tasks
+      for (let i = tasks.length - 1; i >= 0; i--) {
+        const t = tasks[i];
+        t.progress += 0.02;
+        if (t.progress >= 1) {
+          tasks.splice(i, 1);
+          continue;
+        }
+        
+        const tx = width/2 + (t.target.x - width/2) * t.progress;
+        const ty = height/2 + (t.target.y - height/2) * t.progress;
+        
+        ctx.beginPath();
+        ctx.arc(tx, ty, 3, 0, Math.PI*2);
+        ctx.fillStyle = '#fafafa';
+        ctx.fill();
+      }
+
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // 01. PROBLEM SIMULATIONS (Simplified visualization)
+    function setupMiniSim(canvasId, isNaive) {
+      const cvs = document.getElementById(canvasId);
+      if (!cvs) return;
+      const c = cvs.getContext('2d');
+      const w = cvs.clientWidth;
+      const h = cvs.clientHeight;
+      cvs.width = w; cvs.height = h;
+
+      const n1 = {x: w*0.2, y: h/2, color: '#00ff88', label: 'HONEST'};
+      const n2 = {x: w*0.8, y: h/2, color: '#ff3366', label: 'LIAR (Claims 1ms)'};
+      let tProgress = 0;
+
+      setInterval(() => {
+        c.fillStyle = '#09090b';
+        c.fillRect(0, 0, w, h);
+
+        // Draw Nodes
+        [n1, n2].forEach(n => {
+          c.beginPath(); c.arc(n.x, n.y, 15, 0, Math.PI*2);
+          c.fillStyle = n.color; c.fill();
+          c.fillStyle = '#a3a3a3'; c.font = '10px monospace'; c.textAlign = 'center';
+          c.fillText(n.label, n.x, n.y + 30);
+        });
+
+        // Task Animation
+        tProgress += 0.01;
+        if (tProgress > 1.2) tProgress = 0;
+
+        if (tProgress <= 1) {
+          const target = isNaive ? n2 : n1;
+          const sx = w/2, sy = 20;
+          const tx = sx + (target.x - sx) * tProgress;
+          const ty = sy + (target.y - sy) * tProgress;
+
+          c.beginPath(); c.arc(tx, ty, 5, 0, Math.PI*2);
+          c.fillStyle = '#fafafa'; c.fill();
+          
+          if (tProgress > 0.9 && isNaive) {
+            c.fillStyle = '#ff3366'; c.fillText('FAIL', tx+15, ty);
+          }
+        }
+      }, 16);
+    }
+    setTimeout(() => {
+      setupMiniSim('simNaive', true);
+      setupMiniSim('simMechanism', false);
+    }, 100);
+
+    // SCROLL HIGHLIGHT FOR STEPS
+    const steps = document.querySelectorAll('.step');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const docH = document.body.scrollHeight - window.innerHeight;
+      const progress = scrollY / docH;
+      const activeIdx = Math.min(Math.floor(progress * steps.length * 1.5), steps.length - 1);
+      
+      steps.forEach((s, i) => {
+        if (i === activeIdx) s.classList.add('active');
+        else s.classList.remove('active');
+      });
+    });
+
+    // FETCH BENCHMARKS
+    async function loadBenchmarks() {
+      try {
+        const res = await fetch('/benchmarks/results.json');
+        if (!res.ok) throw new Error('Not found');
+        const data = await res.json();
+        
+        const cont = document.getElementById('evidence-container');
+        cont.innerHTML = `
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Social Welfare (Our Mechanism)</div>
+              <div class="stat-val">${data.our_welfare || '$0.00'}</div>
+              <div class="stat-meta">Variance: ${data.variance || '0.00'} | Seeds: ${data.seeds || 0}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Baseline (Greedy)</div>
+              <div class="stat-val" style="color:var(--gray);">${data.baseline_welfare || '$0.00'}</div>
+              <div class="stat-meta">First-Fit Heuristic</div>
+            </div>
+          </div>
+        `;
+      } catch(e) {
+        console.log("Benchmark data not available.");
+      }
+    }
+    loadBenchmarks();
+  </script>
+</body>
+</html>
