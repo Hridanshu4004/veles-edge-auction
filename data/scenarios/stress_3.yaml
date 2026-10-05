@@ -1,0 +1,7 @@
+# Stress Scenario 3: Degraded Network
+name: "Degraded Network"
+description: "Simulates high network latency (3x) across the WSDREAM topology."
+parameters:
+  arrival_multiplier: 1.0
+  node_capacity_multiplier: 1.0
+  latency_multiplier: 3.0

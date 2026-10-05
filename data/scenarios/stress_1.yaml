@@ -1,0 +1,7 @@
+# Stress Scenario 1: Flood - High Task Arrival Rate
+name: "Flood"
+description: "Simulates an enormous spike in Azure function invocations, testing auction queue limits."
+parameters:
+  arrival_multiplier: 5.0
+  node_capacity_multiplier: 1.0
+  latency_multiplier: 1.0

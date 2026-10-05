@@ -1,0 +1,7 @@
+# Stress Scenario 2: Constrained - Low Edge Node Capacity
+name: "Constrained Edge"
+description: "Simulates edge nodes dropping to 20% of their usual capacity, testing rejection and penalty logic."
+parameters:
+  arrival_multiplier: 1.0
+  node_capacity_multiplier: 0.2
+  latency_multiplier: 1.0
