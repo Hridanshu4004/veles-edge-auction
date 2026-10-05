@@ -10,5 +10,6 @@
 
 ## Hypothesis Validation
 
-1. **Incentive Compatibility Regret**: Truth-telling yields near zero regret. As shown above, Attacker Profit in `trust_vcg` is significantly lower/negative compared to Greedy, proving that lying (Sybil/fake claims) leads to slashed bonds and lost VCG auctions.
-2. **Social Welfare vs Baselines**: `trust_vcg` achieves substantially higher Social Welfare than the `greedy` baseline by penalizing unreliable nodes and correctly allocating critical tasks to high-reliability nodes.
+1. **Incentive Compatibility Regret**: **FAILED.** As shown in the data above, Attacker Profit in `trust_vcg` is hugely positive (+27,279) compared to `greedy` (-17,637). This occurs because VCG overpays the winner based on the marginal harm to the rest of the network. If an attacker manages to spoof a high reliability claim alongside a high baseline task value ($V=1000$), the VCG payment formula `payment = (p_eff_winner - p_eff_runner) * V + bid_runner` skyrockets, heavily subsidizing liars. We failed to defend against this because our slashing penalty ($F=500$) is smaller than the enormous VCG surplus they extract.
+2. **Social Welfare vs Baselines**: **PASSED.** `trust_vcg` achieves substantially higher Social Welfare (205,739) than the `greedy` baseline (176,689) by penalizing unreliable nodes during the auction and correctly allocating critical tasks to high-reliability nodes. It slightly underperforms `edgetruth_no_probe` because of VCG edge cases dropping a few tasks.
+3. **Budget Deficit**: **FAILED (As expected).** The VCG mechanism results in an astronomical Total Cost (54,947) compared to Greedy (3,739). The auctioneer runs a massive deficit, confirming our assumption that VCG procurement is not budget-balanced.
