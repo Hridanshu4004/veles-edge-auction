@@ -42,13 +42,20 @@ class Azure2019Loader:
         
         result = {'DEV': {'tasks': dev_tasks}}
         
+        import datetime
+        import inspect
+        import json
+
+        caller = inspect.stack()[1].function if len(inspect.stack()) > 1 else 'unknown'
+        log_path = os.environ.get('ACCESS_LOG_PATH', os.path.join(os.path.dirname(__file__), '..', 'data', 'access_log.jsonl'))
+        log_entry_dev = json.dumps({'timestamp': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'function': 'load_and_split (Azure)', 'caller': caller, 'split': 'DEV'})
+        with open(log_path, 'a') as logf:
+            logf.write(log_entry_dev + '\n')
+            
         if allow_test:
-            import datetime
-            import inspect
-            import json
-            caller = inspect.stack()[1].function if len(inspect.stack()) > 1 else 'unknown'
             log_entry = json.dumps({'timestamp': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'function': 'load_and_split (Azure)', 'caller': caller, 'split': 'TEST'})
-            with open(os.path.join(os.path.dirname(__file__), '..', 'data', 'access_log.jsonl'), 'a') as logf:
+            log_path = os.environ.get('ACCESS_LOG_PATH', os.path.join(os.path.dirname(__file__), '..', 'data', 'access_log.jsonl'))
+            with open(log_path, 'a') as logf:
                 logf.write(log_entry + '\n')
             df_inv_test = df_inv[df_inv['HashFunction'].isin(test_funcs)]
             df_dur_test = df_dur[df_dur['HashFunction'].isin(test_funcs)]
@@ -170,13 +177,20 @@ class WSDreamLoader:
             'services': services.iloc[sampled_services]
         }
         
+        import datetime
+        import inspect
+        import json
+
+        caller = inspect.stack()[1].function if len(inspect.stack()) > 1 else 'unknown'
+        log_path = os.environ.get('ACCESS_LOG_PATH', os.path.join(os.path.dirname(__file__), '..', 'data', 'access_log.jsonl'))
+        log_entry_dev = json.dumps({'timestamp': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'function': 'load_and_split (WS-DREAM)', 'caller': caller, 'split': 'DEV'})
+        with open(log_path, 'a') as logf:
+            logf.write(log_entry_dev + '\n')
+            
         if allow_test:
-            import datetime
-            import inspect
-            import json
-            caller = inspect.stack()[1].function if len(inspect.stack()) > 1 else 'unknown'
             log_entry = json.dumps({'timestamp': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'function': 'load_and_split (WS-DREAM)', 'caller': caller, 'split': 'TEST'})
-            with open(os.path.join(os.path.dirname(__file__), '..', 'data', 'access_log.jsonl'), 'a') as logf:
+            log_path = os.environ.get('ACCESS_LOG_PATH', os.path.join(os.path.dirname(__file__), '..', 'data', 'access_log.jsonl'))
+            with open(log_path, 'a') as logf:
                 logf.write(log_entry + '\n')
             df_test = df_pairs[df_pairs['user_idx'].isin(test_users)]
             result['TEST'] = df_test
