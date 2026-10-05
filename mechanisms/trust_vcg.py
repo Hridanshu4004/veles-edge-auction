@@ -1,7 +1,7 @@
 import math
-from typing import List, Dict, Optional
 
 from common.models import Allocation, Bid, Task, TrustProfile
+
 
 def normal_cdf(x: float, mu: float, sigma: float) -> float:
     return (1.0 + math.erf((x - mu) / (sigma * math.sqrt(2.0)))) / 2.0
@@ -24,7 +24,7 @@ def calculate_effective_probability(bid: Bid, tp: TrustProfile, deadline_ms: flo
     
     return p * p_sla_met
 
-def trust_vcg_allocation(task: Task, bids: List[Bid], trust_profiles: Dict[str, TrustProfile]) -> Optional[Allocation]:
+def trust_vcg_allocation(task: Task, bids: list[Bid], trust_profiles: dict[str, TrustProfile]) -> Allocation | None:
     """
     Implements Trust-Weighted VCG with Credits, Bonds, and Slashing.
     """

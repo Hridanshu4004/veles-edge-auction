@@ -6,7 +6,6 @@ from collections import defaultdict
 import numpy as np
 from scipy import stats
 
-from mechanisms.trust_vcg import trust_vcg_allocation, calculate_slashing_and_scoring
 from common.models import Bid, Task, TrustProfile
 from common.rng import set_seed
 from common.scoring import update_calibration
@@ -15,6 +14,7 @@ from mechanisms.baselines import (
     random_allocation,
 )
 from mechanisms.edge_truth import normal_pdf, prediction_contract_allocation
+from mechanisms.trust_vcg import calculate_slashing_and_scoring, trust_vcg_allocation
 from simulator.data_generator import DataGenerator
 from simulator.node_models import NodeBehavior
 
