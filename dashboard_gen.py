@@ -17,15 +17,13 @@ def generate_dashboard():
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #334155; }
         th { color: #94a3b8; font-weight: 500; }
-        .success { color: #4ade80; }
-        .warning { color: #facc15; }
-        .danger { color: #f87171; }
         .neutral { color: #94a3b8; }
+        .preliminary { color: #facc15; font-weight: bold; font-size: 0.8em; vertical-align: super; }
     </style>
 </head>
 <body>
-    <h1>EdgeTruth Live Dashboard (50-Seed Ablation)</h1>
-    <p>Empirical execution results across 50 independent seeds measuring Empirical Misreporting Gain.</p>
+    <h1>EdgeTruth Live Dashboard (50-Seed Ablation) <span class="preliminary">PRELIMINARY</span></h1>
+    <p>Empirical execution results. SOURCE: experiments/results/*.json (50 Seeds per scenario)</p>
 """
 
     for f in glob.glob(f"{results_dir}/*.json"):
@@ -35,7 +33,7 @@ def generate_dashboard():
             
         html += f"""
     <div class="card">
-        <h2>Scenario: {scenario_name}</h2>
+        <h2>Scenario: {scenario_name} (Source: {os.path.basename(f)})</h2>
         <table>
             <tr>
                 <th>Mechanism</th>
@@ -61,11 +59,11 @@ def generate_dashboard():
             
             html += f"""
             <tr>
-                <td><strong>{mech.upper()}</strong></td>
-                <td><span class="{'success' if alloc > 0 and succ/alloc > 0.9 else 'warning'}">{succ:.1f} ±{succ_ci:.1f} / {alloc:.1f}</span></td>
-                <td><span class="{'danger' if sla > 70 else 'success'}">{sla:.1f}</span></td>
-                <td><span class="{'success' if welfare > 200000 else 'neutral'}">${welfare:,.0f}</span></td>
-                <td><span class="{'danger' if gain > 0 else 'success'}">${gain:,.0f}</span></td>
+                <td><strong>{mech.upper()}</strong> <span class="preliminary">PRELIMINARY</span></td>
+                <td><span class="neutral">{succ:.1f} ±{succ_ci:.1f} / {alloc:.1f}</span></td>
+                <td><span class="neutral">{sla:.1f}</span></td>
+                <td><span class="neutral">${welfare:,.0f}</span></td>
+                <td><span class="neutral">${gain:,.0f}</span></td>
             </tr>
 """
         html += """
