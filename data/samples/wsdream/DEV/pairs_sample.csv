@@ -1,4 +1,4 @@
-user_idx,service_idx,latency_rt,throughput_tp
+user_idx,service_idx,response_time_s,throughput_tp
 140,3628,0.069,43.478
 140,2556,0.328,9.146
 140,987,1.351,2.96

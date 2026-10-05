@@ -6,6 +6,7 @@ from collections import defaultdict
 import numpy as np
 from scipy import stats
 
+from mechanisms.trust_vcg import trust_vcg_allocation, calculate_slashing_and_scoring
 from common.models import Bid, Task, TrustProfile
 from common.rng import set_seed
 from common.scoring import update_calibration
@@ -87,6 +88,9 @@ class ExperimentRunner:
                 self.weights["enable_voi"] = True
                 self.weights["voi_factor"] = 200.0 # Will decay as 1/(1+obs)
                 allocation = prediction_contract_allocation(task, bids, trust_profiles, self.weights)
+
+            elif mechanism_name == "trust_vcg":
+                allocation = trust_vcg_allocation(task, bids, trust_profiles)
             else:
                 allocation = None
                 
@@ -126,6 +130,14 @@ class ExperimentRunner:
                     latency_bonus = -alpha_latency * 2.0 # Penalty for failure to even measure
                     
                 actual_payment = b_i + success_bonus + latency_bonus
+
+            elif mechanism_name == "trust_vcg":
+                res = calculate_slashing_and_scoring(allocation, allocation.winning_bid, trust_profiles[allocation.node_id], actual_success)
+                # VCG payment minus slashing plus proper scoring rule bonus
+                brier_score = res["brier_score"]
+                slashed_amount = res["slashed_amount"]
+                bonus = 50.0 * (1.0 - 2.0 * brier_score) # Proper scoring rule reward
+                actual_payment = allocation.winning_bid.price + bonus - slashed_amount
             else:
                 actual_payment = allocation.winning_bid.price
                 
@@ -166,7 +178,7 @@ class ExperimentRunner:
 def run_all_experiments(scenarios_dir: str, results_dir: str):
     pathlib.Path(results_dir).mkdir(parents=True, exist_ok=True)
     # ABLATION LADDER
-    mechanisms = ["greedy", "edgetruth_no_probe", "edgetruth_random_probe", "edgetruth_voi_probe"]
+    mechanisms = ["greedy", "edgetruth_no_probe", "trust_vcg"]
     num_seeds = 50
     
     scenario_configs = {

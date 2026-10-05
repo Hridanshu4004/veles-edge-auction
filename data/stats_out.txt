@@ -1,0 +1,52 @@
+=== SUMMARY STATS ===
+Loading Azure 2019 dataset from /home/hridanshu/veles-edge-auction/data/raw/azure/2019 for day d01...
+Reading CSVs...
+Processing DEV tasks (interpolating durations and memory)...
+ACCESS LOG: TEST split requested but blocked by allow_test=False. Returning DEV only.
+
+--- AZURE 2019 ---
+
+[DEV] Tasks:
+Columns: ['HashFunction', 'HashApp', 'arrival_time', 'duration_ms', 'memory_mb']
+Row count: 30497
+Sample 5 rows:
+                                                       HashFunction                                                           HashApp  arrival_time  duration_ms   memory_mb
+0  3b09eddeec10abf215f3b125db3c43fa36157a12f0f77a3c623ffc640511aeac  0fbd618092ca7ef5885c5948d559c1a9c3fb1da49f3ec2dca049d89dd95ff85f  75606.871804   593.000000  132.000000
+1  884b06b63be8674a7681a59a99b1a854d27cde5d014510105d47aab93767b9ba  322610ebfeab0a561388cfa16bcb854a9da2690de3e330ea2be36480644824b8   3453.914166   204.561162  137.553485
+2  884b06b63be8674a7681a59a99b1a854d27cde5d014510105d47aab93767b9ba  322610ebfeab0a561388cfa16bcb854a9da2690de3e330ea2be36480644824b8  16533.214764   174.789258  121.116490
+3  884b06b63be8674a7681a59a99b1a854d27cde5d014510105d47aab93767b9ba  322610ebfeab0a561388cfa16bcb854a9da2690de3e330ea2be36480644824b8  43081.849070   163.152956  115.862194
+4  884b06b63be8674a7681a59a99b1a854d27cde5d014510105d47aab93767b9ba  322610ebfeab0a561388cfa16bcb854a9da2690de3e330ea2be36480644824b8  54024.511719   308.067765  115.958000
+Loading WS-DREAM dataset from /home/hridanshu/veles-edge-auction/data/raw/wsdream...
+Matrix shape: 339 users, 5825 services
+WS-DREAM dropped 606 invalid (-1) entries.
+WS-DREAM retained 9394 valid pairs.
+ACCESS LOG: TEST split requested but blocked by allow_test=False. Returning DEV only.
+
+--- WS-DREAM ---
+
+[DEV] Pairs:
+Columns: ['user_idx', 'service_idx', 'response_time_s', 'throughput_tp']
+Row count: 7517
+Sample 5 rows:
+   user_idx  service_idx  response_time_s  throughput_tp
+0       140         3628            0.069         43.478
+1       140         2556            0.328          9.146
+2       140          987            1.351          2.960
+3       140         4369            0.082         48.780
+4       140          377            0.099         70.707
+
+Users - Row count: 100, Columns: ['UserID', 'IP', 'Country', 'IP_No', 'AS', 'Lat', 'Lon']
+     UserID               IP        Country       IP_No                                       AS      Lat       Lon
+140     140  138.238.250.155  United States  2330917531        AS22925 Allied Telecom Group, LLC  38.8933  -77.0146
+319     319     206.117.37.7  United States  3463783687    AS4 University of Southern California  34.0522 -118.2437
+318     318     206.117.37.5  United States  3463783685    AS4 University of Southern California  34.0522 -118.2437
+136     136     138.15.10.55  United States  2316241463  AS209 Qwest Communications Company, LLC  37.3688 -122.0363
+121     121  136.145.115.196    Puerto Rico  2291233732         AS5786 University of Puerto Rico  18.2500  -66.5000
+
+Services - Row count: 100, Columns: ['ServiceID', 'WSDL', 'Provider', 'IP', 'Country', 'IP_No', 'AS', 'Lat', 'Lon']
+      ServiceID                                                                                 WSDL                 Provider              IP        Country       IP_No                                    AS      Lat       Lon
+3628       3628                         http://www.sharepointusergroup.com/_vti_bin/People.asmx?wsdl  sharepointusergroup.com  64.209.228.242  United States  1087497458                         AS3561 Savvis  39.1157  -77.5636
+2556       2556                                       http://www.migros.ch/_vti_bin/People.asmx?wsdl                migros.ch   146.67.140.37    Switzerland  2453900325    AS8803 Migros-Genossenschafts-Bund  47.3667    8.5500
+987         987                http://eksb.jm-media.dk/App_Services/ContentProviderService.asmx?WSDL              jm-media.dk             NaN        Denmark           0                                   NaN      NaN       NaN
+4369       4369                           http://pubchem.ncbi.nlm.nih.gov/pug_soap/pug_soap.cgi?wsdl                  nih.gov   137.187.25.43  United States  2310740267  AS3527 National Institutes of Health  39.0024  -77.1034
+377         377  http://biomoby.org/services/wsdl/soaplab.icapture.ubc.ca/seqretPROTEINRefFASTA2EMBL               biordf.net   96.49.108.226         Canada  1613851874       AS6327 Shaw Communications Inc.  49.2500 -123.1333
