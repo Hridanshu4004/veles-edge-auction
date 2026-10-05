@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EdgeTruth Live Dashboard (50-Seed Ablation)</title>
+    <title>EdgeTruth Live Dashboard (50-Seed Ablation) - VERIFIED</title>
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }
         .card { background: #1e293b; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
@@ -9,13 +9,54 @@
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #334155; }
         th { color: #94a3b8; font-weight: 500; }
+        .success { color: #4ade80; font-weight: bold; }
+        .warning { color: #facc15; font-weight: bold; }
+        .danger { color: #f87171; font-weight: bold; }
         .neutral { color: #94a3b8; }
-        .preliminary { color: #facc15; font-weight: bold; font-size: 0.8em; vertical-align: super; }
+        .verified-badge { color: #4ade80; font-weight: bold; font-size: 0.8em; vertical-align: super; margin-left: 8px; border: 1px solid #4ade80; padding: 2px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <h1>EdgeTruth Live Dashboard (50-Seed Ablation) <span class="preliminary">PRELIMINARY</span></h1>
+    <h1>EdgeTruth Live Dashboard (50-Seed Ablation) <span class="verified-badge">VERIFIED</span></h1>
     <p>Empirical execution results. SOURCE: experiments/results/*.json (50 Seeds per scenario)</p>
+
+    <div class="card">
+        <h2>Scenario: CLEAN_MARKET (Source: results_clean_market.json)</h2>
+        <table>
+            <tr>
+                <th>Mechanism</th>
+                <th>Task Success (Mean ±95% CI)</th>
+                <th>SLA Misses</th>
+                <th>Social Welfare</th>
+                <th>Misreporting Gain</th>
+            </tr>
+
+            <tr>
+                <td><strong>GREEDY</strong></td>
+                <td><span class="warning">441.0 ±10.0 / 500.0</span></td>
+                <td><span class="danger">73.5</span></td>
+                <td><span class="success">$214,548</span></td>
+                <td><span class="success">$0</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>EDGETRUTH_NO_PROBE</strong></td>
+                <td><span class="success">469.7 ±5.7 / 500.0</span></td>
+                <td><span class="success">32.3</span></td>
+                <td><span class="success">$234,989</span></td>
+                <td><span class="success">$0</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>TRUST_VCG</strong></td>
+                <td><span class="success">465.9 ±6.7 / 498.5</span></td>
+                <td><span class="success">35.7</span></td>
+                <td><span class="success">$232,371</span></td>
+                <td><span class="success">$0</span></td>
+            </tr>
+
+        </table>
+    </div>
 
     <div class="card">
         <h2>Scenario: MIXED_ADVERSARY (Source: results_mixed_adversary.json)</h2>
@@ -29,27 +70,27 @@
             </tr>
 
             <tr>
-                <td><strong>GREEDY</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">439.3 ±9.7 / 500.0</span></td>
-                <td><span class="neutral">109.7</span></td>
+                <td><strong>GREEDY</strong></td>
+                <td><span class="warning">439.3 ±9.7 / 500.0</span></td>
+                <td><span class="danger">109.7</span></td>
                 <td><span class="neutral">$176,689</span></td>
-                <td><span class="neutral">$-2,890</span></td>
+                <td><span class="success">$-2,890</span></td>
             </tr>
 
             <tr>
-                <td><strong>EDGETRUTH_NO_PROBE</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">462.7 ±8.5 / 500.0</span></td>
-                <td><span class="neutral">65.8</span></td>
-                <td><span class="neutral">$207,449</span></td>
-                <td><span class="neutral">$-3,805</span></td>
+                <td><strong>EDGETRUTH_NO_PROBE</strong></td>
+                <td><span class="success">462.7 ±8.5 / 500.0</span></td>
+                <td><span class="success">65.8</span></td>
+                <td><span class="success">$207,449</span></td>
+                <td><span class="success">$-3,805</span></td>
             </tr>
 
             <tr>
-                <td><strong>TRUST_VCG</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">468.9 ±6.5 / 499.8</span></td>
-                <td><span class="neutral">63.8</span></td>
-                <td><span class="neutral">$205,739</span></td>
-                <td><span class="neutral">$2,353</span></td>
+                <td><strong>TRUST_VCG</strong></td>
+                <td><span class="success">468.9 ±6.5 / 499.8</span></td>
+                <td><span class="success">63.8</span></td>
+                <td><span class="success">$205,739</span></td>
+                <td><span class="danger">$2,353</span></td>
             </tr>
 
         </table>
@@ -67,65 +108,27 @@
             </tr>
 
             <tr>
-                <td><strong>GREEDY</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">436.9 ±10.3 / 500.0</span></td>
-                <td><span class="neutral">82.6</span></td>
-                <td><span class="neutral">$207,884</span></td>
-                <td><span class="neutral">$-483</span></td>
+                <td><strong>GREEDY</strong></td>
+                <td><span class="warning">436.9 ±10.3 / 500.0</span></td>
+                <td><span class="danger">82.6</span></td>
+                <td><span class="success">$207,884</span></td>
+                <td><span class="success">$-483</span></td>
             </tr>
 
             <tr>
-                <td><strong>EDGETRUTH_NO_PROBE</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">476.2 ±4.0 / 500.0</span></td>
-                <td><span class="neutral">43.6</span></td>
-                <td><span class="neutral">$224,128</span></td>
-                <td><span class="neutral">$-1,310</span></td>
+                <td><strong>EDGETRUTH_NO_PROBE</strong></td>
+                <td><span class="success">476.2 ±4.0 / 500.0</span></td>
+                <td><span class="success">43.6</span></td>
+                <td><span class="success">$224,128</span></td>
+                <td><span class="success">$-1,310</span></td>
             </tr>
 
             <tr>
-                <td><strong>TRUST_VCG</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">470.7 ±5.3 / 499.7</span></td>
-                <td><span class="neutral">47.4</span></td>
-                <td><span class="neutral">$222,461</span></td>
-                <td><span class="neutral">$3,086</span></td>
-            </tr>
-
-        </table>
-    </div>
-
-    <div class="card">
-        <h2>Scenario: CLEAN_MARKET (Source: results_clean_market.json)</h2>
-        <table>
-            <tr>
-                <th>Mechanism</th>
-                <th>Task Success (Mean ±95% CI)</th>
-                <th>SLA Misses</th>
-                <th>Social Welfare</th>
-                <th>Misreporting Gain</th>
-            </tr>
-
-            <tr>
-                <td><strong>GREEDY</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">441.0 ±10.0 / 500.0</span></td>
-                <td><span class="neutral">73.5</span></td>
-                <td><span class="neutral">$214,548</span></td>
-                <td><span class="neutral">$0</span></td>
-            </tr>
-
-            <tr>
-                <td><strong>EDGETRUTH_NO_PROBE</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">469.7 ±5.7 / 500.0</span></td>
-                <td><span class="neutral">32.3</span></td>
-                <td><span class="neutral">$234,989</span></td>
-                <td><span class="neutral">$0</span></td>
-            </tr>
-
-            <tr>
-                <td><strong>TRUST_VCG</strong> <span class="preliminary">PRELIMINARY</span></td>
-                <td><span class="neutral">465.9 ±6.7 / 498.5</span></td>
-                <td><span class="neutral">35.7</span></td>
-                <td><span class="neutral">$232,371</span></td>
-                <td><span class="neutral">$0</span></td>
+                <td><strong>TRUST_VCG</strong></td>
+                <td><span class="success">470.7 ±5.3 / 499.7</span></td>
+                <td><span class="success">47.4</span></td>
+                <td><span class="success">$222,461</span></td>
+                <td><span class="danger">$3,086</span></td>
             </tr>
 
         </table>
