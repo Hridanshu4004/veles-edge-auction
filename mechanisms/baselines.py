@@ -1,5 +1,7 @@
 import random
-from common.models import Task, Bid, Allocation
+
+from common.models import Allocation, Bid, Task
+
 
 def random_allocation(task: Task, bids: list[Bid]) -> Allocation:
     if not bids:

@@ -1,7 +1,9 @@
 import time
+
 import numpy as np
 import scipy.special
 from data_pipeline import DataPipeline
+
 
 def run_simulation(num_nodes=100000, num_tasks=10000, gamma=0.05):
     print("=== HIGH SCALE INDUSTRY SIMULATION: PHASE 3 HARDENING ===")
@@ -102,7 +104,7 @@ def run_simulation(num_nodes=100000, num_tasks=10000, gamma=0.05):
             if not actual_success:
                 # Task completely fails
                 actual_loss = L_true
-                capped_compensation = min(L_declared, actual_loss) # Insurance Cap
+                min(L_declared, actual_loss) # Insurance Cap
                 
                 metrics["failure_penalties"] += actual_loss
                 
@@ -116,7 +118,7 @@ def run_simulation(num_nodes=100000, num_tasks=10000, gamma=0.05):
             elif not sla_met:
                 # Partial failure / SLA miss
                 actual_loss = L_true * 0.5
-                capped_compensation = min(L_declared * 0.5, actual_loss)
+                min(L_declared * 0.5, actual_loss)  # type: ignore
                 
                 metrics["sla_miss"] += 1
                 metrics["failure_penalties"] += actual_loss

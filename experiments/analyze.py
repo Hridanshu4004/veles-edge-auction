@@ -1,5 +1,5 @@
-import json
 import glob
+import json
 import os
 
 results_dir = "/home/hridanshu/veles-edge-auction/experiments/results"
@@ -8,7 +8,8 @@ if not os.path.exists(results_dir):
 
 print("=== 50-SEED ABLATION RESULTS (Mean ± 95% CI) ===")
 for f in glob.glob(f"{results_dir}/*.json"):
-    data = json.load(open(f))
+    with open(f) as fp:
+        data = json.load(fp)
     print(f"\n--- {os.path.basename(f)} ---")
     for mech, res in data.items():
         succ = res.get("successful_tasks_mean", 0)

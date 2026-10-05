@@ -1,4 +1,5 @@
-from common.models import Node, ResourceVector, Task, Claim, Bid, TrustProfile
+from common.models import Bid, Claim, Node, ResourceVector, TrustProfile
+
 
 def test_models():
     # Test ResourceVector

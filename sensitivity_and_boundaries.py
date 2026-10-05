@@ -1,7 +1,6 @@
-import json
-from common.rng import set_seed
-from simulator.data_generator import DataGenerator
 from experiments.runner import ExperimentRunner
+from simulator.data_generator import DataGenerator
+
 
 def run_sensitivity():
     print("=== PHASE 6 & 12: SENSITIVITY AND FAILURE BOUNDARIES ===")

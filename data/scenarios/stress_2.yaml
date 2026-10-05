@@ -1,7 +1,10 @@
-# Stress Scenario 2: Constrained - Low Edge Node Capacity
-name: "Constrained Edge"
-description: "Simulates edge nodes dropping to 20% of their usual capacity, testing rejection and penalty logic."
+# Provenance: SYNTHETIC
+# Stress Scenario 2: High Latency Variance
+name: "High Latency Variance"
+description: "Simulates high network latency variance across the WSDREAM topology, causing unpredictable auction timeouts."
 parameters:
   arrival_multiplier: 1.0
-  node_capacity_multiplier: 0.2
-  latency_multiplier: 1.0
+  node_capacity_multiplier: 1.0
+  latency_multiplier: 3.0
+  latency_variance: 2.0
+  churn_rate: 0.05

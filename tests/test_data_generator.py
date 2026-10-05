@@ -1,6 +1,7 @@
 import json
 import os
 
+
 def test_scenarios_exist():
     assert os.path.exists("scenarios/clean.json")
     assert os.path.exists("scenarios/liars.json")

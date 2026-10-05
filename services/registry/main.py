@@ -1,14 +1,15 @@
+import time
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Dict, List
-import time
+
 from common.models import Node
 
 app = FastAPI(title="EdgeTruth Registry")
 
 # In-memory stores
-registered_nodes: Dict[str, Node] = {}
-heartbeats: Dict[str, float] = {}
+registered_nodes: dict[str, Node] = {}
+heartbeats: dict[str, float] = {}
 
 TTL_SECONDS = 30.0  # Node is considered offline if no heartbeat in 30s
 
@@ -44,7 +45,7 @@ def deregister(req: DeregisterRequest):
     return {"status": "deregistered", "node_id": req.node_id}
 
 @app.get("/nodes")
-def get_nodes() -> List[Node]:
+def get_nodes() -> list[Node]:
     current_time = time.time()
     active_nodes = []
     for node_id, node in registered_nodes.items():

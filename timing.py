@@ -1,8 +1,9 @@
-import time
 import json
-import random
+import time
+
+from common.models import Bid, Claim, Task, TrustProfile
 from mechanisms.edge_truth import prediction_contract_allocation
-from common.models import Task, Bid, Claim, TrustProfile
+
 
 def test_timing():
     results = {}

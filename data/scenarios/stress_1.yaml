@@ -1,7 +1,9 @@
-# Stress Scenario 1: Flood - High Task Arrival Rate
-name: "Flood"
-description: "Simulates an enormous spike in Azure function invocations, testing auction queue limits."
+# Provenance: SYNTHETIC
+# Stress Scenario 1: Flood - Bursty High Task Arrival Rate
+name: "Bursty Flood"
+description: "Simulates an enormous spike in Azure function invocations based on the busiest real window."
 parameters:
   arrival_multiplier: 5.0
   node_capacity_multiplier: 1.0
   latency_multiplier: 1.0
+  churn_rate: 0.01

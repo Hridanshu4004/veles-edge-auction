@@ -1,6 +1,7 @@
+
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Tuple
+
 
 class DataPipeline:
     def __init__(self, seed: int = 42):
@@ -109,7 +110,7 @@ class DataPipeline:
         
         return df
         
-    def simulate_execution(self, task_row: pd.Series, node_row: pd.Series) -> Tuple[bool, float]:
+    def simulate_execution(self, task_row: pd.Series, node_row: pd.Series) -> tuple[bool, float]:
         """Ground truth execution"""
         success = self.rng.random() < node_row["true_success"]
         if not success:

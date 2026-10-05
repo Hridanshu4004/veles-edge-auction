@@ -1,23 +1,29 @@
 import json
 import os
 import pathlib
-import numpy as np
-import scipy.stats as stats
 from collections import defaultdict
+
+import numpy as np
+from scipy import stats
+
+from common.models import Bid, Task, TrustProfile
 from common.rng import set_seed
-from common.models import Task, Bid, TrustProfile
 from common.scoring import update_calibration
-from simulator.node_models import NodeBehavior
-from mechanisms.baselines import random_allocation, greedy_cheapest, price_and_reputation, expected_utility_naive
-from mechanisms.edge_truth import prediction_contract_allocation, normal_pdf
+from mechanisms.baselines import (
+    greedy_cheapest,
+    random_allocation,
+)
+from mechanisms.edge_truth import normal_pdf, prediction_contract_allocation
 from simulator.data_generator import DataGenerator
+from simulator.node_models import NodeBehavior
+
 
 def compute_ci(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(a)
     if n < 2:
         return 0.0
-    m, se = np.mean(a), stats.sem(a)
+    se = stats.sem(a)
     h = se * stats.t.ppf((1 + confidence) / 2., n-1)
     return h
 

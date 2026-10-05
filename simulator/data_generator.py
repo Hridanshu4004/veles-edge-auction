@@ -1,15 +1,17 @@
 import json
-import random
 import pathlib
-from typing import List, Dict, Any
+import random
+from typing import Any
+
 from common.rng import set_seed
+
 
 class DataGenerator:
     def __init__(self, seed: int):
         self.seed = seed
         set_seed(seed)
         
-    def generate_nodes(self, count: int, config: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def generate_nodes(self, count: int, config: dict[str, Any]) -> list[dict[str, Any]]:
         nodes = []
         for i in range(count):
             node_type = random.choices(
@@ -38,7 +40,7 @@ class DataGenerator:
             nodes.append(node)
         return nodes
         
-    def generate_tasks(self, count: int) -> List[Dict[str, Any]]:
+    def generate_tasks(self, count: int) -> list[dict[str, Any]]:
         tasks = []
         for i in range(count):
             work_units = random.uniform(10.0, 500.0)
@@ -65,7 +67,7 @@ class DataGenerator:
         tasks.sort(key=lambda x: x["arrival_epoch"])
         return tasks
         
-    def generate_network(self, nodes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def generate_network(self, nodes: list[dict[str, Any]]) -> list[dict[str, Any]]:
         network = []
         zones = ["zone-a", "zone-b", "zone-c"]
         for src in zones:
@@ -79,7 +81,7 @@ class DataGenerator:
                 })
         return network
 
-    def generate_ground_truth(self, nodes: List[Dict[str, Any]], tasks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def generate_ground_truth(self, nodes: list[dict[str, Any]], tasks: list[dict[str, Any]]) -> list[dict[str, Any]]:
         truth = []
         for t in tasks:
             for n in nodes:
@@ -102,7 +104,7 @@ class DataGenerator:
                 })
         return truth
         
-    def generate_attack_config(self, nodes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def generate_attack_config(self, nodes: list[dict[str, Any]]) -> list[dict[str, Any]]:
         attacks = []
         for n in nodes:
             if n["node_type"] != "HONEST_STABLE":
@@ -115,7 +117,7 @@ class DataGenerator:
                 })
         return attacks
         
-    def generate_scenario(self, name: str, num_nodes: int, num_tasks: int, config: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_scenario(self, name: str, num_nodes: int, num_tasks: int, config: dict[str, Any]) -> dict[str, Any]:
         nodes = self.generate_nodes(num_nodes, config)
         tasks = self.generate_tasks(num_tasks)
         network = self.generate_network(nodes)

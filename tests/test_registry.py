@@ -1,8 +1,6 @@
-import pytest
 from fastapi.testclient import TestClient
-import time
-from services.registry.main import app, TTL_SECONDS
-from common.models import Node, ResourceVector
+
+from services.registry.main import app
 
 client = TestClient(app)
 

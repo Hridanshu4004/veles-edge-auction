@@ -1,13 +1,11 @@
-import json
-import random
-from collections import defaultdict
+from common.models import Bid, Task, TrustProfile
 from common.rng import set_seed
+from common.scoring import update_calibration
+from mechanisms.baselines import greedy_cheapest
+from mechanisms.edge_truth import prediction_contract_allocation
 from simulator.data_generator import DataGenerator
 from simulator.node_models import NodeBehavior
-from mechanisms.edge_truth import prediction_contract_allocation
-from mechanisms.baselines import greedy_cheapest
-from common.models import Task, Bid, TrustProfile
-from common.scoring import update_calibration
+
 
 def run_recovery_scenario():
     print("=== PHASE 9: FAILURE RECOVERY EVALUATION ===")

@@ -3,16 +3,17 @@ EdgeTruth V3 Dashboard Service
 Serves static files + REST API aggregating data from registry/auctioneer.
 Falls back to MOCK data automatically if backends are unreachable.
 """
-import os
-import json
-import time
-import random
 import asyncio
+import json
+import os
+import random
+import time
+
 import httpx
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 REGISTRY_URL = os.getenv("REGISTRY_URL", "http://registry:8000")
 AUCTIONEER_URL = os.getenv("AUCTIONEER_URL", "http://auctioneer:8000")
@@ -118,13 +119,13 @@ async def fetch_or_mock(url: str, fallback):
             r = await client.get(url)
             r.raise_for_status()
             return r.json(), False
-    except Exception:
+    except Exception:  # noqa: BLE001
         return fallback, True
 
 # ── REST Endpoints ────────────────────────────────────────────────────────────
 @app.get("/api/stats")
 async def stats():
-    nodes, is_mock = await fetch_or_mock(f"{REGISTRY_URL}/nodes", MOCK_NODES)
+    _nodes, is_mock = await fetch_or_mock(f"{REGISTRY_URL}/nodes", MOCK_NODES)
     return {
         "mock": is_mock,
         "active_nodes": len(MOCK_NODES),
@@ -138,7 +139,7 @@ async def stats():
 
 @app.get("/api/nodes")
 async def nodes():
-    data, is_mock = await fetch_or_mock(f"{REGISTRY_URL}/nodes", MOCK_NODES)
+    _data, is_mock = await fetch_or_mock(f"{REGISTRY_URL}/nodes", MOCK_NODES)
     return {"mock": is_mock, "nodes": MOCK_NODES}
 
 @app.get("/api/nodes/{node_id}")

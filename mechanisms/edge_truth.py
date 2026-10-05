@@ -1,5 +1,7 @@
-from common.models import Task, Bid, Allocation, TrustProfile
 import math
+
+from common.models import Allocation, Bid, Task, TrustProfile
+
 
 def normal_cdf(x, mu, sigma):
     return (1.0 + math.erf((x - mu) / (sigma * math.sqrt(2.0)))) / 2.0

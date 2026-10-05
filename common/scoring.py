@@ -1,5 +1,6 @@
 from common.models import TrustProfile
 
+
 def update_calibration(tp: TrustProfile, claim, actual_success: bool, actual_latency: float):
     alpha = 0.1  # Slower EMA decay for stability
     

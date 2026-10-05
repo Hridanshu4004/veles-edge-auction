@@ -1,7 +1,9 @@
-import pytest
-import numpy as np
 import random
+
+import numpy as np
+
 from common.rng import set_seed
+
 
 def test_seeded_rng():
     set_seed(42)

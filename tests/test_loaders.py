@@ -1,0 +1,31 @@
+
+import pytest
+
+from common.loaders import Azure2019Loader
+
+
+def test_seed_determinism():
+    loader1 = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/azure/2019', seed=123)
+    data1 = loader1.load_and_split(num_funcs=5, allow_test=False)
+    
+    loader2 = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/azure/2019', seed=123)
+    data2 = loader2.load_and_split(num_funcs=5, allow_test=False)
+    
+    # Check if the generated arrivals are identical
+    tasks1 = data1['DEV']['tasks']
+    tasks2 = data2['DEV']['tasks']
+    assert len(tasks1) == len(tasks2)
+    assert (tasks1['arrival_time'] == tasks2['arrival_time']).all()
+
+def test_split_enforcement():
+    loader = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/azure/2019')
+    data_no_test = loader.load_and_split(num_funcs=5, allow_test=False)
+    assert 'TEST' not in data_no_test
+    
+    data_with_test = loader.load_and_split(num_funcs=5, allow_test=True)
+    assert 'TEST' in data_with_test
+
+def test_loud_failure_on_missing_files():
+    loader = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/fake_dir')
+    with pytest.raises(FileNotFoundError):
+        loader.load_and_split(num_funcs=5)

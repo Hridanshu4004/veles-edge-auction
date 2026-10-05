@@ -1,31 +1,25 @@
 import os
-import pandas as pd
+
 import numpy as np
-from typing import Dict, List, Tuple
+import pandas as pd
+
 
 class Azure2019Loader:
     def __init__(self, data_dir: str, seed: int = 42):
         self.data_dir = data_dir
         self.rng = np.random.default_rng(seed)
         
-    def load_and_split(self, day: str = 'd01', num_funcs: int = 100, test_ratio: float = 0.2):
+    def load_and_split(self, day: str = 'd01', num_funcs: int = 100, test_ratio: float = 0.2, allow_test: bool = False):
         print(f"Loading Azure 2019 dataset from {self.data_dir} for day {day}...")
         invocations_path = os.path.join(self.data_dir, f'invocations_per_function_md.anon.{day}.csv')
         durations_path = os.path.join(self.data_dir, f'function_durations_percentiles.anon.{day}.csv')
         memory_path = os.path.join(self.data_dir, f'app_memory_percentiles.anon.{day}.csv')
         
-        # Load data
         print("Reading CSVs...")
         df_inv = pd.read_csv(invocations_path)
         df_dur = pd.read_csv(durations_path)
         df_mem = pd.read_csv(memory_path)
         
-        print("Initial row counts:")
-        print(f"  Invocations: {len(df_inv)}")
-        print(f"  Durations: {len(df_dur)}")
-        print(f"  Memory: {len(df_mem)}")
-        
-        # Sample functions to make processing tractable for demo
         valid_funcs = set(df_inv['HashFunction']).intersection(set(df_dur['HashFunction']))
         df_inv = df_inv[df_inv['HashFunction'].isin(valid_funcs)]
         
@@ -35,62 +29,90 @@ class Azure2019Loader:
         sampled_funcs = self.rng.choice(df_inv['HashFunction'].unique(), size=min(num_funcs, len(df_inv['HashFunction'].unique())), replace=False)
         df_inv = df_inv[df_inv['HashFunction'].isin(sampled_funcs)]
         
-        # Split DEV vs TEST (80/20) based on HashFunction
         n_test = int(len(sampled_funcs) * test_ratio)
         test_funcs = self.rng.choice(sampled_funcs, size=n_test, replace=False)
         dev_funcs = [f for f in sampled_funcs if f not in test_funcs]
         
         df_inv_dev = df_inv[df_inv['HashFunction'].isin(dev_funcs)]
-        df_inv_test = df_inv[df_inv['HashFunction'].isin(test_funcs)]
-        
-        # Process DEV arrivals
-        print("Processing DEV arrivals (converting minute-buckets to random timestamps)...")
-        dev_arrivals = self._process_arrivals(df_inv_dev)
-        test_arrivals = self._process_arrivals(df_inv_test)
-        
         df_dur_dev = df_dur[df_dur['HashFunction'].isin(dev_funcs)]
-        df_dur_test = df_dur[df_dur['HashFunction'].isin(test_funcs)]
+        df_mem_dev = df_mem[df_mem['HashApp'].isin(df_inv_dev['HashApp'].unique())]
         
-        dev_apps = df_inv_dev['HashApp'].unique()
-        test_apps = df_inv_test['HashApp'].unique()
-        df_mem_dev = df_mem[df_mem['HashApp'].isin(dev_apps)]
-        df_mem_test = df_mem[df_mem['HashApp'].isin(test_apps)]
+        print("Processing DEV tasks (interpolating durations and memory)...")
+        dev_tasks = self._process_tasks(df_inv_dev, df_dur_dev, df_mem_dev)
         
-        return {
-            'DEV': {'arrivals': dev_arrivals, 'durations': df_dur_dev, 'memory': df_mem_dev},
-            'TEST': {'arrivals': test_arrivals, 'durations': df_dur_test, 'memory': df_mem_test}
-        }
+        result = {'DEV': {'tasks': dev_tasks}}
+        
+        if allow_test:
+            print("WARNING: TEST split access requested and enabled. Logging test split access.")
+            df_inv_test = df_inv[df_inv['HashFunction'].isin(test_funcs)]
+            df_dur_test = df_dur[df_dur['HashFunction'].isin(test_funcs)]
+            df_mem_test = df_mem[df_mem['HashApp'].isin(df_inv_test['HashApp'].unique())]
+            test_tasks = self._process_tasks(df_inv_test, df_dur_test, df_mem_test)
+            result['TEST'] = {'tasks': test_tasks}
+        else:
+            print("ACCESS LOG: TEST split requested but blocked by allow_test=False. Returning DEV only.")
+            
+        return result
 
-    def _process_arrivals(self, df_inv: pd.DataFrame) -> pd.DataFrame:
-        arrivals_list = []
+    def _process_tasks(self, df_inv: pd.DataFrame, df_dur: pd.DataFrame, df_mem: pd.DataFrame) -> pd.DataFrame:
+        tasks_list = []
         minutes_cols = [str(i) for i in range(1, 1441)]
+        
+        dur_cols = ['percentile_Average_0', 'percentile_Average_1', 'percentile_Average_25', 'percentile_Average_50', 'percentile_Average_75', 'percentile_Average_99', 'percentile_Average_100']
+        mem_cols = ['AverageAllocatedMb_pct1', 'AverageAllocatedMb_pct5', 'AverageAllocatedMb_pct25', 'AverageAllocatedMb_pct50', 'AverageAllocatedMb_pct75', 'AverageAllocatedMb_pct95', 'AverageAllocatedMb_pct99', 'AverageAllocatedMb_pct100']
+        
+        dur_map = df_dur.set_index('HashFunction')[dur_cols]
+        mem_map = df_mem.set_index('HashApp')[mem_cols]
+        
         for _, row in df_inv.iterrows():
             func_id = row['HashFunction']
             app_id = row['HashApp']
+            
+            if func_id not in dur_map.index or app_id not in mem_map.index:
+                continue
+                
+            dur_pcts = dur_map.loc[func_id].values
+            mem_pcts = mem_map.loc[app_id].values
+            
+            if len(dur_pcts.shape) > 1: dur_pcts = dur_pcts[0]
+            if len(mem_pcts.shape) > 1: mem_pcts = mem_pcts[0]
+            
             for minute_idx, minute_col in enumerate(minutes_cols):
                 count = row.get(minute_col, 0)
                 if pd.isna(count) or count == 0:
                     continue
                 count = int(count)
+                
                 start_sec = minute_idx * 60
                 end_sec = start_sec + 60
                 timestamps = self.rng.uniform(start_sec, end_sec, size=count)
                 
-                arrivals_list.append(pd.DataFrame({
+                # Interpolate duration
+                p_dur = self.rng.uniform(0, 100, size=count)
+                durations = np.interp(p_dur, [0, 1, 25, 50, 75, 99, 100], dur_pcts)
+                
+                # Interpolate memory
+                p_mem = self.rng.uniform(1, 100, size=count)
+                memories = np.interp(p_mem, [1, 5, 25, 50, 75, 95, 99, 100], mem_pcts)
+                
+                tasks_list.append(pd.DataFrame({
                     'HashFunction': [func_id] * count,
                     'HashApp': [app_id] * count,
-                    'arrival_time': timestamps
+                    'arrival_time': timestamps,
+                    'duration_ms': durations,
+                    'memory_mb': memories
                 }))
-        if not arrivals_list:
-            return pd.DataFrame(columns=['HashFunction', 'HashApp', 'arrival_time'])
-        return pd.concat(arrivals_list, ignore_index=True)
+                
+        if not tasks_list:
+            return pd.DataFrame(columns=['HashFunction', 'HashApp', 'arrival_time', 'duration_ms', 'memory_mb'])
+        return pd.concat(tasks_list, ignore_index=True)
 
 class WSDreamLoader:
     def __init__(self, data_dir: str, seed: int = 42):
         self.data_dir = data_dir
         self.rng = np.random.default_rng(seed)
         
-    def load_and_split(self, n_nodes: int = 100, test_ratio: float = 0.2):
+    def load_and_split(self, n_nodes: int = 100, test_ratio: float = 0.2, allow_test: bool = False):
         print(f"Loading WS-DREAM dataset from {self.data_dir}...")
         rt_path = os.path.join(self.data_dir, 'dataset1', 'rtMatrix.txt')
         tp_path = os.path.join(self.data_dir, 'dataset1', 'tpMatrix.txt')
@@ -103,8 +125,8 @@ class WSDreamLoader:
         num_users, num_services = rt_matrix.shape
         print(f"Matrix shape: {num_users} users, {num_services} services")
         
-        users = pd.read_csv(userlist_path, sep='\t', header=None, names=['UserID', 'IP', 'Country', 'Continent', 'AS', 'Lat', 'Lon', 'Region', 'City'], on_bad_lines='skip', encoding='latin1')
-        services = pd.read_csv(wslist_path, sep='\t', header=None, names=['ServiceID', 'WSDL', 'Provider', 'IP', 'Country', 'Continent', 'AS', 'Lat', 'Lon', 'Region', 'City'], on_bad_lines='skip', encoding='latin1')
+        users = pd.read_csv(userlist_path, sep='\t', skiprows=2, header=None, names=['UserID', 'IP', 'Country', 'IP_No', 'AS', 'Lat', 'Lon'], on_bad_lines='skip', encoding='latin1')
+        services = pd.read_csv(wslist_path, sep='\t', skiprows=2, header=None, names=['ServiceID', 'WSDL', 'Provider', 'IP', 'Country', 'IP_No', 'AS', 'Lat', 'Lon'], on_bad_lines='skip', encoding='latin1')
         
         sampled_users = self.rng.choice(num_users, size=min(n_nodes, num_users), replace=False)
         sampled_services = self.rng.choice(num_services, size=min(n_nodes, num_services), replace=False)
@@ -135,28 +157,18 @@ class WSDreamLoader:
         dev_users = [u for u in unique_users_retained if u not in test_users]
         
         df_dev = df_pairs[df_pairs['user_idx'].isin(dev_users)]
-        df_test = df_pairs[df_pairs['user_idx'].isin(test_users)]
         
-        return {
+        result = {
             'DEV': df_dev,
-            'TEST': df_test,
             'users': users.iloc[sampled_users],
             'services': services.iloc[sampled_services]
         }
-
-if __name__ == '__main__':
-    azure_loader = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/azure/2019')
-    azure_data = azure_loader.load_and_split(num_funcs=10)
-    print("\nAzure DEV arrivals preview:")
-    print(azure_data['DEV']['arrivals'].head())
-    print(f"Azure DEV arrivals count: {len(azure_data['DEV']['arrivals'])}")
-    print("\nAzure DEV durations preview:")
-    print(azure_data['DEV']['durations'].head())
-    print("\nAzure DEV memory preview:")
-    print(azure_data['DEV']['memory'].head())
-    
-    wsdream_loader = WSDreamLoader('/home/hridanshu/veles-edge-auction/data/raw/wsdream')
-    wsdream_data = wsdream_loader.load_and_split(n_nodes=20)
-    print("\nWS-DREAM DEV preview:")
-    print(wsdream_data['DEV'].head())
-    print(f"WS-DREAM DEV pairs count: {len(wsdream_data['DEV'])}")
+        
+        if allow_test:
+            print("WARNING: TEST split access requested and enabled. Logging test split access.")
+            df_test = df_pairs[df_pairs['user_idx'].isin(test_users)]
+            result['TEST'] = df_test
+        else:
+            print("ACCESS LOG: TEST split requested but blocked by allow_test=False. Returning DEV only.")
+            
+        return result

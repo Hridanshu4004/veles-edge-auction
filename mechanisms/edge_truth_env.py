@@ -1,10 +1,12 @@
-from common.models import Task, Bid, Allocation, TrustProfile
 import math
+
+from common.models import Allocation, Bid, Task, TrustProfile
+
 
 def normal_cdf(x, mu, sigma):
     return (1.0 + math.erf((x - mu) / (sigma * math.sqrt(2.0)))) / 2.0
 
-def edge_truth_env_allocation(task: Task, bids: list[Bid], trust_profiles: dict, weights: dict = None) -> Allocation:
+def edge_truth_env_allocation(task: Task, bids: list[Bid], trust_profiles: dict, weights: dict | None = None) -> Allocation:
     if not bids:
         return None
         

@@ -1,6 +1,7 @@
 import json
-import urllib.request
 import urllib.error
+import urllib.request
+
 
 def test_registry():
     base_url = "http://localhost:8001"
@@ -11,7 +12,7 @@ def test_registry():
             status = response.getcode()
             body = response.read().decode('utf-8')
             print(f"Health Response: {status} {body}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Health check failed: {e}")
 
     print("\nRegistering a Node...")
@@ -22,7 +23,7 @@ def test_registry():
             status = response.getcode()
             body = response.read().decode('utf-8')
             print(f"Register Response: {status} {body}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Register failed: {e}")
 
     print("\nGetting Nodes...")
@@ -31,7 +32,7 @@ def test_registry():
             status = response.getcode()
             body = response.read().decode('utf-8')
             print(f"Nodes Response: {status} {body}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Get nodes failed: {e}")
 
     print("\nTesting Auctioneer Health...")
@@ -40,7 +41,7 @@ def test_registry():
             status = response.getcode()
             body = response.read().decode('utf-8')
             print(f"Auctioneer Health Response: {status} {body}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Auctioneer health check failed: {e}")
 
 if __name__ == "__main__":

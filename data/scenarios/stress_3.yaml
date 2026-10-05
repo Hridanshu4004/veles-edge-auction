@@ -1,7 +1,9 @@
-# Stress Scenario 3: Degraded Network
-name: "Degraded Network"
-description: "Simulates high network latency (3x) across the WSDREAM topology."
+# Provenance: SYNTHETIC
+# Stress Scenario 3: High Churn
+name: "High Churn"
+description: "Simulates high edge node churn (joining and leaving rapidly) to test registry state convergence."
 parameters:
   arrival_multiplier: 1.0
   node_capacity_multiplier: 1.0
-  latency_multiplier: 3.0
+  latency_multiplier: 1.0
+  churn_rate: 0.50

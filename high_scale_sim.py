@@ -1,8 +1,9 @@
-import time
 import math
+import time
+
 import numpy as np
-import pandas as pd
 from data_pipeline import DataPipeline
+
 
 def normal_cdf(x, mu, sigma):
     return (1.0 + math.erf((x - mu) / (sigma * math.sqrt(2.0)))) / 2.0

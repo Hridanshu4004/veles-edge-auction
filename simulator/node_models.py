@@ -1,5 +1,5 @@
-import random
-from common.models import Task, Claim, ResourceVector
+from common.models import Claim
+
 
 class NodeBehavior:
     @staticmethod
