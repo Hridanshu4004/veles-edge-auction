@@ -25,7 +25,7 @@
 
 ### Processing & Latency Model
 - Valid pairings only: Invalid entries (`-1`) are dropped explicitly.
-- **Node-to-Node mapping (LIMITATION):** WS-DREAM records latency from *end-users* to *web services*. We use it as a proxy for edge node-to-node latency by treating the WS-DREAM `users` and `services` interchangeably as nodes in our simulation. This provides realistic wide-area geographical latency variance, but may overestimate local rack-level connections.
+- **Node-to-Node Latency Model (DERIVED):** WS-DREAM `rtMatrix` values represent end-user to web-service response times (0-20 seconds, including server processing), which is *not* bare network latency. In our simulation, we estimate base node-to-node network latency geographically (e.g. Euclidean distance between node lat/lon scaled by speed-of-light-in-fiber proxy). We use the real WS-DREAM response-time distributions *strictly* to scale relative variance and simulate heavy tails, preventing unrealistic perfect connections. This is a DERIVED metric.
 
 ## Data Splits
 - **DEV vs HELD-OUT TEST:** Enforced at 80/20 ratio for Azure (split by `HashFunction`) and WS-DREAM (split by `user_idx`) respectively. 

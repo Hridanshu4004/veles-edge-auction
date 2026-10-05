@@ -1,0 +1,15 @@
+# PROVENANCE:
+#   arrival_rate: REAL-PROXY (Azure 2019 busiest window)
+#   durations: DERIVED (Interpolated from percentiles)
+#   latency: DERIVED (Geographic distance + WS-DREAM variance)
+#   churn: SYNTHETIC
+# SEED: 42
+
+name: Bursty Flood
+description: Simulates an enormous spike in Azure function invocations based on the
+  busiest real window.
+parameters:
+  arrival_multiplier: 5.0
+  node_capacity_multiplier: 1.0
+  latency_multiplier: 1.0
+  churn_rate: 0.01

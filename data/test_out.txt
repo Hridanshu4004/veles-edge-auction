@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.17, pytest-7.4.2, pluggy-1.6.0 -- /home/hridanshu/veles-edge-auction/.venv/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /home/hridanshu/veles-edge-auction
+plugins: anyio-3.7.1
+collecting ... collected 4 items
+
+tests/test_loaders.py::test_seed_determinism PASSED                      [ 25%]
+tests/test_loaders.py::test_split_enforcement PASSED                     [ 50%]
+tests/test_loaders.py::test_loud_failure_on_missing_files PASSED         [ 75%]
+tests/test_loaders.py::test_test_split_logging PASSED                    [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.11/site-packages/_pytest/cacheprovider.py:451
+  /home/hridanshu/veles-edge-auction/.venv/lib/python3.11/site-packages/_pytest/cacheprovider.py:451: PytestCacheWarning: cache could not write path /home/hridanshu/veles-edge-auction/.pytest_cache/v/cache/nodeids: [Errno 13] Permission denied: '/home/hridanshu/veles-edge-auction/.pytest_cache/v/cache/nodeids'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+.venv/lib/python3.11/site-packages/_pytest/stepwise.py:56
+  /home/hridanshu/veles-edge-auction/.venv/lib/python3.11/site-packages/_pytest/stepwise.py:56: PytestCacheWarning: cache could not write path /home/hridanshu/veles-edge-auction/.pytest_cache/v/cache/stepwise: [Errno 13] Permission denied: '/home/hridanshu/veles-edge-auction/.pytest_cache/v/cache/stepwise'
+    session.config.cache.set(STEPWISE_CACHE_DIR, [])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 4 passed, 2 warnings in 12.09s ========================

@@ -1,3 +1,5 @@
+import json
+import os
 
 import pytest
 
@@ -29,3 +31,16 @@ def test_loud_failure_on_missing_files():
     loader = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/fake_dir')
     with pytest.raises(FileNotFoundError):
         loader.load_and_split(num_funcs=5)
+
+def test_test_split_logging():
+    log_path = '/home/hridanshu/veles-edge-auction/data/access_log.jsonl'
+    if os.path.exists(log_path):
+        os.remove(log_path)
+    loader = Azure2019Loader('/home/hridanshu/veles-edge-auction/data/raw/azure/2019')
+    loader.load_and_split(num_funcs=5, allow_test=True)
+    assert os.path.exists(log_path)
+    with open(log_path, 'r') as f:
+        log_lines = f.readlines()
+    assert len(log_lines) > 0
+    log_entry = json.loads(log_lines[-1])
+    assert log_entry['split'] == 'TEST'

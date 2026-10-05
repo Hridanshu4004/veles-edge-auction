@@ -119,7 +119,7 @@ async def fetch_or_mock(url: str, fallback):
             r = await client.get(url)
             r.raise_for_status()
             return r.json(), False
-    except Exception:  # noqa: BLE001
+    except Exception:  # noqa: BLE001  # Need to catch broad network exceptions for robust simulation
         return fallback, True
 
 # ── REST Endpoints ────────────────────────────────────────────────────────────

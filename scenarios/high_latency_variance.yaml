@@ -1,0 +1,15 @@
+# PROVENANCE:
+#   arrival_rate: REAL-PROXY
+#   durations: DERIVED
+#   latency: SYNTHETIC (3x multiplier)
+#   churn: SYNTHETIC
+# SEED: 123
+
+name: High Latency Variance
+description: Simulates high network latency variance.
+parameters:
+  arrival_multiplier: 1.0
+  node_capacity_multiplier: 1.0
+  latency_multiplier: 3.0
+  latency_variance: 2.0
+  churn_rate: 0.05
