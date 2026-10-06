@@ -30,8 +30,8 @@ $$Payment = \begin{cases} Price_i & \text{if actual\_success == True} \\ 0 & \te
 |---|---|---|---|
 | **Individual Rationality** | Fails (Honest nodes slashed) | Passes | **Passes** (Contingent logic) |
 | **Multidimensional Attacks** | Highly Vulnerable | Highly Vulnerable | **Robust** (Max Regret ~ 1.8) |
-| **Sybil Win-Then-Drop** | Vulnerable | Vulnerable (+32 Gain) | **Immune** (Gain $\le 0$) |
-| **Collusion (Claims)** | Vulnerable | Vulnerable (+144 Gain) | **Immune** (Ignores claims) |
+| **Sybil Win-Then-Drop** | Vulnerable | Vulnerable (+32 Gain) | **Highly Resistant** (Gain $\le 0$) |
+| **Collusion (Claims)** | Vulnerable | Vulnerable (+144 Gain) | **Highly Resistant** (Ignores claims) |
 | **Computational Complexity**| $O(N)$ / NP-Hard | $O(N)$ | **$O(N)$** |
 | **Welfare Efficiency** | ~80% | ~95% (But highly unstable) | **~85%** (Highly stable) |
 
