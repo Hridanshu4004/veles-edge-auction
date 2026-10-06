@@ -1,3 +1,4 @@
+# HISTORICAL / ANALYSIS ONLY / NON-FINAL
 import math
 
 from common.models import Allocation, Bid, Task, TrustProfile

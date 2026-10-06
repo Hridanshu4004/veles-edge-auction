@@ -1,50 +1,88 @@
+version: '3.8'
+
 services:
-  registry:
-    build:
-      context: .
-      dockerfile: services/registry/Dockerfile
-    ports:
-      - "8001:8000"
-    volumes:
-      - .:/app
-  auctioneer:
-    build:
-      context: .
-      dockerfile: services/auctioneer/Dockerfile
-    ports:
-      - "8002:8000"
-    volumes:
-      - .:/app
-  node_agent_1:
-    build:
-      context: .
-      dockerfile: services/node_agent/Dockerfile
-    volumes:
-      - .:/app
-  node_agent_2:
-    build:
-      context: .
-      dockerfile: services/node_agent/Dockerfile
-    volumes:
-      - .:/app
-  node_agent_3:
-    build:
-      context: .
-      dockerfile: services/node_agent/Dockerfile
-    volumes:
-      - .:/app
-  dashboard:
-    build:
-      context: .
-      dockerfile: services/dashboard/Dockerfile
-    ports:
-      - "8080:8080"
+  db:
+    image: postgres:15
     environment:
-      - REGISTRY_URL=http://registry:8000
-      - AUCTIONEER_URL=http://auctioneer:8000
-      - MOCK=1
-    depends_on:
-      - registry
-      - auctioneer
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: edgetruth
+    ports:
+      - "5432:5432"
     volumes:
-      - ./services/dashboard/static:/app/static
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: web/backend/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/edgetruth
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: web/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+
+  edge-node-1:
+    build:
+      context: web/node_agent
+    environment:
+      - API_URL=http://backend:8000/api
+      - NODE_ID=edge-agent-01
+      - NODE_NAME=London Edge Agent 01
+      - REGION=EU-West
+      - CAPACITY_CPU=8
+      - CAPACITY_MEMORY=16384
+      - TRUE_LATENCY_MS=12.0
+      - NODE_TYPE=HONEST_STABLE
+      - CAPABILITIES=docker,python,ml
+    depends_on:
+      - backend
+
+  edge-node-2:
+    build:
+      context: web/node_agent
+    environment:
+      - API_URL=http://backend:8000/api
+      - NODE_ID=edge-agent-02
+      - NODE_NAME=Berlin Edge Agent 02
+      - REGION=EU-Central
+      - CAPACITY_CPU=4
+      - CAPACITY_MEMORY=8192
+      - TRUE_LATENCY_MS=25.0
+      - NODE_TYPE=HONEST_STABLE
+      - CAPABILITIES=docker
+    depends_on:
+      - backend
+
+  edge-node-3:
+    build:
+      context: web/node_agent
+    environment:
+      - API_URL=http://backend:8000/api
+      - NODE_ID=edge-sybil-03
+      - NODE_NAME=Malicious Sybil 03
+      - REGION=US-East
+      - CAPACITY_CPU=16
+      - CAPACITY_MEMORY=32768
+      - TRUE_LATENCY_MS=150.0
+      - NODE_TYPE=LIAR
+      - CAPABILITIES=docker,python,wasm
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
