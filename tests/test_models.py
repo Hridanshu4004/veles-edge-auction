@@ -19,4 +19,4 @@ def test_models():
     # Test TrustProfile
     tp = TrustProfile(node_id="test-1")
     assert tp.capacity_calibration == 1.0
-    assert tp.evidence.prediction_count == 0
+    assert tp.evidence.observations == 0

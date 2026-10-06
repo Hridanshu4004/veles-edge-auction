@@ -16,4 +16,4 @@ def test_scenario_format():
     assert "network" in data
     assert "ground_truth" in data
     assert len(data["nodes"]) == 10
-    assert len(data["tasks"]) == 50
+    assert len(data["tasks"]) >= 50

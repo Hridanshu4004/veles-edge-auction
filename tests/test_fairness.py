@@ -7,7 +7,7 @@ def test_mechanism_fairness():
     gen = DataGenerator(seed=123)
     scenario = gen.generate_scenario("TEST", num_nodes=5, num_tasks=10, config={"node_type_weights": [0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0]})
     
-    runner = ExperimentRunner(scenario)
+    runner = ExperimentRunner(scenario, seed=123)
     
     # Run mechanisms
     res_random = runner.run("random")
