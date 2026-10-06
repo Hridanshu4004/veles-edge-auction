@@ -7,14 +7,28 @@ class Node(Base):
     id = Column(String, primary_key=True, index=True)
     name = Column(String)
     region = Column(String, default="default")
+    country = Column(String)
+    lat = Column(Float)
+    lon = Column(Float)
+    cost = Column(Float)
+    reliability = Column(Float)
     capacity_cpu = Column(Integer)
     capacity_memory = Column(Integer)
     true_latency_ms = Column(Float)
     node_type = Column(String)
     capabilities = Column(JSON, default=list)
     status = Column(String, default="ONLINE")
+    data_source = Column(String)
     last_heartbeat = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class NodeLink(Base):
+    __tablename__ = "node_links"
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    source_id = Column(String, ForeignKey("nodes.id"))
+    target_id = Column(String, ForeignKey("nodes.id"))
+    latency_ms = Column(Float)
+    data_source = Column(String)
 
 class NodeObservation(Base):
     __tablename__ = "node_observations"
@@ -33,6 +47,7 @@ class Task(Base):
     required_cpu = Column(Integer)
     required_memory = Column(Integer)
     status = Column(String, default="PENDING")
+    data_source = Column(String)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class Allocation(Base):

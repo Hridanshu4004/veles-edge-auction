@@ -17,3 +17,6 @@ seed:
 
 logs:
 	docker compose logs -f
+
+seed:
+	SEED=$${SEED:-42} N_NODES=$${N_NODES:-30} N_TASKS=$${N_TASKS:-500} .venv/bin/python scripts/seed.py
