@@ -1,0 +1,8 @@
+mechanism,regret_mean,regret_ci95,n_seeds
+greedy,0.0113,0.0030,30
+trust-ranked allocation + proper-scoring,0.6880,0.1133,30
+contingent,0.1332,0.0297,30
+capped,0.1745,0.0391,30
+proper-scoring,0.4840,0.0771,30
+audits,0.1738,0.0382,30
+observed-reliability + contingent,0.0160,0.0034,30

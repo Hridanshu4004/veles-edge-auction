@@ -1,0 +1,4 @@
+Mechanism,SLA%,Regret (real),Delta_vs_greedy,CI_excludes_zero
+greedy,85.50 ± 5.52,0.0113 ± 0.0030,+0.00 ± 0.00,False
+observed-reliability + contingent,93.25 ± 3.66,0.0160 ± 0.0034,+7.75 ± 4.39,True
+capped,85.50 ± 5.52,0.1745 ± 0.0391,+0.00 ± 0.00,False

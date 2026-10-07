@@ -12,8 +12,6 @@ up:
 down:
 	docker compose down -v
 
-seed:
-	docker compose exec backend python web/backend/seed.py
 
 logs:
 	docker compose logs -f
