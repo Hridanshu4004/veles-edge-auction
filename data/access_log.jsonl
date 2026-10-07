@@ -54,3 +54,5 @@
 {"timestamp": "2026-10-06T20:59:30.100887+00:00", "function": "load_and_split (Azure)", "caller": "main", "split": "DEV"}
 {"timestamp": "2026-10-06T21:00:07.708839+00:00", "function": "load_and_split (WS-DREAM)", "caller": "main", "split": "DEV"}
 {"timestamp": "2026-10-06T21:00:13.194708+00:00", "function": "load_and_split (Azure)", "caller": "main", "split": "DEV"}
+{"timestamp": "2026-10-07T13:22:34.784747+00:00", "function": "load_and_split (WS-DREAM)", "caller": "main", "split": "DEV"}
+{"timestamp": "2026-10-07T13:22:41.597490+00:00", "function": "load_and_split (Azure)", "caller": "main", "split": "DEV"}

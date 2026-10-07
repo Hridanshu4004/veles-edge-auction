@@ -113,7 +113,7 @@ def main():
             max_latency_ms=float(row.get("duration_ms", 200.0)),
             required_cpu=int(rng.integers(1, 4)),
             required_memory=int(row.get("memory_mb", 1024)),
-            data_source="Azure2019"
+            status="SEEDED", data_source="Azure2019"
         )
         session.add(t)
     session.commit()
