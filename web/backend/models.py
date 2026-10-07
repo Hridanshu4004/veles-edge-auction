@@ -69,3 +69,11 @@ class Execution(Base):
     latency_ms = Column(Float)
     payment = Column(Float)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class Event(Base):
+    __tablename__ = 'events'
+    id = Column(Integer, primary_key=True, index=True)
+    task_id = Column(String)
+    event_type = Column(String)
+    description = Column(String)
+    created_at = Column(DateTime, default=func.now())

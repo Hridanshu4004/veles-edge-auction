@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from pydantic import BaseModel
 from typing import List, Optional
-import sys, os, random, asyncio, csv, io
+import sys, os, random, asyncio, csv
 from datetime import datetime, timedelta, timezone
 import numpy as np
 from scipy import stats as scipy_stats
@@ -32,6 +32,9 @@ MECH_RENAME = {
     "observed_rel_contingent": "observed-reliability + contingent",
 }
 
+# Global state for current live mechanism
+LIVE_MECHANISM = "observed-reliability + contingent"
+
 def ci95(arr):
     a = np.array(arr, dtype=float)
     n = len(a)
@@ -39,7 +42,6 @@ def ci95(arr):
     return float(scipy_stats.sem(a) * scipy_stats.t.ppf(0.975, n - 1))
 
 def load_real_regret():
-    """Load regret_aggregated.csv built from the real regret_final_d.csv."""
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
     path = os.path.join(repo_root, "experiments", "results", "regret_aggregated.csv")
     if not os.path.exists(path):
@@ -55,10 +57,8 @@ def load_real_regret():
     return result
 
 app = FastAPI(title="EdgeTruth Live API")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True,
-                   allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
-# ── Background tasks ──────────────────────────────────────────────────────────
 async def heartbeat_loop():
     while True:
         try:
@@ -70,35 +70,100 @@ async def heartbeat_loop():
             pass
         await asyncio.sleep(5)
 
-async def task_feeder_loop():
+async def task_worker_loop():
     while True:
         try:
             db = SessionLocal()
-            task = db.query(models.Task).filter(models.Task.status == "SEEDED").first()
+            # 1. Move a seeded task to pending
+            seeded = db.query(models.Task).filter(models.Task.status == "SEEDED").first()
+            if seeded:
+                seeded.status = "PENDING"
+                db.commit()
+            
+            # 2. Process a pending task
+            task = db.query(models.Task).filter(models.Task.status == "PENDING").first()
             if task:
-                task.status = "PENDING"
+                # Auction
+                nodes = db.query(models.Node).filter(models.Node.status == "ONLINE").all()
+                if nodes:
+                    cbids, trust_profiles = [], {}
+                    for n in nodes:
+                        total = db.query(models.NodeObservation).filter(models.NodeObservation.node_id == n.id).count()
+                        succ = db.query(models.NodeObservation).filter(models.NodeObservation.node_id == n.id, models.NodeObservation.success == True).count()
+                        tp = TrustProfile(node_id=n.id)
+                        if total > 0:
+                            tp.evidence.observations = total
+                            p = succ / total
+                            tp.evidence.success_brier_score = (p - 1.0)**2 if p > 0.5 else p**2
+                        trust_profiles[n.id] = tp
+                        link = db.query(models.NodeLink).filter(models.NodeLink.source_id == n.id).first()
+                        lat = link.latency_ms if link else n.true_latency_ms
+                        cbids.append(CommonBid(
+                            task_id=task.id, node_id=n.id, price=task.task_value * random.uniform(0.1, 0.5),
+                            claim=CommonClaim(success_probability=0.9, latency_p50_ms=lat, latency_p95_ms=lat * 1.5, energy_estimate=1.0, confidence=1.0)
+                        ))
+
+                    ctask = CommonTask(task_id=task.id, cpu_required=task.required_cpu, ram_required=task.required_memory, bandwidth_required=10.0, max_latency_ms=task.max_latency_ms, deadline_ms=task.max_latency_ms, priority=1.0, work_units=1.0, task_value=task.task_value)
+                    
+                    if LIVE_MECHANISM == "greedy":
+                        alloc = greedy_cheapest(ctask, cbids)
+                    else:
+                        alloc = variant_allocation(ctask, cbids, trust_profiles, LIVE_MECHANISM)
+                    
+                    if not alloc:
+                        task.status = "FAILED_NO_WINNER"
+                    else:
+                        task.status = "ALLOCATED"
+                        db.add(models.Allocation(task_id=task.id, node_id=alloc.node_id, score=getattr(alloc, "score", 1.0), price=alloc.winning_bid.price, success_probability=1.0))
+                        db.commit() # save alloc
+
+                        # Execute
+                        node = db.query(models.Node).filter(models.Node.id == alloc.node_id).first()
+                        actual_success = random.random() <= (node.reliability or 0.85)
+                        actual_latency = node.true_latency_ms if actual_success else 0.0
+
+                        class _Alloc:
+                            node_id = alloc.node_id
+                            class winning_bid:
+                                price = alloc.price
+                                class claim:
+                                    success_probability = 1.0
+
+                        payment = variant_payment(_Alloc(), actual_success, LIVE_MECHANISM)
+                        db.add(models.Execution(task_id=task.id, node_id=node.id, success=actual_success, latency_ms=actual_latency, payment=payment))
+                        db.add(models.NodeObservation(node_id=node.id, task_id=task.id, success=actual_success, latency_ms=actual_latency))
+                        task.status = "COMPLETED" if actual_success else "FAILED_EXECUTION"
+                        
+                        # Save event
+                        db.add(models.Event(task_id=task.id, event_type="EXECUTION", description=f"Executed on {node.id}, success={actual_success}, payment={payment:.2f}"))
+
                 db.commit()
             db.close()
-        except Exception:
+        except Exception as e:
             pass
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
 
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(heartbeat_loop())
-    asyncio.create_task(task_feeder_loop())
+    asyncio.create_task(task_worker_loop())
 
-# ── Static dashboard ──────────────────────────────────────────────────────────
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-    html_path = os.path.join(repo_root, "web", "backend", "dashboard.html")
-    with open(html_path) as f:
+    with open(os.path.join(repo_root, "web", "backend", "dashboard.html")) as f:
         return f.read()
 
-# ── Core endpoints ─────────────────────────────────────────────────────────────
 @app.get("/api/health")
 def health(): return {"status": "ok"}
+
+class MechanismSwitch(BaseModel):
+    mechanism: str
+@app.post("/api/mechanism")
+def switch_mechanism(req: MechanismSwitch):
+    global LIVE_MECHANISM
+    LIVE_MECHANISM = req.mechanism
+    return {"status": "success", "mechanism": LIVE_MECHANISM}
 
 @app.get("/api/metrics")
 def get_metrics(db: Session = Depends(get_db)):
@@ -113,7 +178,9 @@ def get_metrics(db: Session = Depends(get_db)):
     ).scalar() or 0.0
     sla_success = (successful_tasks / total_tasks * 100) if total_tasks > 0 else 0.0
     nodes = db.query(models.Node).all()
+    events = db.query(models.Event).order_by(models.Event.id.desc()).limit(5).all()
     return {
+        "live_mechanism": LIVE_MECHANISM,
         "total_tasks": total_tasks,
         "successful_tasks": successful_tasks,
         "failed_tasks": failed_tasks,
@@ -124,106 +191,18 @@ def get_metrics(db: Session = Depends(get_db)):
         "welfare": round(float(welfare_query), 4),
         "active_nodes": len([n for n in nodes if n.status == "ONLINE"]),
         "total_nodes": len(nodes),
+        "recent_events": [{"task": e.task_id, "desc": e.description} for e in events]
     }
 
 @app.get("/api/nodes")
 def get_nodes(db: Session = Depends(get_db)):
-    return [{"id": n.id, "country": n.country, "lat": n.lat, "lon": n.lon,
-             "status": n.status, "cost": n.cost, "reliability": n.reliability} for n in db.query(models.Node).all()]
+    return [{"id": n.id, "country": n.country, "lat": n.lat, "lon": n.lon, "status": n.status, "cost": n.cost, "reliability": n.reliability} for n in db.query(models.Node).all()]
 
 @app.get("/api/tasks")
 def get_tasks(db: Session = Depends(get_db)):
     tasks = db.query(models.Task).limit(50).all()
-    return [{"id": t.id[:16]+"...", "task_value_SYNTHETIC": t.task_value,
-             "max_latency_ms_SYNTHETIC": t.max_latency_ms,
-             "required_cpu": t.required_cpu, "required_memory": t.required_memory,
-             "status": t.status, "data_source": t.data_source} for t in tasks]
+    return [{"id": t.id[:16]+"...", "task_value_SYNTHETIC": t.task_value, "max_latency_ms_SYNTHETIC": t.max_latency_ms, "required_cpu": t.required_cpu, "required_memory": t.required_memory, "status": t.status, "data_source": t.data_source} for t in tasks]
 
-# ── Auction ───────────────────────────────────────────────────────────────────
-class AuctionRequest(BaseModel):
-    task_id: str
-    mechanism: str = "contingent"
-
-@app.post("/api/auctions/run")
-def run_auction(req: AuctionRequest, db: Session = Depends(get_db)):
-    task = db.query(models.Task).filter(models.Task.id == req.task_id).first()
-    if not task or task.status != "PENDING":
-        raise HTTPException(400, "Task not PENDING")
-    nodes = db.query(models.Node).filter(models.Node.status == "ONLINE").all()
-    if not nodes:
-        raise HTTPException(400, "No nodes")
-
-    cbids, trust_profiles = [], {}
-    for n in nodes:
-        total = db.query(models.NodeObservation).filter(models.NodeObservation.node_id == n.id).count()
-        succ = db.query(models.NodeObservation).filter(models.NodeObservation.node_id == n.id, models.NodeObservation.success == True).count()
-        tp = TrustProfile(node_id=n.id)
-        if total > 0:
-            tp.evidence.observations = total
-            p = succ / total
-            tp.evidence.success_brier_score = (p - 1.0)**2 if p > 0.5 else p**2
-        trust_profiles[n.id] = tp
-        # Use node_links latency if available
-        link = db.query(models.NodeLink).filter(models.NodeLink.source_id == n.id).first()
-        lat = link.latency_ms if link else n.true_latency_ms
-        cbids.append(CommonBid(
-            task_id=task.id, node_id=n.id, price=task.task_value * random.uniform(0.1, 0.5),
-            claim=CommonClaim(success_probability=0.9, latency_p50_ms=lat,
-                              latency_p95_ms=lat * 1.5, energy_estimate=1.0, confidence=1.0)
-        ))
-
-    ctask = CommonTask(task_id=task.id, cpu_required=task.required_cpu,
-                       ram_required=task.required_memory, bandwidth_required=10.0,
-                       max_latency_ms=task.max_latency_ms, deadline_ms=task.max_latency_ms,
-                       priority=1.0, work_units=1.0, task_value=task.task_value)
-
-    if req.mechanism == "greedy":
-        alloc = greedy_cheapest(ctask, cbids)
-    else:
-        alloc = variant_allocation(ctask, cbids, trust_profiles, req.mechanism)
-
-    if not alloc:
-        task.status = "FAILED_NO_WINNER"; db.commit()
-        return {"winner": None, "mechanism": req.mechanism}
-
-    db.add(models.Allocation(task_id=task.id, node_id=alloc.node_id,
-                              score=getattr(alloc, "score", 1.0),
-                              price=alloc.winning_bid.price, success_probability=1.0))
-    task.status = "ALLOCATED"; db.commit()
-    return {"winner": alloc.node_id, "price": round(alloc.winning_bid.price, 4), "mechanism": req.mechanism}
-
-# ── Executor ──────────────────────────────────────────────────────────────────
-class ExecuteRequest(BaseModel):
-    task_id: str
-    mechanism: str = "contingent"
-
-@app.post("/api/execute")
-def run_executor(req: ExecuteRequest, db: Session = Depends(get_db)):
-    task = db.query(models.Task).filter(models.Task.id == req.task_id).first()
-    alloc = db.query(models.Allocation).filter(models.Allocation.task_id == req.task_id).order_by(models.Allocation.id.desc()).first()
-    if not alloc: raise HTTPException(400, "No allocation")
-    node = db.query(models.Node).filter(models.Node.id == alloc.node_id).first()
-    actual_success = random.random() <= (node.reliability or 0.85)
-    actual_latency = node.true_latency_ms if actual_success else 0.0
-
-    class _Alloc:
-        node_id = alloc.node_id
-        class winning_bid:
-            price = alloc.price
-            class claim:
-                success_probability = alloc.success_probability
-
-    payment = variant_payment(_Alloc(), actual_success, req.mechanism)
-
-    db.add(models.Execution(task_id=task.id, node_id=node.id, success=actual_success,
-                            latency_ms=actual_latency, payment=payment))
-    db.add(models.NodeObservation(node_id=node.id, task_id=task.id,
-                                  success=actual_success, latency_ms=actual_latency))
-    task.status = "COMPLETED" if actual_success else "FAILED_EXECUTION"
-    db.commit()
-    return {"success": actual_success, "payment": round(payment, 4), "slashed": not actual_success}
-
-# ── Scenarios ─────────────────────────────────────────────────────────────────
 class ScenarioRequest(BaseModel):
     seed: int
     n_tasks: int
@@ -233,15 +212,14 @@ class ScenarioRequest(BaseModel):
 @app.post("/api/scenarios/run")
 def run_scenario(req: ScenarioRequest):
     N_SEEDS = 20
-    mechanisms = req.mechanisms
+    # TASK 3: "If capped uses greedy allocation by mistake, fix it or remove it from the comparison"
+    # We remove 'capped' from comparison to avoid confusion since it uses greedy allocation.
+    mechanisms = [m for m in req.mechanisms if m != "capped"]
     results = {}
 
-    # Map display names to runner names
     runner_map = {
         "greedy": "greedy",
         "observed-reliability + contingent": "edgetruth_no_probe",
-        "observed-reliability+contingent": "edgetruth_no_probe",
-        "capped": "greedy",  # fallback; runner doesn't have capped natively
         "trust-ranked allocation + proper-scoring": "trust_vcg",
     }
 
@@ -252,8 +230,7 @@ def run_scenario(req: ScenarioRequest):
         w = [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         if "liar" in req.attackers: w = [0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0]
         gen = DataGenerator(seed=s)
-        scenario = gen.generate_scenario("CUSTOM", num_nodes=10, num_tasks=req.n_tasks,
-                                         config={"node_type_weights": w})
+        scenario = gen.generate_scenario("CUSTOM", num_nodes=10, num_tasks=req.n_tasks, config={"node_type_weights": w})
         runner = ExperimentRunner(scenario, seed=s)
 
         for mech in mechanisms:
@@ -265,7 +242,6 @@ def run_scenario(req: ScenarioRequest):
             if mech == "greedy":
                 greedy_sla_per_seed.append(sla)
 
-    # Load real regret
     real_regret = load_real_regret()
 
     for mech in mechanisms:
@@ -289,7 +265,6 @@ def run_scenario(req: ScenarioRequest):
             "seeds": N_SEEDS,
         }
 
-    # Write CSV
     results_dir = os.path.join(os.path.dirname(__file__), "../../experiments/results")
     os.makedirs(results_dir, exist_ok=True)
     with open(os.path.join(results_dir, "latest_experiment.csv"), "w", newline="") as f:
@@ -302,8 +277,6 @@ def run_scenario(req: ScenarioRequest):
 
 @app.get("/api/results")
 def get_results():
-    """Returns the real regret results aggregated from experiments/results/regret_aggregated.csv
-    and the latest scenario CSV."""
     results_dir = os.path.join(os.path.dirname(__file__), "../../experiments/results")
     regret_path = os.path.join(results_dir, "regret_aggregated.csv")
     scenario_path = os.path.join(results_dir, "latest_experiment.csv")

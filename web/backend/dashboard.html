@@ -6,65 +6,73 @@
 <title>EdgeTruth — Edge Auction Monitor</title>
 <style>
   :root {
-    --bg: #0f1117; --panel: #1a1d27; --border: #2a2d3d;
-    --accent: #5b8dee; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
-    --text: #e2e8f0; --muted: #64748b; --font: 'Segoe UI', system-ui, sans-serif;
+    --bg: #fafafa; --panel: #ffffff; --border: #e5e7eb;
+    --accent: #2563eb; --text: #1f2937; --muted: #6b7280; --font: 'Segoe UI', system-ui, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: var(--font); padding: 24px; }
-  h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
-  .subtitle { font-size: 0.8rem; color: var(--muted); margin-bottom: 24px; }
+  h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
   .card .label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-  .card .value { font-size: 1.8rem; font-weight: 700; margin-top: 4px; }
-  .section { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
-  .section h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; color: var(--accent); }
-  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-  th { text-align: left; padding: 8px 10px; background: #22253a; color: var(--muted); text-transform: uppercase; font-size: 0.7rem; }
-  td { padding: 8px 10px; border-top: 1px solid var(--border); }
-  tr:hover td { background: #1e2130; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; }
-  .badge-green { background: #14532d; color: var(--green); }
-  .badge-red { background: #450a0a; color: var(--red); }
-  .badge-yellow { background: #422006; color: var(--yellow); }
-  .badge-blue { background: #1e3a5f; color: var(--accent); }
-  .provenance { font-size: 0.78rem; line-height: 1.7; }
-  .provenance dt { color: var(--accent); font-weight: 600; }
-  .provenance dd { color: var(--muted); padding-left: 16px; }
-  .warning-box { background: #1c1400; border: 1px solid #92400e; border-radius: 8px; padding: 16px; font-size: 0.8rem; line-height: 1.7; }
-  .warning-box h3 { color: var(--yellow); margin-bottom: 8px; }
-  .warning-box li { color: #d97706; margin-left: 16px; }
-  #refresh-btn { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-size: 0.82rem; }
-  #refresh-btn:hover { opacity: 0.85; }
+  .card .value { font-size: 1.8rem; font-weight: 600; margin-top: 4px; color: var(--accent); }
+  .section { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .section h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: 12px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { text-align: left; padding: 10px; background: #f9fafb; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 500; }
+  td { padding: 10px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #f3f4f6; }
+  .provenance { font-size: 0.85rem; line-height: 1.7; display: grid; grid-template-columns: 120px 1fr; gap: 4px 16px; }
+  .provenance dt { color: var(--accent); font-weight: 600; text-align: right; }
+  .provenance dd { color: var(--text); }
+  .warning-box { background: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 16px; font-size: 0.85rem; line-height: 1.7; color: #854d0e; }
+  .warning-box h3 { color: #a16207; margin-bottom: 8px; font-weight: 600; }
+  .warning-box li { margin-left: 20px; margin-bottom: 4px; }
+  .mech-selector { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; padding: 12px; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 6px; }
+  select, button { padding: 6px 12px; border: 1px solid var(--border); border-radius: 4px; background: white; font-family: var(--font); cursor: pointer; }
+  button { background: var(--accent); color: white; border: none; font-weight: 500; }
+  button:hover { opacity: 0.9; }
 </style>
 </head>
 <body>
 <h1>EdgeTruth — Edge Auction Monitor</h1>
-<p class="subtitle">Live metrics from SQLite · data refreshes every 10s · <button id="refresh-btn" onclick="refresh()">Refresh now</button></p>
+<p class="subtitle">Live metrics from SQLite · data refreshes every 2s</p>
+
+<div class="mech-selector">
+  <strong>Live Mechanism:</strong>
+  <span id="current-mech" style="font-weight:600; color:var(--accent)">Loading...</span>
+  <div style="flex-grow:1"></div>
+  <select id="mech-select">
+    <option value="observed-reliability + contingent">observed-reliability + contingent</option>
+    <option value="greedy">greedy</option>
+  </select>
+  <button onclick="switchMech()">Switch</button>
+</div>
 
 <div class="grid" id="metrics-grid">
   <div class="card"><div class="label">Total Tasks</div><div class="value" id="m-total">—</div></div>
-  <div class="card"><div class="label">Completed</div><div class="value" id="m-done" style="color:var(--green)">—</div></div>
-  <div class="card"><div class="label">Failed</div><div class="value" id="m-fail" style="color:var(--red)">—</div></div>
-  <div class="card"><div class="label">SLA%</div><div class="value" id="m-sla">—</div></div>
-  <div class="card"><div class="label">Active Nodes</div><div class="value" id="m-nodes" style="color:var(--accent)">—</div></div>
-  <div class="card"><div class="label">Welfare</div><div class="value" id="m-welfare" style="font-size:1.1rem">—</div></div>
+  <div class="card"><div class="label">Completed</div><div class="value" id="m-done">—</div></div>
+  <div class="card"><div class="label">Failed</div><div class="value" id="m-fail">—</div></div>
+  <div class="card"><div class="label">Pending</div><div class="value" id="m-pend">—</div></div>
+  <div class="card"><div class="label">Welfare</div><div class="value" id="m-welfare">—</div></div>
+  <div class="card"><div class="label">Active Nodes</div><div class="value" id="m-nodes">—</div></div>
+</div>
+
+<div class="section" style="display:flex; gap: 20px;">
+  <div style="flex:1">
+    <h2>Recent Execution Events</h2>
+    <table id="events-table"><tbody></tbody></table>
+  </div>
+  <div style="flex:1">
+    <h2>Results — Regret (REAL)</h2>
+    <table id="results-table"><thead><tr><th>Mechanism</th><th>Regret (mean ± 95% CI)</th><th>n seeds</th></tr></thead><tbody></tbody></table>
+  </div>
 </div>
 
 <div class="section">
-  <h2>Nodes (WS-DREAM real locations, SYNTHETIC cost/reliability)</h2>
-  <table id="nodes-table"><thead><tr><th>ID</th><th>Country</th><th>Status</th><th>Cost</th><th>Reliability</th></tr></thead><tbody></tbody></table>
-</div>
-
-<div class="section">
-  <h2>Recent Tasks (Azure 2019 arrivals/durations/memory = REAL; task_value, max_latency_ms = SYNTHETIC)</h2>
-  <table id="tasks-table"><thead><tr><th>ID</th><th>Value (SYNTH)</th><th>MaxLat ms (SYNTH)</th><th>CPU</th><th>Mem</th><th>Status</th><th>Source</th></tr></thead><tbody></tbody></table>
-</div>
-
-<div class="section">
-  <h2>Results — Regret (REAL, from experiments/results/regret_final_d.csv)</h2>
-  <table id="results-table"><thead><tr><th>Mechanism</th><th>Regret (mean ± 95% CI)</th><th>n seeds</th></tr></thead><tbody></tbody></table>
+  <h2>Scenario Analysis (Delta vs Greedy)</h2>
+  <table id="scenario-table"><thead><tr><th>Mechanism</th><th>SLA%</th><th>Delta vs Greedy (± CI)</th><th>Excludes Zero?</th></tr></thead><tbody></tbody></table>
 </div>
 
 <div class="section">
@@ -90,38 +98,31 @@
 </div>
 
 <script>
+async function switchMech() {
+  const mech = document.getElementById('mech-select').value;
+  await fetch('/api/mechanism', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({mechanism: mech})
+  });
+  refresh();
+}
 async function refresh() {
   try {
-    const [m, n, t, r] = await Promise.all([
+    const [m, r] = await Promise.all([
       fetch('/api/metrics').then(x=>x.json()),
-      fetch('/api/nodes').then(x=>x.json()),
-      fetch('/api/tasks').then(x=>x.json()),
-      fetch('/api/results').then(x=>x.json()),
+      fetch('/api/results').then(x=>x.json())
     ]);
 
+    document.getElementById('current-mech').textContent = m.live_mechanism;
     document.getElementById('m-total').textContent = m.total_tasks;
     document.getElementById('m-done').textContent = m.successful_tasks;
     document.getElementById('m-fail').textContent = m.failed_tasks;
-    document.getElementById('m-sla').textContent = m.sla_success_percent + '%';
-    document.getElementById('m-nodes').textContent = m.active_nodes + '/' + m.total_nodes;
+    document.getElementById('m-pend').textContent = m.pending_tasks;
     document.getElementById('m-welfare').textContent = m.welfare.toLocaleString();
+    document.getElementById('m-nodes').textContent = m.active_nodes + '/' + m.total_nodes;
 
-    const nt = document.querySelector('#nodes-table tbody');
-    nt.innerHTML = n.slice(0,15).map(nd=>`
-      <tr><td>${nd.id}</td><td>${nd.country||'—'}</td>
-      <td><span class="badge badge-${nd.status==='ONLINE'?'green':'red'}">${nd.status}</span></td>
-      <td>${(nd.cost||0).toFixed(3)}</td><td>${(nd.reliability||0).toFixed(2)}</td></tr>`).join('');
-
-    const tt = document.querySelector('#tasks-table tbody');
-    tt.innerHTML = t.slice(0,12).map(tk=>{
-      const sc={COMPLETED:'green',PENDING:'yellow',SEEDED:'blue','FAILED_EXECUTION':'red','FAILED_NO_WINNER':'red'}[tk.status]||'blue';
-      return `<tr><td style="font-size:0.7rem">${tk.id}</td>
-        <td>${tk.task_value_SYNTHETIC.toFixed(1)}</td>
-        <td>${tk.max_latency_ms_SYNTHETIC.toFixed(0)}</td>
-        <td>${tk.required_cpu}</td><td>${tk.required_memory}</td>
-        <td><span class="badge badge-${sc}">${tk.status}</span></td>
-        <td>${tk.data_source||'—'}</td></tr>`;
-    }).join('');
+    const et = document.querySelector('#events-table tbody');
+    et.innerHTML = (m.recent_events||[]).map(e=>`<tr><td><strong>${e.task.slice(0,8)}...</strong></td><td>${e.desc}</td></tr>`).join('');
 
     const rt = document.querySelector('#results-table tbody');
     const regret = r.real_regret || {};
@@ -129,15 +130,19 @@ async function refresh() {
       rt.innerHTML = Object.entries(regret).map(([mech, v])=>
         `<tr><td>${mech}</td><td>${v.regret}</td><td>${v.n_seeds}</td></tr>`
       ).join('');
-    } else {
-      rt.innerHTML = '<tr><td colspan="3" style="color:var(--muted)">No results yet — run /api/scenarios/run first</td></tr>';
     }
-  } catch(e) {
-    console.error(e);
-  }
+
+    if (r.latest_scenario_csv) {
+      const rows = r.latest_scenario_csv.trim().split('\n').slice(1);
+      document.querySelector('#scenario-table tbody').innerHTML = rows.map(row=>{
+        const [mech, sla, reg, delta, excl] = row.split(',');
+        return `<tr><td>${mech}</td><td>${sla}</td><td>${delta}</td><td>${excl}</td></tr>`;
+      }).join('');
+    }
+  } catch(e) {}
 }
 refresh();
-setInterval(refresh, 10000);
+setInterval(refresh, 2000);
 </script>
 </body>
 </html>
