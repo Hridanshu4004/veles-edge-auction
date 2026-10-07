@@ -125,7 +125,7 @@ async def task_worker_loop():
                         class _Alloc:
                             node_id = alloc.node_id
                             class winning_bid:
-                                price = alloc.price
+                                price = alloc.winning_bid.price
                                 class claim:
                                     success_probability = 1.0
 
@@ -140,7 +140,9 @@ async def task_worker_loop():
                 db.commit()
             db.close()
         except Exception as e:
-            pass
+            import traceback
+            print("ERROR IN WORKER:", e)
+            traceback.print_exc()
         await asyncio.sleep(1)
 
 @app.on_event("startup")
