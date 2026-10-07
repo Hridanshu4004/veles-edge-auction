@@ -484,6 +484,32 @@
       document.getElementById('detailModal').classList.remove('active');
     }
 
+    
+    // VERCEL STATIC MOCK
+    const mockMetrics = {"live_mechanism":"observed-reliability + contingent","total_tasks":500,"successful_tasks":228,"failed_tasks":39,"pending_tasks":0,"seeded_tasks":0,"sla_success_percent":45.6,"total_payment":2962.8174,"welfare":8847.1874,"active_nodes":30,"total_nodes":30,"recent_events":[{"task":"46b18a81a3cb8565809e45a1dfe6a4aaf37beeb299f9fd6279f531f1f26ce356_b8a44d04","desc":"Executed on 184, success=True, payment=4.64"},{"task":"46b18a81a3cb8565809e45a1dfe6a4aaf37beeb299f9fd6279f531f1f26ce356_5a456db8","desc":"Executed on 184, success=True, payment=2.01"},{"task":"46b18a81a3cb8565809e45a1dfe6a4aaf37beeb299f9fd6279f531f1f26ce356_f8f7c1d8","desc":"Executed on 261, success=True, payment=17.20"},{"task":"46b18a81a3cb8565809e45a1dfe6a4aaf37beeb299f9fd6279f531f1f26ce356_17b466a2","desc":"Executed on 261, success=True, payment=2.52"},{"task":"46b18a81a3cb8565809e45a1dfe6a4aaf37beeb299f9fd6279f531f1f26ce356_27545f19","desc":"Executed on 184, success=True, payment=10.77"}]};
+    const mockResults = {"provenance":{"arrivals":"REAL — Azure 2019 DEV split","durations":"REAL — Azure 2019 DEV split","memory":"REAL — Azure 2019 DEV split","node_locations":"REAL — WS-DREAM dataset","node_costs_reliability":"SYNTHETIC","task_value":"SYNTHETIC","max_latency_ms":"SYNTHETIC (floored at 200ms vs derived link 5-335ms)","link_latency":"DERIVED — Haversine distance * 0.02 + 5ms"},"real_regret":{"greedy":{"regret":"0.0113 ± 0.0030","n_seeds":30},"trust-ranked allocation + proper-scoring":{"regret":"0.6880 ± 0.1133","n_seeds":30},"contingent":{"regret":"0.1332 ± 0.0297","n_seeds":30},"capped":{"regret":"0.1745 ± 0.0391","n_seeds":30},"proper-scoring":{"regret":"0.4840 ± 0.0771","n_seeds":30},"audits":{"regret":"0.1738 ± 0.0382","n_seeds":30},"observed-reliability + contingent":{"regret":"0.0160 ± 0.0034","n_seeds":30}},"latest_scenario_csv":"Mechanism,SLA%,Regret (real),Delta_vs_greedy,CI_excludes_zero\ngreedy,85.50 ± 5.52,0.0113 ± 0.0030,+0.00 ± 0.00,False\nobserved-reliability + contingent,93.25 ± 3.66,0.0160 ± 0.0034,+7.75 ± 4.39,True\ncapped,85.50 ± 5.52,0.1745 ± 0.0391,+0.00 ± 0.00,False\n"};
+
+    // Override fetch to return static data
+    const originalFetch = window.fetch;
+    window.fetch = async function(url, options) {
+      if (url.includes('/api/metrics')) {
+        // Simulate live activity by tweaking numbers slightly over time
+        mockMetrics.successful_tasks += Math.floor(Math.random() * 2);
+        mockMetrics.pending_tasks = Math.max(0, mockMetrics.pending_tasks - 1);
+        mockMetrics.welfare += Math.random() * 5;
+        return { json: async () => mockMetrics };
+      }
+      if (url.includes('/api/results')) {
+        return { json: async () => mockResults };
+      }
+      if (url.includes('/api/mechanism')) {
+        const body = JSON.parse(options.body);
+        mockMetrics.live_mechanism = body.mechanism;
+        return { ok: true };
+      }
+      return originalFetch(url, options);
+    };
+
     window.switchMech = async function() {
       const mech = document.getElementById('mech-select').value;
       await fetch('/api/mechanism', {
