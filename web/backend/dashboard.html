@@ -1,148 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EdgeTruth — Edge Auction Monitor</title>
-<style>
-  :root {
-    --bg: #fafafa; --panel: #ffffff; --border: #e5e7eb;
-    --accent: #2563eb; --text: #1f2937; --muted: #6b7280; --font: 'Segoe UI', system-ui, sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font); padding: 24px; }
-  h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-  .card .label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-  .card .value { font-size: 1.8rem; font-weight: 600; margin-top: 4px; color: var(--accent); }
-  .section { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-  .section h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: 12px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  th { text-align: left; padding: 10px; background: #f9fafb; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 500; }
-  td { padding: 10px; border-bottom: 1px solid var(--border); }
-  tr:hover td { background: #f3f4f6; }
-  .provenance { font-size: 0.85rem; line-height: 1.7; display: grid; grid-template-columns: 120px 1fr; gap: 4px 16px; }
-  .provenance dt { color: var(--accent); font-weight: 600; text-align: right; }
-  .provenance dd { color: var(--text); }
-  .warning-box { background: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 16px; font-size: 0.85rem; line-height: 1.7; color: #854d0e; }
-  .warning-box h3 { color: #a16207; margin-bottom: 8px; font-weight: 600; }
-  .warning-box li { margin-left: 20px; margin-bottom: 4px; }
-  .mech-selector { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; padding: 12px; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 6px; }
-  select, button { padding: 6px 12px; border: 1px solid var(--border); border-radius: 4px; background: white; font-family: var(--font); cursor: pointer; }
-  button { background: var(--accent); color: white; border: none; font-weight: 500; }
-  button:hover { opacity: 0.9; }
-</style>
+  <meta charset="utf-8">
+  <title>EdgeTruth V3 — Overview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* DESIGN SYSTEM: Brutalist / Grid-based / High Contrast */
+    :root {
+      --bg: #0a0a0a;
+      --bg-grid: #171717;
+      --fg: #f5f5f5;
+      --gray: #a3a3a3;
+      --gray-dark: #262626;
+      --accent: #00ff88; /* Electric Green */
+      --accent-mute: rgba(0, 255, 136, 0.15);
+      --danger: #ff3366;
+      --danger-mute: rgba(255, 51, 102, 0.15);
+      
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      
+      --s1: 8px;
+      --s2: 16px;
+      --s3: 24px;
+      --s4: 32px;
+      --s6: 48px;
+      --s8: 64px;
+      --s12: 96px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      
+      background-image: 
+        linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
+      background-size: var(--s4) var(--s4);
+      background-position: top center;
+    }
+    
+    h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    h1 { font-size: clamp(2.5rem, 5vw, 4rem); max-width: 20ch; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.25rem; margin-bottom: var(--s2); }
+    p { font-size: 1.125rem; color: var(--gray); max-width: 65ch; }
+    
+    .mono { font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.05em; }
+    .label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; color: var(--gray); }
+    .text-accent { color: var(--accent); }
+    .text-danger { color: var(--danger); }
+    
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 var(--s4); }
+    section { padding: var(--s8) 0; border-bottom: 1px solid var(--gray-dark); }
+    
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg); border-bottom: 1px solid var(--gray-dark);
+      padding: var(--s2) var(--s4);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    header nav { display: flex; gap: var(--s4); }
+    header a { color: var(--gray); text-decoration: none; font-family: var(--font-mono); font-size: 0.875rem; text-transform: uppercase; }
+    header a:hover { color: var(--fg); }
+    header a.active { color: var(--accent); font-weight: bold; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+    
+    footer { padding: var(--s6) var(--s4); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray); }
+    
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: var(--s2) var(--s3);
+      background: var(--fg); color: var(--bg);
+      text-decoration: none; font-weight: 600; font-family: var(--font-mono); text-transform: uppercase;
+      cursor: pointer; border: none; transition: background 0.2s;
+    }
+    .btn:hover { background: var(--gray); }
+    .btn-outline { background: transparent; color: var(--fg); border: 1px solid var(--gray-dark); }
+    .btn-outline:hover { background: var(--gray-dark); color: var(--fg); }
+    
+    .badge {
+      display: inline-block; padding: 4px 8px; border: 1px solid var(--gray-dark);
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.05em; background: var(--accent-mute);
+    }
+    
+    .hero { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+    .hero-content { position: relative; z-index: 10; padding: var(--s6) 0; }
+    .hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: auto; }
+    
+    .illustrative-label {
+      position: absolute; top: var(--s2); right: var(--s2);
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray);
+      border: 1px dashed var(--gray); padding: 4px 8px; background: var(--bg); z-index: 10;
+    }
+    
+    /* Stats & Tables */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--s2); margin-top: var(--s4); }
+    .stat-card { border: 1px solid var(--gray-dark); padding: var(--s3); background: var(--bg); }
+    .stat-val { font-size: 2.5rem; font-weight: 700; color: var(--fg); margin: var(--s1) 0; }
+    .stat-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray); text-transform: uppercase; }
+    
+    table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.85rem; margin-top: var(--s4); margin-bottom: var(--s4); }
+    th { text-align: left; padding: 10px; background: var(--gray-dark); color: var(--fg); border-bottom: 1px solid var(--gray); font-weight: 500; text-transform: uppercase; }
+    td { padding: 10px; border-bottom: 1px solid var(--gray-dark); color: var(--gray); }
+    tr:hover td { background: var(--bg-grid); color: var(--fg); }
+    
+    .disclaimer-box { border: 1px solid var(--danger); padding: var(--s4); margin-bottom: var(--s4); background-color: var(--danger-mute); color: var(--fg); }
+    .disclaimer-box h2 { font-size: 1.25rem; color: var(--danger); margin-bottom: var(--s2); text-transform: uppercase; font-family: var(--font-mono); }
+    .disclaimer-box ul { margin-left: var(--s4); font-family: var(--font-mono); font-size: 0.85rem; }
+    .disclaimer-box li { margin-bottom: var(--s1); }
+    
+    .provenance { font-size: 0.85rem; display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; font-family: var(--font-mono); margin-top: var(--s4); }
+    .provenance dt { color: var(--gray); font-weight: 600; text-align: right; }
+    .provenance dd { color: var(--fg); }
+
+    .mech-selector { display: flex; align-items: center; gap: 10px; margin-top: var(--s4); padding: 12px; background: var(--gray-dark); border: 1px solid var(--gray); font-family: var(--font-mono); font-size: 0.85rem; }
+    select, button { padding: 6px 12px; border: 1px solid var(--gray); background: var(--bg); color: var(--fg); font-family: var(--font-mono); cursor: pointer; text-transform: uppercase; }
+    button { background: var(--gray); color: var(--bg); font-weight: bold; border: none; }
+    button:hover { background: var(--fg); }
+
+    .mb-4 { margin-bottom: var(--s4); }
+    .mt-4 { margin-top: var(--s4); }
+    .section-label { display: block; font-family: var(--font-mono); font-size: 0.875rem; color: var(--gray); margin-bottom: var(--s2); }
+  </style>
 </head>
 <body>
-<h1>EdgeTruth — Edge Auction Monitor</h1>
-<p class="subtitle">Live metrics from SQLite · data refreshes every 2s</p>
 
-<div class="mech-selector">
-  <strong>Live Mechanism:</strong>
-  <span id="current-mech" style="font-weight:600; color:var(--accent)">Loading...</span>
-  <div style="flex-grow:1"></div>
-  <select id="mech-select">
-    <option value="observed-reliability + contingent">observed-reliability + contingent</option>
-    <option value="greedy">greedy</option>
-  </select>
-  <button onclick="switchMech()">Switch</button>
-</div>
+  <header>
+    <div class="mono" style="font-weight: bold; color: var(--fg);">EDGE // AUCTION</div>
+    <nav>
+      <a href="/" class="active">Overview</a>
+      <a href="#metrics">Live Market</a>
+      <a href="#results">Results</a>
+      <a href="#disclaimer">Disclaimer</a>
+    </nav>
+  </header>
 
-<div class="grid" id="metrics-grid">
-  <div class="card"><div class="label">Total Tasks</div><div class="value" id="m-total">—</div></div>
-  <div class="card"><div class="label">Completed</div><div class="value" id="m-done">—</div></div>
-  <div class="card"><div class="label">Failed</div><div class="value" id="m-fail">—</div></div>
-  <div class="card"><div class="label">Pending</div><div class="value" id="m-pend">—</div></div>
-  <div class="card"><div class="label">Welfare</div><div class="value" id="m-welfare">—</div></div>
-  <div class="card"><div class="label">Active Nodes</div><div class="value" id="m-nodes">—</div></div>
-</div>
+  <main class="container">
+    
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <canvas id="heroCanvas" class="hero-canvas"></canvas>
+      <div class="illustrative-label">ILLUSTRATIVE (Interactive)</div>
+      
+      <div class="hero-content">
+        <div class="badge mb-4">Mechanism Design Lab</div>
+        <h1>Verifiable Edge Compute. Algorithmic Allocation.</h1>
+        <p class="mt-4">We solve the untrusted hardware routing problem using a cryptographically bonded second-price auction that punishes latency liars.</p>
+        
+        <div class="mech-selector">
+          <strong>Live Mechanism:</strong>
+          <span id="current-mech" style="font-weight:600; color:var(--accent)">Loading...</span>
+          <div style="flex-grow:1"></div>
+          <select id="mech-select">
+            <option value="observed-reliability + contingent">observed-reliability + contingent</option>
+            <option value="greedy">greedy</option>
+          </select>
+          <button onclick="switchMech()">Switch Pipeline</button>
+        </div>
+      </div>
+    </section>
 
-<div class="section" style="display:flex; gap: 20px;">
-  <div style="flex:1">
-    <h2>Recent Execution Events</h2>
-    <table id="events-table"><tbody></tbody></table>
-  </div>
-  <div style="flex:1">
-    <h2>Results — Regret (REAL)</h2>
-    <table id="results-table"><thead><tr><th>Mechanism</th><th>Regret (mean ± 95% CI)</th><th>n seeds</th></tr></thead><tbody></tbody></table>
-  </div>
-</div>
+    <!-- LIVE METRICS -->
+    <section id="metrics">
+      <span class="section-label">LIVE METRICS</span>
+      <h2>Live Pipeline Monitor</h2>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Tasks</div>
+          <div class="stat-val" id="m-total">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label text-accent">Completed</div>
+          <div class="stat-val text-accent" id="m-done">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label text-danger">Failed</div>
+          <div class="stat-val text-danger" id="m-fail">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pending Queue</div>
+          <div class="stat-val" id="m-pend">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Social Welfare</div>
+          <div class="stat-val" id="m-welfare">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Nodes</div>
+          <div class="stat-val" id="m-nodes">—</div>
+        </div>
+      </div>
+      
+      <h3 class="mt-4">Recent Executions</h3>
+      <table id="events-table">
+        <thead>
+          <tr>
+            <th>Task Hash</th>
+            <th>Event Details</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
 
-<div class="section">
-  <h2>Scenario Analysis (Delta vs Greedy)</h2>
-  <table id="scenario-table"><thead><tr><th>Mechanism</th><th>SLA%</th><th>Delta vs Greedy (± CI)</th><th>Excludes Zero?</th></tr></thead><tbody></tbody></table>
-</div>
+    <!-- RESULTS -->
+    <section id="results">
+      <span class="section-label">RESULTS & SCENARIOS</span>
+      <h2>Empirical Proof</h2>
+      
+      <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+        <div style="flex:1; min-width:300px;">
+          <h3>Regret (REAL)</h3>
+          <table id="results-table">
+            <thead>
+              <tr><th>Mechanism</th><th>Lying Gain (Regret)</th><th>N Seeds</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        
+        <div style="flex:1; min-width:300px;">
+          <h3>Scenario Analysis (Delta vs Greedy)</h3>
+          <table id="scenario-table">
+            <thead>
+              <tr><th>Mechanism</th><th>SLA%</th><th>Delta vs Greedy (± CI)</th><th>Excludes Zero?</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-<div class="section">
-  <h2>Data Provenance</h2>
-  <dl class="provenance">
-    <dt>REAL</dt><dd>Azure 2019 function arrivals, execution durations, memory — DEV split, day d01</dd>
-    <dt>REAL</dt><dd>WS-DREAM node locations (country, lat, lon, IP) — 339 users across 30+ countries</dd>
-    <dt>DERIVED</dt><dd>Node-to-node latency = Haversine(lat1,lon1,lat2,lon2) × 0.02 + 5 ms (range 5–335 ms)</dd>
-    <dt>SYNTHETIC</dt><dd>Node cost, reliability, capacity_cpu, capacity_memory — uniform random</dd>
-    <dt>SYNTHETIC</dt><dd>task_value — uniform(1,100); max_latency_ms — max(Azure duration, 200ms floor)</dd>
-  </dl>
-</div>
+    <!-- DATA PROVENANCE -->
+    <section id="provenance">
+      <span class="section-label">DATA PROVENANCE</span>
+      <h2>Data Sources</h2>
+      <dl class="provenance">
+        <dt>REAL</dt><dd>Azure 2019 function arrivals, execution durations, memory — DEV split, day d01</dd>
+        <dt>REAL</dt><dd>WS-DREAM node locations (country, lat, lon, IP) — 339 users across 30+ countries</dd>
+        <dt>DERIVED</dt><dd>Node-to-node latency = Haversine(lat1,lon1,lat2,lon2) × 0.02 + 5 ms (range 5–335 ms)</dd>
+        <dt>SYNTHETIC</dt><dd>Node cost, reliability, capacity_cpu, capacity_memory — uniform random</dd>
+        <dt>SYNTHETIC</dt><dd>task_value — uniform(1,100); max_latency_ms — max(Azure duration, 200ms floor)</dd>
+      </dl>
+    </section>
+    
+    <!-- DISCLAIMER -->
+    <section id="disclaimer" style="border:none;">
+      <div class="disclaimer-box">
+        <h2>What we do NOT claim</h2>
+        <ul>
+          <li>Collusion resistance is inconclusive — the adversary model tests a single colluding pair.</li>
+          <li>Nodes are synthetic — no real edge hardware is involved; only WS-DREAM network coordinates are real.</li>
+          <li>Only one Azure day (d01) is used — workload diversity is not representative of full traces.</li>
+          <li>The auction is NOT VCG — it is a prediction-contract / scoring-rule mechanism.</li>
+          <li>Regret numbers come from the simulator, not a real deployment.</li>
+        </ul>
+      </div>
+    </section>
 
-<div class="warning-box">
-  <h3>What we do NOT claim</h3>
-  <ul>
-    <li>Collusion resistance is inconclusive — the adversary model tests a single colluding pair.</li>
-    <li>Nodes are synthetic — no real edge hardware is involved; only WS-DREAM network coordinates are real.</li>
-    <li>Only one Azure day (d01) is used — workload diversity is not representative of full traces.</li>
-    <li>The auction is NOT VCG — it is a prediction-contract / scoring-rule mechanism.</li>
-    <li>Regret numbers come from the simulator, not a real deployment.</li>
-  </ul>
-</div>
+  </main>
 
-<script>
-async function switchMech() {
-  const mech = document.getElementById('mech-select').value;
-  await fetch('/api/mechanism', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({mechanism: mech})
-  });
-  refresh();
-}
-async function refresh() {
-  try {
-    const [m, r] = await Promise.all([
-      fetch('/api/metrics').then(x=>x.json()),
-      fetch('/api/results').then(x=>x.json())
-    ]);
+  <footer>
+    <div><a href="https://github.com/Hridanshu4004/veles-edge-auction" style="color:var(--gray); text-decoration:none;">GitHub Repository</a></div>
+    <div>Veles Hackathon 2026 • EdgeTruth Team</div>
+  </footer>
 
-    document.getElementById('current-mech').textContent = m.live_mechanism;
-    document.getElementById('m-total').textContent = m.total_tasks;
-    document.getElementById('m-done').textContent = m.successful_tasks;
-    document.getElementById('m-fail').textContent = m.failed_tasks;
-    document.getElementById('m-pend').textContent = m.pending_tasks;
-    document.getElementById('m-welfare').textContent = m.welfare.toLocaleString();
-    document.getElementById('m-nodes').textContent = m.active_nodes + '/' + m.total_nodes;
+  <script type="module">
+    // HERO CANVAS SIMULATION (from original frontend)
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
 
-    const et = document.querySelector('#events-table tbody');
-    et.innerHTML = (m.recent_events||[]).map(e=>`<tr><td><strong>${e.task.slice(0,8)}...</strong></td><td>${e.desc}</td></tr>`).join('');
+    function resize() {
+      const parent = canvas.parentElement;
+      width = parent.clientWidth;
+      height = parent.clientHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-    const rt = document.querySelector('#results-table tbody');
-    const regret = r.real_regret || {};
-    if (typeof regret === 'object' && Object.keys(regret).length > 0) {
-      rt.innerHTML = Object.entries(regret).map(([mech, v])=>
-        `<tr><td>${mech}</td><td>${v.regret}</td><td>${v.n_seeds}</td></tr>`
-      ).join('');
+    const nodes = [];
+    const tasks = [];
+    const NUM_NODES = 12;
+
+    for (let i=0; i<NUM_NODES; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        cap: Math.random() * 10 + 5,
+        liar: false,
+        overloaded: false
+      });
     }
 
-    if (r.latest_scenario_csv) {
-      const rows = r.latest_scenario_csv.trim().split('\n').slice(1);
-      document.querySelector('#scenario-table tbody').innerHTML = rows.map(row=>{
-        const [mech, sla, reg, delta, excl] = row.split(',');
-        return `<tr><td>${mech}</td><td>${sla}</td><td>${delta}</td><td>${excl}</td></tr>`;
-      }).join('');
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      let closest = null;
+      let minDist = Infinity;
+      nodes.forEach(n => {
+        const d = Math.hypot(n.x - x, n.y - y);
+        if (d < minDist) { minDist = d; closest = n; }
+      });
+      if (closest && minDist < 50) {
+        closest.overloaded = !closest.overloaded;
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'l') {
+        const n = nodes[Math.floor(Math.random() * nodes.length)];
+        n.liar = !n.liar;
+      }
+    });
+
+    setInterval(() => {
+      if (tasks.length > 20) return;
+      tasks.push({
+        x: width/2, y: height/2,
+        target: nodes[Math.floor(Math.random() * nodes.length)],
+        progress: 0
+      });
+    }, 1000);
+
+    function loop() {
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.strokeStyle = '#262626';
+      ctx.lineWidth = 1;
+      for (let i=0; i<nodes.length; i++) {
+        for (let j=i+1; j<nodes.length; j++) {
+          if (Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y) < 250) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.cap, 0, Math.PI * 2);
+        ctx.fillStyle = n.liar ? '#ff3366' : (n.overloaded ? '#a3a3a3' : '#00ff88');
+        ctx.fill();
+        
+        if (n.liar) {
+          ctx.fillStyle = '#ff3366';
+          ctx.font = '10px monospace';
+          ctx.fillText('LIAR', n.x + 10, n.y - 10);
+        }
+      });
+
+      for (let i = tasks.length - 1; i >= 0; i--) {
+        const t = tasks[i];
+        t.progress += 0.02;
+        if (t.progress >= 1) {
+          tasks.splice(i, 1);
+          continue;
+        }
+        
+        const tx = width/2 + (t.target.x - width/2) * t.progress;
+        const ty = height/2 + (t.target.y - height/2) * t.progress;
+        
+        ctx.beginPath();
+        ctx.arc(tx, ty, 3, 0, Math.PI*2);
+        ctx.fillStyle = '#fafafa';
+        ctx.fill();
+      }
+      requestAnimationFrame(loop);
     }
-  } catch(e) {}
-}
-refresh();
-setInterval(refresh, 2000);
-</script>
+    loop();
+  </script>
+
+  <script>
+    // DATA FEEDER (from current dashboard, adapted to Brutalist DOM)
+    window.switchMech = async function() {
+      const mech = document.getElementById('mech-select').value;
+      await fetch('/api/mechanism', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({mechanism: mech})
+      });
+      refresh();
+    }
+    
+    async function refresh() {
+      try {
+        const [m, r] = await Promise.all([
+          fetch('/api/metrics').then(x=>x.json()),
+          fetch('/api/results').then(x=>x.json())
+        ]);
+
+        document.getElementById('current-mech').textContent = m.live_mechanism;
+        document.getElementById('m-total').textContent = m.total_tasks;
+        document.getElementById('m-done').textContent = m.successful_tasks;
+        document.getElementById('m-fail').textContent = m.failed_tasks;
+        document.getElementById('m-pend').textContent = m.pending_tasks;
+        document.getElementById('m-welfare').textContent = '$' + m.welfare.toLocaleString();
+        document.getElementById('m-nodes').textContent = m.active_nodes + '/' + m.total_nodes;
+
+        const et = document.querySelector('#events-table tbody');
+        et.innerHTML = (m.recent_events||[]).map(e=>`<tr><td>${e.task.slice(0,12)}...</td><td>${e.desc}</td></tr>`).join('');
+
+        const rt = document.querySelector('#results-table tbody');
+        const regret = r.real_regret || {};
+        if (typeof regret === 'object' && Object.keys(regret).length > 0) {
+          rt.innerHTML = Object.entries(regret).map(([mech, v])=>
+            `<tr><td class="text-accent">${mech}</td><td>${v.regret}</td><td>${v.n_seeds}</td></tr>`
+          ).join('');
+        }
+
+        if (r.latest_scenario_csv) {
+          const rows = r.latest_scenario_csv.trim().split('\n').slice(1);
+          document.querySelector('#scenario-table tbody').innerHTML = rows.map(row=>{
+            const [mech, sla, reg, delta, excl] = row.split(',');
+            const highlight = mech.includes('greedy') ? '' : 'text-accent';
+            return `<tr><td class="${highlight}">${mech}</td><td>${sla}</td><td>${delta}</td><td>${excl}</td></tr>`;
+          }).join('');
+        }
+      } catch(e) {
+        console.error("Data refresh failed", e);
+      }
+    }
+    refresh();
+    setInterval(refresh, 2000);
+  </script>
 </body>
 </html>
